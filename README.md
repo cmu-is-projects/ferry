@@ -36,6 +36,60 @@ Usage pending. See examples / submit PR's for your ideas.
 
 ## Example(s)
 
+###### 30 August 2014
+Below is an initial implementation of how ferry will work
+
+```
+# encoding: UTF-8
+require 'consortium'
+
+task :load_wm_design do
+  class WmDesign < Design
+    self.table_name = :wm_design
+  end
+end
+
+namespace :consortium_example do
+  desc "writes design cigs to individual xml files using consortium"
+  task :write_local => [:load_wm_design] do
+    hostname = Socket.gethostname
+    FileUtils.mkdir "consortium_migration_#{hostname}" unless Dir["consortium_migration_#{hostname}"].present?
+    homedir = "consortium_migration_#{hostname}"
+
+    range = Design.where("savedate > ?", 15.hours.ago.strftime("%d.%m.%Y %H").to_datetime)
+
+    consortium_runtime = Benchmark.measure do
+      range.migrate({max_workers: 4, batch_size: 500}) do |collection|
+        collection.each do |design|
+          cons_place_design_content_in_batch(design, homedir, design.composite_id)
+        end
+      end
+    end
+    puts "#{consortium_runtime}"
+  end
+
+  private
+
+  def cons_place_design_content_in_batch(design, homedir, composite_id)
+    begin
+    create_xml_file(homedir, composite_id, design)
+    rescue Exception => e
+      File.rename("#{homedir}/#{composite_id}.xml", "#{homedir}/#{composite_id}.xml.failed")
+      raise e
+    end
+  end
+
+  def create_xml_file(homedir, composite_id, design)
+    design.updated_at ? updated_at = design.updated_at.to_time : updated_at = design.created_at.to_time
+    FileUtils.touch "#{homedir}/#{composite_id}.xml"
+    file = File.open("#{homedir}/#{composite_id}.xml", 'w')
+    file.puts design.content
+    file.close
+    FileUtils.touch "#{homedir}/#{composite_id}.xml", :mtime => updated_at
+  end
+end
+```
+
 ###### 29 July 2014
 Version 0.0.1 is functional with the rake task defined here :: https://github.com/customink/design_content_migration/blob/master/lib/tasks/ferry_example.rake#L10
 
