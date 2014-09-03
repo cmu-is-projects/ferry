@@ -35,6 +35,27 @@ Or install it yourself as:
 Usage pending. See examples / submit PR's for your ideas.
 
 ## Example(s)
+###### 3 September 2014
+Use Case Ideas
+
+Note: Demo app can initially function with RoR and Postgres.
+
+Manipulation Use Cases
+  - CRUD for Columns
+  - Copy & Paste Columns
+  - CRUD for Rows
+  - Understanding relationships between generating migrations and migration files in place
+
+Migration
+  - Exporting data to various file formats (.csv, .sql, .yml)
+  - Importing data from various file formats
+  - Migrating data to third party hosts (Amazon S3, Oracle)
+  - Migrating data to a different database
+
+Important things to consider and remember
+  - Rolling back on errors / mishaps during migrations and manipulations
+  - Host documentation site via GitHub pages
+
 
 ###### 30 August 2014
 Below is an initial implementation of how ferry will work
