@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'ferry'
+
+say = Ferry::Hello.new
+say.say_hello

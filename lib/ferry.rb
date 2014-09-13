@@ -3,6 +3,12 @@ require "ferry/engine"
 require "ferry/logger"
 
 module Ferry
+  class Hello
+    def say_hello
+      puts 'Hello Wurld.'
+    end
+  end
+
   class ActiveRecord::Relation
     def migrate(options, &block)
       options[:max_workers] ||= 4
