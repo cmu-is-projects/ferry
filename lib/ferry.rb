@@ -1,9 +1,9 @@
 require "ferry/version"
 require "ferry/engine"
 require "ferry/logger"
+require "active_record"
 
 module Ferry
-  #
   class ActiveRecord::Relation
     def migrate(options, &block)
       options[:max_workers] ||= 4
