@@ -2,5 +2,5 @@
 
 require 'ferry'
 
-say = Ferry::Hello.new
-say.say_hello
+export = Ferry::Export.new
+export.to_csv(ARGV[0])

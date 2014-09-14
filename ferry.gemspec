@@ -25,4 +25,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "minitest"
   spec.add_development_dependency "rspec"
+  #to test db access
+  spec.add_development_dependency "pg"
+  spec.add_development_dependency "sqlite3"
+
+  #spec.add_dependency "activerecord"  #whats difference between dev and not dev?
 end
