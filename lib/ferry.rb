@@ -3,6 +3,7 @@ require "ferry/engine"
 require "ferry/logger"
 
 module Ferry
+  #
   class ActiveRecord::Relation
     def migrate(options, &block)
       options[:max_workers] ||= 4
@@ -31,4 +32,17 @@ module Ferry
       end
     end
   end
+
+  class Exporter
+    def speak
+      puts "exporting!"
+    end
+  end
+
+  class Importer
+    def speak
+      puts "importing!"
+    end
+  end
+
 end

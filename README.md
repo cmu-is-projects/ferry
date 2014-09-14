@@ -39,6 +39,9 @@ Usage pending. See examples / submit PR's for your ideas.
 Use Case Ideas
 
 Note: Demo app can initially function with RoR and Postgres.
+Instantiate the command line tool for ferry ...
+  - Init the project with ferry rake namespace (ferry.rake)
+  - Run the tasks containing the methods we write in ferry
 
 Manipulation Use Cases
   - CRUD for Columns
