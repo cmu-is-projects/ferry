@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'ferry'
+
+var = Ferry::Exporter.new
+var.speak
