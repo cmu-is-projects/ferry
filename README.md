@@ -8,6 +8,12 @@ Ferry is a data migration and data manipulation tool that seeks to quickly and e
   - [x] Define action-items for refactor
   - [x] Provide working example(s) of using ferry
   - [ ] Public release fine-tuning
+  - [ ] CLI tool
+  - [ ] Simple CSV export
+  - [ ] Demo app running
+  - [ ] CRUD columns
+  - [ ] including CI script
+  - [ ] DB views
 - [ ] Tests
   - [ ] Testing input for migrate method (max_workers, batch_size)
   - [ ] Testing that there is an ActiveRecord::Relation object being passed to find_in_batches
