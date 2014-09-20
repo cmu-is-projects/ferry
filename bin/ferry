@@ -3,4 +3,10 @@
 require 'ferry'
 
 export = Ferry::Export.new
-export.to_csv(ARGV[0])
+
+#ARGV[0] should be the ferry function they want to call
+#subsequent params are the options to that function
+
+if(ARGV[0] == "to_csv" )
+	export.to_csv ARGV[1]
+end

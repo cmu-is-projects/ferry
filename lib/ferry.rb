@@ -3,27 +3,74 @@ require "ferry/engine"
 require "ferry/logger"
 require "csv"
 require 'active_record'
+require 'fileutils'
 
 module Ferry
 
 
   class Export
-    def to_csv(name)
+    def to_csv(db_type)
 
-      puts ActiveRecord::Base.connection.current_database
-      # CSV.generate do |csv|
-      #   #for every table
+      # ActiveRecord::Base.connection
+      #ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/development.sqlite3') #need to automatically get db name
 
-      #   csv << column_names #append the column names
+      type = db_type.downcase
+      case type
+        when "sqlite"
+          puts "its sqlite"
 
-      #   all_rows.each do |row|
-      #     csv << row.attributes.values_at(*column_name) #put the row data in
-      #   end
 
-      # end
+          Dir.foreach('db/') do |f| 
+            if f =~ %r{\A*\.sqlite3\z}i     #only checking .sqlite3 files
 
-      # send_data(csv)
-      # puts 'Hello, my name is ' + name
+              ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/'+f)  #connect to sqlite3 file
+
+              unless(Dir.exists?('db/csv'))   #creating a 'csv' folder in the 'db' folder
+                Dir.mkdir('db/csv')
+                puts 'db/csv created'
+              end
+
+                f.slice!(".sqlite3")
+                unless(Dir.exists?('db/csv/'+f))    #creating folders for each file (dev, test, prod, etc)
+                  Dir.mkdir('db/csv/'+f)
+                  puts 'db/csv/'+f+' created'
+                end
+
+                      ActiveRecord::Base.connection.tables.each do |model|                                #for each model in the db
+                        everything = ActiveRecord::Base.connection.execute('SELECT * FROM '+model+';')    #get all the records
+
+                        if everything[0].nil?   #do not create a csv for an empty table
+                          next
+                        end
+
+                        CSV.open("db/csv/"+f+"/"+model+".csv", "w") do |csv|    #create a csv for each table, titled 'model.csv'
+
+                          size = everything[0].length / 2
+                          keys = everything[0].keys.first(size)
+
+                          csv << keys     #first row contains column names
+                          
+                          everything.each do |row|
+                            csv << row.values_at(*keys)     #subsequent rows hold record values
+                          end
+                        end
+                      end
+            end
+
+          end
+
+
+        when "mysql"
+          puts "its mysql"
+        when "postgres"
+          puts "its postgres"
+        else
+          puts "unknown db type"
+      end
+          
+            
+      puts Time.now()
+
     end
   end
 
