@@ -2,8 +2,6 @@
 
 require 'ferry'
 
-export = Ferry::Export.new
-
 #ARGV[0] should be the ferry function they want to call
 #subsequent params are the options to that function
 
