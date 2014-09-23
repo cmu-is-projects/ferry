@@ -5,7 +5,6 @@ require "csv"
 require 'active_record'
 require 'fileutils'
 require 'yaml'
-require 'rails'
 
 module Ferry
 
@@ -33,7 +32,11 @@ module Ferry
           puts "its sqlite3"
 
 
-          info.keys.each do |environment| 
+          info.keys.each do |environment|
+
+              if(environment == 'default')  #in Rails 4.1+ environments inherit from default, which does not have database so we will not include it
+                next
+              end
 
               ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: info[environment]['database'])  #connect to sqlite3 file
 
