@@ -4,36 +4,47 @@ require "ferry/logger"
 require "csv"
 require 'active_record'
 require 'fileutils'
+require 'yaml'
+require 'rails'
 
 module Ferry
 
 
   class Export
-    def to_csv(db_type)
+    def to_csv()
 
       # ActiveRecord::Base.connection
       #ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/development.sqlite3') #need to automatically get db name
+      #puts ActiveRecord::Base.configurations[Rails.env]['adapter']
 
-      type = db_type.downcase
-      case type
-        when "sqlite"
-          puts "its sqlite"
+      info = YAML::load(IO.read("config/database.yml"))     #this holds all the db config information. pretty much a rosetta stone for dbs
+      db_type = info["production"]["adapter"]               #this tells us the db rails is using
 
 
-          Dir.foreach('db/') do |f| 
-            if f =~ %r{\A*\.sqlite3\z}i     #only checking .sqlite3 files
+      # puts Rails.configuration#.database_configuration[Rails.env]
+      # puts ActiveRecord::Base.configurations[Rails.env]
 
-              ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/'+f)  #connect to sqlite3 file
+      # type = db_type.downcase
+
+
+
+      case db_type
+        when "sqlite3"
+          puts "its sqlite3"
+
+
+          info.keys.each do |environment| 
+
+              ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: info[environment]['database'])  #connect to sqlite3 file
 
               unless(Dir.exists?('db/csv'))   #creating a 'csv' folder in the 'db' folder
                 Dir.mkdir('db/csv')
                 puts 'db/csv created'
               end
 
-                f.slice!(".sqlite3")
-                unless(Dir.exists?('db/csv/'+f))    #creating folders for each file (dev, test, prod, etc)
-                  Dir.mkdir('db/csv/'+f)
-                  puts 'db/csv/'+f+' created'
+                unless(Dir.exists?('db/csv/'+environment))    #creating folders for each file (dev, test, prod, etc)
+                  Dir.mkdir('db/csv/'+environment)
+                  puts 'db/csv/'+environment+' created'
                 end
 
                       ActiveRecord::Base.connection.tables.each do |model|                                #for each model in the db
@@ -43,7 +54,7 @@ module Ferry
                           next
                         end
 
-                        CSV.open("db/csv/"+f+"/"+model+".csv", "w") do |csv|    #create a csv for each table, titled 'model.csv'
+                        CSV.open("db/csv/"+environment+"/"+model+".csv", "w") do |csv|    #create a csv for each table, titled 'model.csv'
 
                           size = everything[0].length / 2
                           keys = everything[0].keys.first(size)
@@ -55,7 +66,6 @@ module Ferry
                           end
                         end
                       end
-            end
 
           end
 

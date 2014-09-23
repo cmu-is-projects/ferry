@@ -8,5 +8,5 @@ export = Ferry::Export.new
 #subsequent params are the options to that function
 
 if(ARGV[0] == "to_csv" )
-	export.to_csv ARGV[1]
+	export.to_csv
 end
