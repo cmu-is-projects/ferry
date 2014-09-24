@@ -75,8 +75,67 @@ module Ferry
 
         when "mysql"
           puts "its mysql"
-        when "postgres"
+        when "postgresql"
           puts "its postgres"
+          puts info.keys
+
+          info.keys.each do |environment|
+
+            if(environment == 'default')  #in Rails 4.1+ environments inherit from default, which does not have database so we will not include it
+              next
+            end
+
+            ActiveRecord::Base.establish_connection(
+              adapter:  'postgresql', 
+              host:     info[environment]['host'] || 'localhost', 
+              username: info[environment]['username'], 
+              password: info[environment]['password'], 
+              database: info[environment]['database'], 
+              encoding: info[environment]['encoding']
+            )
+
+            unless(Dir.exists?('db/csv'))   #creating a 'csv' folder in the 'db' folder
+              Dir.mkdir('db/csv')
+              puts 'db/csv created'
+            end
+
+              unless(Dir.exists?('db/csv/'+environment))    #creating folders for each file (dev, test, prod, etc)
+                Dir.mkdir('db/csv/'+environment)
+                puts 'db/csv/'+environment+' created'
+              end
+              
+            puts ActiveRecord::Base.connection.tables
+                    ActiveRecord::Base.connection.tables.each do |model|                                #for each model in the db
+                      everything = ActiveRecord::Base.connection.execute('SELECT * FROM '+model+';')    #get all the records
+
+                      if everything[0].nil?   #do not create a csv for an empty table
+                        next
+                      end
+
+                      CSV.open("db/csv/"+environment+"/"+model+".csv", "w") do |csv|    #create a csv for each table, titled 'model.csv'
+
+                        size = everything[0].length / 2
+                        keys = everything[0].keys.first(size)
+
+                        csv << keys     #first row contains column names
+                        
+                        everything.each do |row|
+                          csv << row.values_at(*keys)     #subsequent rows hold record values
+                        end
+                      end
+                    end
+
+          end
+
+
+
+
+
+
+
+
+
+
         else
           puts "unknown db type"
       end
