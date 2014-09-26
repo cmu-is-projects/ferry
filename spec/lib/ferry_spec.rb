@@ -6,5 +6,4 @@ describe "connect" do
       Post.by_year.map(&:text).should include("First post!")
     end
   end
-
 end
