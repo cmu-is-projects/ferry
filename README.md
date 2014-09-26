@@ -4,7 +4,7 @@
 Ferry is a data migration and data manipulation tool that seeks to quickly and easily reduce overhead when dealing with big data problems.
 
 ## What can I use Ferry for? (Use Cases)
-Note: see github.com/cmu-is-projects/ferry_demo.com for a demo ROR/Sqlite app for guidance on using Ferry!
+See the [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) ROR/Sqlite app for guidance on using Ferry!
 
 Manipulation Use Cases
   - RESTful column/ row interaction
