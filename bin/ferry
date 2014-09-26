@@ -2,5 +2,6 @@
 
 require 'ferry'
 
-var = Ferry::Exporter.new
-var.speak
+if(ARGV[0] == "to_csv" )
+	export.to_csv
+end
