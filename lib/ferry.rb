@@ -120,17 +120,4 @@ module Ferry
       end
     end
   end
-
-  class Exporter
-    def speak
-      puts "exporting!"
-    end
-  end
-
-  class Importer
-    def speak
-      puts "importing!"
-    end
-  end
-
 end
