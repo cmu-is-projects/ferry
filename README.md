@@ -1,29 +1,25 @@
 # Ferry
 
+## What is Ferry?
 Ferry is a data migration and data manipulation tool that seeks to quickly and easily reduce overhead when dealing with big data problems.
 
-## TO-DO
+## What can I use Ferry for?
+Usage pending. See examples / submit PR's for your ideas.
 
+## TO-DOs
 - [ ] Refactoring before public release
   - [x] Define action-items for refactor
   - [x] Provide working example(s) of using ferry
   - [ ] Public release fine-tuning
   - [ ] CLI tool
   - [ ] Simple CSV export
-  - [ ] Demo app running
+    - [ ] using sqlite3
+    - [ ] using psql
   - [ ] CRUD columns
-  - [ ] including CI script
-  - [ ] DB views
 - [ ] Tests
-  - [ ] Testing input for migrate method (max_workers, batch_size)
-  - [ ] Testing that there is an ActiveRecord::Relation object being passed to find_in_batches
-  - [ ] Migration Scenarios - dummy class migration
-- [ ] Refactor logging logic into Logger class
-  - [x] Initial revision
-  - [ ] Review
+  - [x] Testing that db connections happen
 
 ## Installation
-
 Add this line to your application's Gemfile:
 
     gem 'ferry'
@@ -35,10 +31,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install ferry
-
-## Usage
-
-Usage pending. See examples / submit PR's for your ideas.
 
 ## Example(s)
 ###### 3 September 2014
