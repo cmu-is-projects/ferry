@@ -2,6 +2,8 @@
 
 require 'ferry'
 
+exporter = Ferry::Exporter.new
+
 if(ARGV[0] == "to_csv" )
-	export.to_csv
+	exporter.to_csv
 end
