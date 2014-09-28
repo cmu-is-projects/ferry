@@ -13,15 +13,14 @@ module Ferry
       # this tells us the db rails is using
       db_type = info["production"]["adapter"]
       case db_type
-        when "its sqlite3"
-          puts "operating with sqlite3"
-        when "mysql"
-          puts "its mysql"
-        when "postgresql"
-          puts "its postgres"
-        else
-          puts "Unknown db type or no database associated with this application."
-        end
+      when "its sqlite3"
+        puts "operating with sqlite3"
+      when "mysql"
+        puts "its mysql"
+      when "postgresql"
+        puts "its postgres"
+      else
+        puts "Unknown db type or no database associated with this application."
       end
     end
   end
