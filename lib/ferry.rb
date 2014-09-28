@@ -15,7 +15,7 @@ module Ferry
       case db_type
       when "sqlite3"
         puts "operating with sqlite3"
-        homedir = "ferry_to_csv_#{which_db_env}"
+        homedir = "lib/ferry_to_csv_#{which_db_env}"
         ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
         puts "connected to #{which_db_env} env db"
         FileUtils.mkdir homedir unless Dir[homedir].present?
@@ -39,7 +39,7 @@ module Ferry
         end
       when "postgresql"
         puts "operating with postgres"
-        homedir = "ferry_to_csv_#{which_db_env}"
+        homedir = "lib/ferry_to_csv_#{which_db_env}"
         ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
         puts "connected to #{which_db_env} env db"
         FileUtils.mkdir homedir unless Dir[homedir].present?
@@ -48,7 +48,7 @@ module Ferry
         ActiveRecord::Base.connection.tables.each do |model|
           full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
           # do not create a csv for an empty table
-          if !full_table[0].nil?
+          if full_table.num_tuples > 0
             CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
               size = full_table[0].length / 2
               keys = full_table[0].keys.first(size)
