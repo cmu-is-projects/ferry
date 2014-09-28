@@ -1,3 +1,4 @@
 #!/usr/bin/env ruby
 require 'ferry'
 exporter = Ferry::Exporter.new
+exporter.to_csv if ARGV[1] == 'to_csv'
