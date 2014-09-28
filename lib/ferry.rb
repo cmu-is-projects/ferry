@@ -12,7 +12,7 @@ module Ferry
     end
 
     def switch_to_db_type
-      ARGV[1]
+      ARGV[2]
     end
 
     def to_csv
@@ -79,8 +79,17 @@ module Ferry
     def to_new_db_type
       info = YAML::load(IO.read("config/database.yml"))
       current_db_type = info[which_db_env]["adapter"]
+      puts "switching the #{which_db_env} database's adapter"
       puts "current_db_type: #{current_db_type}"
       puts "to_new_db_type: #{switch_to_db_type}"
+
+      # check for dependencies
+      # if dependencies exist - install them
+      # create new connection
+      # transfer old db into new connection
+      # drop old connection
+      # update the config file
+      # profit
     end
 
   end
