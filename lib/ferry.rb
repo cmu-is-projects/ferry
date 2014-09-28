@@ -1,6 +1,7 @@
 require 'active_record'
 require 'csv'
 require 'ferry/version'
+require 'progressbar'
 require 'yaml'
 
 module Ferry
@@ -16,27 +17,50 @@ module Ferry
         puts "operating with sqlite3"
         homedir = "ferry_to_csv_#{which_db_env}"
         ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
+        puts "connected to #{which_db_env} env db"
         FileUtils.mkdir homedir unless Dir[homedir].present?
-
+        puts "exporting tables to #{homedir}"
+        sqlite_pbar = ProgressBar.new("sqlite_to_csv", 100)
         ActiveRecord::Base.connection.tables.each do |model|
-          full_table = ActiveRecord::Base.connection.execute('SELECT * FROM '+model+';')
+          full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
           # do not create a csv for an empty table
           if !full_table[0].nil?
             CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
               size = full_table[0].length / 2
               keys = full_table[0].keys.first(size)
-
               #first row contains column names
               csv << keys
-
               full_table.each do |row|
                 csv << row.values_at(*keys)
+                sqlite_pbar.inc
               end
             end
           end
         end
       when "postgresql"
         puts "operating with postgres"
+        homedir = "ferry_to_csv_#{which_db_env}"
+        ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
+        puts "connected to #{which_db_env} env db"
+        FileUtils.mkdir homedir unless Dir[homedir].present?
+        puts "exporting tables to #{homedir}"
+        psql_pbar = ProgressBar.new("psql_to_csv", 100)
+        ActiveRecord::Base.connection.tables.each do |model|
+          full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
+          # do not create a csv for an empty table
+          if !full_table[0].nil?
+            CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
+              size = full_table[0].length / 2
+              keys = full_table[0].keys.first(size)
+              #first row contains column names
+              csv << keys
+              full_table.each do |row|
+                csv << row.values_at(*keys)
+                psql_pbar.inc
+              end
+            end
+          end
+        end
       when "mysql"
         puts "operating with mysql"
       else
