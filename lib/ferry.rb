@@ -6,9 +6,15 @@ require 'yaml'
 
 module Ferry
   class Exporter
+
     def which_db_env
-      ARGV[0]
+      ARGV[1]
     end
+
+    def switch_to_db_type
+      ARGV[1]
+    end
+
     def to_csv
       info = YAML::load(IO.read("config/database.yml"))
       db_type = info[which_db_env]["adapter"]
@@ -62,10 +68,20 @@ module Ferry
           end
         end
       when "mysql"
-        puts "operating with mysql"
+        puts "mysql is currently not supported"
+      when "mongo"
+        puts "mongo is currently not supported"
       else
         puts "Unknown db type or no database associated with this application."
       end
     end
+
+    def to_new_db_type
+      info = YAML::load(IO.read("config/database.yml"))
+      current_db_type = info[which_db_env]["adapter"]
+      puts "current_db_type: #{current_db_type}"
+      puts "to_new_db_type: #{switch_to_db_type}"
+    end
+
   end
 end
