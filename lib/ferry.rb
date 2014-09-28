@@ -54,10 +54,8 @@ module Ferry
               end
             end
           end
-
         when "mysql"
           puts "its mysql"
-
         when "postgresql"
           puts "its postgres"
           puts info.keys
