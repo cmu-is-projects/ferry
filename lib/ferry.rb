@@ -1,141 +1,131 @@
-require "ferry/version"
-require "ferry/engine"
-require "ferry/logger"
-require "csv"
 require 'active_record'
-require 'fileutils'
+require 'csv'
+require 'ferry/version'
+# require 'progressbar'
 require 'yaml'
 
 module Ferry
+  class Exporter
+
+    def which_db_env
+      ARGV[1]
+    end
+
+    def switch_to_db_type
+      ARGV[2]
+    end
+
+    def to_csv
+      info = YAML::load(IO.read("config/database.yml"))
+      db_type = info[which_db_env||"production"]["adapter"]
 
 
-  class Export
-    def to_csv()
 
-      # ActiveRecord::Base.connection
-      #ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/development.sqlite3') #need to automatically get db name
-      #puts ActiveRecord::Base.configurations[Rails.env]['adapter']
-
-      info = YAML::load(IO.read("config/database.yml"))     #this holds all the db config information. pretty much a rosetta stone for dbs
-      db_type = info["production"]["adapter"]               #this tells us the db rails is using
-
-
-      # puts Rails.configuration#.database_configuration[Rails.env]
-      # puts ActiveRecord::Base.configurations[Rails.env]
-
-      # type = db_type.downcase
-      # puts db_type
-
+      #issues:
+      #   csv placement in directory:  do we want it in the lib?
+      #   the case where dev/test dbs are different from production db (sqlite for dev/test, pg for prod??)
+      #   empty ARGs
+      #   ARGs with invalid values
 
 
       case db_type
-        when "sqlite3"
-          puts "its sqlite3"
+      when "sqlite3"
+        puts "operating with sqlite3"
 
-
-          info.keys.each do |environment|
-
-              if(environment == 'default')  #in Rails 4.1+ environments inherit from default, which does not have database so we will not include it
-                next
-              end
-
-              ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: info[environment]['database'])  #connect to sqlite3 file
-
-              unless(Dir.exists?('db/csv'))   #creating a 'csv' folder in the 'db' folder
-                Dir.mkdir('db/csv')
-                puts 'db/csv created'
-              end
-
-                unless(Dir.exists?('db/csv/'+environment))    #creating folders for each file (dev, test, prod, etc)
-                  Dir.mkdir('db/csv/'+environment)
-                  puts 'db/csv/'+environment+' created'
+        if(which_db_env)
+          homedir = "lib/ferry_to_csv_#{which_db_env}"
+          ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
+          puts "connected to #{which_db_env} env db"
+          FileUtils.mkdir homedir unless Dir[homedir].present?
+          puts "exporting tables to #{homedir}"
+          # sqlite_pbar = ProgressBar.new("sqlite_to_csv", 100)
+          ActiveRecord::Base.connection.tables.each do |model|
+            full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
+            # do not create a csv for an empty table
+            if !full_table[0].nil?
+              CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
+                size = full_table[0].length / 2
+                keys = full_table[0].keys.first(size)
+                #first row contains column names
+                csv << keys
+                full_table.each do |row|
+                  csv << row.values_at(*keys)
+                  # sqlite_pbar.inc
                 end
-
-                      ActiveRecord::Base.connection.tables.each do |model|                                #for each model in the db
-                        everything = ActiveRecord::Base.connection.execute('SELECT * FROM '+model+';')    #get all the records
-
-                        if everything[0].nil?   #do not create a csv for an empty table
-                          next
-                        end
-
-                        CSV.open("db/csv/"+environment+"/"+model+".csv", "w") do |csv|    #create a csv for each table, titled 'model.csv'
-
-                          size = everything[0].length / 2
-                          keys = everything[0].keys.first(size)
-
-                          csv << keys     #first row contains column names
-                          
-                          everything.each do |row|
-                            csv << row.values_at(*keys)     #subsequent rows hold record values
-                          end
-                        end
-                      end
-
+              end
+            end
           end
-
-
-        when "mysql2"
-          puts "its mysql2"
-
+        else #no db_env is specified
           info.keys.each do |environment|
 
             if(environment == 'default')  #in Rails 4.1+ environments inherit from default, which does not have database so we will not include it
               next
             end
 
-
-            ActiveRecord::Base.establish_connection(    #this may not work on default rails if production db is not created (must run rake db:create:all)
-              adapter:  'mysql2',
-              host:     info[environment]['host'] || 'localhost', 
-              username: info[environment]['username'], 
-              password: info[environment]['password'], 
-              database: info[environment]['database']
-            )
-
-            unless(Dir.exists?('db/csv'))   #creating a 'csv' folder in the 'db' folder
-              Dir.mkdir('db/csv')
-              puts 'db/csv created'
-            end
-
-            unless(Dir.exists?('db/csv/'+environment))    #creating folders for each file (dev, test, prod, etc)
-              Dir.mkdir('db/csv/'+environment)
-              puts 'db/csv/'+environment+' created'
-            end
-              
-            ActiveRecord::Base.connection.tables.each do |model|                              #for each model in the db
-              columns = ActiveRecord::Base.connection.execute("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='"+info[environment]['database']+"' AND `TABLE_NAME`='"+model+"';")
-              CSV.open("db/csv/"+environment+"/"+model+".csv", "w") do |csv|    #create a csv for each table, titled 'model.csv'
-
-                col_names=[]
-                columns.each do |col|
-                  col_names.append(col[0])  #append the column names to an array, makes for good formatting
-                end
-
-                csv << col_names  #first csv row is of column names
-
-                everything = ActiveRecord::Base.connection.execute('SELECT * FROM '+model+';')    #get all the records
-
-                everything.each do |row|
-                  csv<<row
+            homedir = "lib/ferry_to_csv_#{environment}"
+            ActiveRecord::Base.establish_connection(adapter: db_type, database: info[environment]['database'])  #connect to sqlite3 file
+            puts "connected to #{environment} env db"
+            FileUtils.mkdir homedir unless Dir[homedir].present?
+            puts "exporting tables to #{homedir}"
+            # sqlite_pbar = ProgressBar.new("sqlite_to_csv", 100)
+            ActiveRecord::Base.connection.tables.each do |model|                                #for each model in the db
+              full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")    #get all the records
+              if !full_table[0].nil?
+                CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
+                  size = full_table[0].length / 2
+                  keys = full_table[0].keys.first(size)
+                  #first row contains column names
+                  csv << keys
+                  full_table.each do |row|
+                    csv << row.values_at(*keys)
+                    # sqlite_pbar.inc
+                  end
                 end
               end
             end
-
           end
+        end
 
+      when "postgresql"
+        puts "operating with postgres"
 
-
-
-
-
-        when "postgresql"
-          puts "its postgresql"
-
+        if(which_db_env)
+          homedir = "lib/ferry_to_csv_#{which_db_env}"
+          ActiveRecord::Base.establish_connection(
+            adapter:  'postgresql', 
+            host:     info[which_db_env]['host'] || 'localhost', 
+            username: info[which_db_env]['username'], 
+            password: info[which_db_env]['password'], 
+            database: info[which_db_env]['database'], 
+            encoding: info[which_db_env]['encoding']
+          )
+          puts "connected to #{which_db_env} env db"
+          FileUtils.mkdir homedir unless Dir[homedir].present?
+          puts "exporting tables to #{homedir}"
+          # psql_pbar = ProgressBar.new("psql_to_csv", 100)
+          ActiveRecord::Base.connection.tables.each do |model|
+            full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
+            # do not create a csv for an empty table
+            if full_table.num_tuples > 0
+              CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
+                size = full_table[0].length / 2
+                keys = full_table[0].keys.first(size)
+                #first row contains column names
+                csv << keys
+                full_table.each do |row|
+                  csv << row.values_at(*keys)
+                  # psql_pbar.inc
+                end
+              end
+            end
+          end
+        else
           info.keys.each do |environment|
 
             if(environment == 'default')  #in Rails 4.1+ environments inherit from default, which does not have database so we will not include it
               next
             end
+            homedir = "lib/ferry_to_csv_#{environment}"
 
             ActiveRecord::Base.establish_connection(
               adapter:  'postgresql', 
@@ -145,73 +135,125 @@ module Ferry
               database: info[environment]['database'], 
               encoding: info[environment]['encoding']
             )
-
-            unless(Dir.exists?('db/csv'))   #creating a 'csv' folder in the 'db' folder
-              Dir.mkdir('db/csv')
-              puts 'db/csv created'
-            end
-
-            unless(Dir.exists?('db/csv/'+environment))    #creating folders for each file (dev, test, prod, etc)
-              Dir.mkdir('db/csv/'+environment)
-              puts 'db/csv/'+environment+' created'
-            end
-              
-            ActiveRecord::Base.connection.tables.each do |model|                                #for each model in the db
-              everything = ActiveRecord::Base.connection.execute('SELECT * FROM '+model+';')    #get all the records
-
-              if everything[0].nil?   #do not create a csv for an empty table
-                next
-              end
-
-              CSV.open("db/csv/"+environment+"/"+model+".csv", "w") do |csv|    #create a csv for each table, titled 'model.csv'
-
-                size = everything[0].length / 2
-                keys = everything[0].keys.first(size)
-
-                csv << keys     #first row contains column names
-                
-                everything.each do |row|
-                  csv << row.values_at(*keys)     #subsequent rows hold record values
+            puts "connected to #{environment} env db"
+            FileUtils.mkdir homedir unless Dir[homedir].present?
+            puts "exporting tables to #{homedir}"
+            # psql_pbar = ProgressBar.new("psql_to_csv", 100)
+            ActiveRecord::Base.connection.tables.each do |model|
+              full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
+              # do not create a csv for an empty table
+              if full_table.num_tuples > 0
+                CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
+                  size = full_table[0].length / 2
+                  keys = full_table[0].keys.first(size)
+                  #first row contains column names
+                  csv << keys
+                  full_table.each do |row|
+                    csv << row.values_at(*keys)
+                    # psql_pbar.inc
+                  end
                 end
               end
             end
-
           end
+        end
+      when "mysql2"
+        puts "operating with mysql2"
 
+        if(which_db_env)
+          homedir = "lib/ferry_to_csv_#{which_db_env}"
+
+          ActiveRecord::Base.establish_connection(    #this may not work on default rails if production db is not created (must run rake db:create:all)
+            adapter:  'mysql2',
+            host:     info[which_db_env]['host'] || 'localhost', 
+            username: info[which_db_env]['username'], 
+            password: info[which_db_env]['password'], 
+            database: info[which_db_env]['database']
+          )
+          puts "connected to #{which_db_env} env db"
+          FileUtils.mkdir homedir unless Dir[homedir].present?
+          puts "exporting tables to #{homedir}"
+          # psql_pbar = ProgressBar.new("psql_to_csv", 100)
+
+          ActiveRecord::Base.connection.tables.each do |model|                              #for each model in the db
+            columns = ActiveRecord::Base.connection.execute("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`= '#{info[which_db_env]['database']}' AND `TABLE_NAME`='#{model}';")
+            CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
+
+              col_names=[]
+              columns.each do |col|
+                col_names.append(col[0])  #append the column names to an array, makes for good formatting
+              end
+              csv << col_names  #first csv row is of column names
+
+              full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
+              full_table.each do |row|
+                csv << row  #not sure if this will hold, but no 'values_at' method exists
+                # psql_pbar.inc
+              end
+            end
+          end
         else
-          puts "unknown db type"
+          info.keys.each do |environment|
+
+            if(environment == 'default')  #in Rails 4.1+ environments inherit from default, which does not have database so we will not include it
+              next
+            end
+
+            homedir = "lib/ferry_to_csv_#{environment}"
+
+              ActiveRecord::Base.establish_connection(    #this may not work on default rails if production db is not created (must run rake db:create:all)
+                adapter:  'mysql2',
+                host:     info[environment]['host'] || 'localhost', 
+                username: info[environment]['username'], 
+                password: info[environment]['password'], 
+                database: info[environment]['database']
+              )
+            puts "connected to #{environment} env db"
+            FileUtils.mkdir homedir unless Dir[homedir].present?
+            puts "exporting tables to #{homedir}"
+            # psql_pbar = ProgressBar.new("psql_to_csv", 100)
+
+            ActiveRecord::Base.connection.tables.each do |model|                              #for each model in the db
+              columns = ActiveRecord::Base.connection.execute("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`= '#{info[environment]['database']}' AND `TABLE_NAME`='#{model}';")
+              CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
+
+                col_names=[]
+                columns.each do |col|
+                  col_names.append(col[0])  #append the column names to an array, makes for good formatting
+                end
+                csv << col_names  #first csv row is of column names
+
+                full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
+                full_table.each do |row|
+                  csv << row  #not sure if this will hold, but no 'values_at' method exists
+                  # psql_pbar.inc
+                end
+              end
+            end
+          end
+        end  
+      when "mongo"
+        puts "mongo is currently not supported"
+      else
+        puts "Unknown db type or no database associated with this application."
       end
-          
-
     end
+
+    def to_new_db_type
+      info = YAML::load(IO.read("config/database.yml"))
+      current_db_type = info[which_db_env]["adapter"]
+      puts "switching the #{which_db_env} database's adapter"
+      puts "current_db_type: #{current_db_type}"
+      puts "to_new_db_type: #{switch_to_db_type}"
+
+      # check for dependencies
+      # if dependencies exist - install them
+      # create new connection
+      # transfer old db into new connection
+      # drop old connection
+      # update the config file
+      # profit
+    end
+
   end
-
-  # class ActiveRecord::Relation
-    # def migrate(options, &block)
-    #   options[:max_workers] ||= 4
-    #   options[:batch_size]  ||= 10_000
-
-    #   log = Logger.new()
-
-    #   active_workers = []
-    #   collection = self
-    #   collection.find_in_batches(batch_size: options[:batch_size]) do |batch|
-    #     if active_workers.length >= options[:max_workers]
-    #       log.write "active_workers oversized at capacity of #{active_workers.length}/#{options[:max_workers]}"
-    #       finished_process = Process.wait
-    #       log.write "finished_process: #{finished_process}"
-    #       active_workers.delete finished_process
-    #       log.write "active_workers capacity now at: #{active_workers.length}/#{options[:max_workers]}"
-    #     else
-    #       active_workers << fork do
-    #         ActiveRecord::Base.connection.reconnect!
-    #         log.write "kicking off engine on batch(#{batch.first}-#{batch.last})"
-    #         engine = Engine.new()
-    #         engine.run({log: log, batch: batch}, &block)
-    #       end
-    #     end
-    #     ActiveRecord::Base.connection.reconnect!
-    #   end
-    # end
-  # end
 end
