@@ -1,12 +1,5 @@
 #!/usr/bin/env ruby
-
 require 'ferry'
-
-export = Ferry::Export.new
-
-#ARGV[0] should be the ferry function they want to call
-#subsequent params are the options to that function
-
-if(ARGV[0] == "to_csv" )
-	export.to_csv
-end
+exporter = Ferry::Exporter.new
+exporter.to_csv if ARGV[0] == 'to_csv'
+exporter.to_new_db_type if ARGV[0] == 'to_new_db_type'
