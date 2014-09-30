@@ -1,4 +1,4 @@
-# Ferry
+![ferry](doc/ferry_readme_icon.png)
 
 ## What is Ferry?
 Ferry is a data migration and data manipulation tool that seeks to quickly and easily reduce overhead when dealing with big data problems.
@@ -15,32 +15,38 @@ Migration
   - Migrating data to third party hosts (Amazon S3, Oracle)
   - Migrating data to a different database
 
+### Datebase to CSV
+Currently, Ferry supports SQLite, PosgreSQL, and MySQL database connections  ...
+Making a simple call like ```ferry to_csv yourdbenvironment``` in any Rails app and Ferry will place a folder in your lib directory with a folder titled ferry_to_csv_yourdbenvironment.
+
 ## TO-DOs
-- [ ] Refactoring before public release
-- [x] Define action-items for refactor
-- [x] Provide working example(s) of using ferry (ferry_demo app)
+- [ ] Refactoring before public release October 17th!!!
+- [ ] TEST!!! EVERYTHING!!!
+  - [ ] Provide working example(s) of using ferry (see [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) app)
+- [ ] ferry --help
 - [ ] CLI tool
 - [ ] Simple CSV export
-  - [ ] using sqlite3
-  - [ ] using psql
+  - [x] using sqlite3
+  - [x] using psql
+  - [x] using MySQL
+  - [ ] using other dbs ...
+- [ ] Simple CSV import
+- [ ] Simple YAML export
+- [ ] Simple CSV import
 - [ ] RESTful column interaction
   - [ ] Understanding relationships between generating migrations and migration files in place
-- [ ] Tests
 - [ ] Rolling back on errors / mishaps during migrations and manipulations
-  - [ ] Host documentation site via GitHub pages
+  - [ ] Host documentation site via GitHub pages (ferry.github.io)
 
 ## Installation
 Add this line to your application's Gemfile:
-
-    gem 'ferry'
+```gem 'ferry'```
 
 And then execute:
-
-    $ bundle
+```bundle```
 
 Or install it yourself as:
-
-    $ gem install ferry
+```gem install ferry```
 
 ## Contributing
 
