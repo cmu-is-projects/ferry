@@ -1,7 +1,7 @@
 require 'active_record'
 require 'csv'
 require 'ferry/version'
-# require 'progressbar'
+require 'progressbar'
 require 'yaml'
 
 module Ferry
@@ -98,7 +98,7 @@ module Ferry
       puts "connected to #{environment} env db"
       FileUtils.mkdir homedir unless Dir[homedir].present?
       puts "exporting tables to #{homedir}"
-      # psql_pbar = ProgressBar.new("psql_to_csv", 100)
+      psql_pbar = ProgressBar.new("psql_to_csv", 100)
 
       ActiveRecord::Base.connection.tables.each do |model|                              #for each model in the db
         columns = ActiveRecord::Base.connection.execute("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`= '#{info[environment]['database']}' AND `TABLE_NAME`='#{model}';")
@@ -113,7 +113,7 @@ module Ferry
           full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
           full_table.each do |row|
             csv << row  #not sure if this will hold, but no 'values_at' method exists
-            # psql_pbar.inc
+            psql_pbar.inc
           end
         end
       end
@@ -132,7 +132,7 @@ module Ferry
       puts "connected to #{environment} env db"
       FileUtils.mkdir homedir unless Dir[homedir].present?
       puts "exporting tables to #{homedir}"
-      # psql_pbar = ProgressBar.new("psql_to_csv", 100)
+      psql_pbar = ProgressBar.new("psql_to_csv", 100)
       ActiveRecord::Base.connection.tables.each do |model|
         full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
         # do not create a csv for an empty table
@@ -144,7 +144,7 @@ module Ferry
             csv << keys
             full_table.each do |row|
               csv << row.values_at(*keys)
-              # psql_pbar.inc
+              psql_pbar.inc
             end
           end
         end
@@ -157,7 +157,7 @@ module Ferry
       puts "connected to #{environment} env db"
       FileUtils.mkdir homedir unless Dir[homedir].present?
       puts "exporting tables to #{homedir}"
-      # sqlite_pbar = ProgressBar.new("sqlite_to_csv", 100)
+      sqlite_pbar = ProgressBar.new("sqlite_to_csv", 100)
       ActiveRecord::Base.connection.tables.each do |model|                                #for each model in the db
         full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")    #get all the records
         if !full_table[0].nil?
@@ -168,7 +168,7 @@ module Ferry
             csv << keys
             full_table.each do |row|
               csv << row.values_at(*keys)
-              # sqlite_pbar.inc
+              sqlite_pbar.inc
             end
           end
         end
