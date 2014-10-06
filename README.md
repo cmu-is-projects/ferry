@@ -24,16 +24,16 @@ Making a simple call like ```ferry to_csv yourdbenvironment``` in any Rails app 
 - [ ] TEST!!! EVERYTHING!!!
   - [ ] Provide working example(s) of using ferry (see [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) app)
 - [ ] ferry --help
-- [ ] CLI tool
-- [ ] Simple CSV export
+- [ ] CLI tool dev
+- [ ] Simple CSV export & import
   - [x] using sqlite3
   - [x] using psql
   - [x] using MySQL
   - [ ] using other dbs ...
-- [ ] Simple CSV import
-- [ ] Simple YAML export
-- [ ] Simple CSV import
+- [ ] Simple YAML export & import
+- [ ] Forking processes to make them faster!
 - [ ] RESTful column interaction
+- [ ] 3rd party connections (importing and exporting data to S3 or related services)
   - [ ] Understanding relationships between generating migrations and migration files in place
 - [ ] Rolling back on errors / mishaps during migrations and manipulations
   - [ ] Host documentation site via GitHub pages (ferry.github.io)
@@ -47,6 +47,9 @@ And then execute:
 
 Or install it yourself as:
 ```gem install ferry```
+
+To view what Ferry can do for you just run:
+```ferry --help```
 
 ## Contributing
 
