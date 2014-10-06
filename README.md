@@ -40,7 +40,7 @@ Making a simple call like ```ferry to_csv yourdbenvironment``` in any Rails app 
 
 ## Installation
 Add this line to your application's Gemfile:
-``` sh
+``` ruby
 gem 'ferry'
 ```
 
