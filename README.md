@@ -43,9 +43,7 @@ Add this line to your application's Gemfile:
 ```gem 'ferry'```
 
 And then execute:
-```
-bundle
-```
+```bundle```
 
 Or install it yourself as:
 ```gem install ferry```
