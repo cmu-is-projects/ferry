@@ -40,16 +40,24 @@ Making a simple call like ```ferry to_csv yourdbenvironment``` in any Rails app 
 
 ## Installation
 Add this line to your application's Gemfile:
-```gem 'ferry'```
+``` sh
+gem 'ferry'
+```
 
 And then execute:
-```bundle```
+``` sh
+bundle
+```
 
 Or install it yourself as:
-```gem install ferry```
+``` sh
+gem install ferry
+```
 
 To view what Ferry can do for you just run:
-```ferry --help```
+``` sh
+ferry --help
+```
 
 ## Contributing
 
