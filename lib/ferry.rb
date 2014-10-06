@@ -103,10 +103,12 @@ module Ferry
       puts "current_db_type: #{current_db_type}"
       puts "to_new_db_type: #{switch_to_db_type}"
 
-      if ['sqlite', 'postgresql', 'mysql'].include?(switch_to_db_type)
-        info[which_db_env]["adapter"] = switch_to_db_type
-        File.open("config/database.yml", "w") {|f| f.write info}
-      end
+      # if ['sqlite', 'postgresql', 'mysql'].include?(switch_to_db_type)
+      #   info[which_db_env]["adapter"] = switch_to_db_type
+      #   File.open("config/database.yml", "w") {|f| f.write info}
+      # else
+      #   puts "#{switch_to_db_type} is unsupported"
+      # end
 
     end
   end
