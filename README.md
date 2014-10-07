@@ -6,14 +6,14 @@ Ferry is a data migration and data manipulation tool that seeks to quickly and e
 ## What can I use Ferry for? (Use Cases)
 See the [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) ROR/Sqlite app for guidance on using Ferry!
 
-Manipulation Use Cases
-  - RESTful column/ row interaction
-
 Migration
   - Exporting data to various file formats (.csv, .sql, .yml)
   - Importing data from various file formats
   - Migrating data to third party hosts (Amazon S3, Oracle)
   - Migrating data to a different database
+
+Manipulation Use Cases
+  - RESTful column/ row interaction
 
 ### Datebase to CSV
 Currently, Ferry supports SQLite, PosgreSQL, and MySQL database connections  ...
