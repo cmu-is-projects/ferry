@@ -32,7 +32,8 @@ Making a simple call like ```ferry to_csv yourdbenvironment``` in any Rails app 
   - [ ] using other dbs ...
 - [ ] Forking processes to make them faster!
 - [ ] RESTful column interaction
-- [x] db switcher
+- [ ] db switcher
+  - [ ] handling dependency installation (db or gem dependencies)
 - [ ] 3rd party connections (importing and exporting data to S3 or related services)
   - [ ] Understanding relationships between generating migrations and migration files in place
 - [ ] Rolling back on errors / mishaps during migrations and manipulations
