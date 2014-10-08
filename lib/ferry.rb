@@ -90,7 +90,7 @@ module Ferry
           end
         end
       when "mongo"
-        puts "mongo is currently not supported"
+        puts "mongo is currently unsupported"
       else
         puts "Unknown db type or no database associated with this application."
       end
@@ -103,18 +103,24 @@ module Ferry
       puts "current_db_type: #{current_db_type}"
       puts "to_new_db_type: #{switch_to_db_type}"
 
-      # check for dependencies
-      # if dependencies exist - install them?
-        # how to go about installation ... just let the user fend for themselves?
-      # create new connection if necessary dependencies exist!
-      # transfer old db into new connection
-      # remove the old connection? what to do with it? hmm
-        # possibly keep it / have a method to remove it on user specification
-        # what would the user think
-        # "why would it be any other way?"
-      # update the config file
-      # profit from your new db!
+      if ['sqlite', 'postgresql', 'mysql'].include?(switch_to_db_type)
+        info[which_db_env]["adapter"] = switch_to_db_type
+        puts "switching #{which_db_env} env to #{switch_to_db_type} ... "
+        File.open("config/database.yml", "w") {|f| f.write info.to_yaml}
+        puts "switched #{which_db_env} env to #{switch_to_db_type}"
+      else
+        puts "#{switch_to_db_type} is currently unsupported"
+      end
 
     end
+
+    def import_csv
+      # importing for different cases
+    end
+
+    def export_to_service(*args)
+      # exporting to services like AWS
+    end
+
   end
 end

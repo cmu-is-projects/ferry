@@ -6,14 +6,14 @@ Ferry is a data migration and data manipulation tool that seeks to quickly and e
 ## What can I use Ferry for? (Use Cases)
 See the [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) ROR/Sqlite app for guidance on using Ferry!
 
-Manipulation Use Cases
-  - RESTful column/ row interaction
-
 Migration
   - Exporting data to various file formats (.csv, .sql, .yml)
   - Importing data from various file formats
   - Migrating data to third party hosts (Amazon S3, Oracle)
   - Migrating data to a different database
+
+Manipulation Use Cases
+  - RESTful column/ row interaction
 
 ### Datebase to CSV
 Currently, Ferry supports SQLite, PosgreSQL, and MySQL database connections  ...
@@ -23,30 +23,43 @@ Making a simple call like ```ferry to_csv yourdbenvironment``` in any Rails app 
 - [ ] Refactoring before public release October 17th!!!
 - [ ] TEST!!! EVERYTHING!!!
   - [ ] Provide working example(s) of using ferry (see [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) app)
-- [ ] ferry --help
-- [ ] CLI tool
-- [ ] Simple CSV export
+- [x] ferry --help
+- [x] CLI tool dev
+- [x] Simple CSV/YAML export & import
   - [x] using sqlite3
   - [x] using psql
   - [x] using MySQL
   - [ ] using other dbs ...
-- [ ] Simple CSV import
-- [ ] Simple YAML export
-- [ ] Simple CSV import
+- [ ] Forking processes to make them faster!
 - [ ] RESTful column interaction
+- [ ] db switcher
+  - [ ] handling dependency installation (db or gem dependencies)
+- [ ] 3rd party connections (importing and exporting data to S3 or related services)
   - [ ] Understanding relationships between generating migrations and migration files in place
 - [ ] Rolling back on errors / mishaps during migrations and manipulations
-  - [ ] Host documentation site via GitHub pages (ferry.github.io)
+  - [ ] error catching and give proper clues to fix errors
+- [ ] Host documentation site via GitHub pages (ferry.github.io)
 
 ## Installation
 Add this line to your application's Gemfile:
-```gem 'ferry'```
+``` ruby
+gem 'ferry'
+```
 
 And then execute:
-```bundle```
+``` sh
+bundle
+```
 
 Or install it yourself as:
-```gem install ferry```
+``` sh
+gem install ferry
+```
+
+To view what Ferry can do for you just run:
+``` sh
+ferry --help
+```
 
 ## Contributing
 
