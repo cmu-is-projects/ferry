@@ -1,5 +1,16 @@
 #!/usr/bin/env ruby
 require 'ferry'
+
+# --help
+if ['--help', '-H', nil].include?(ARGV[0])
+  puts"
+  Choose one of the following commands ...
+  ferry to_csv [your db environment]                             Exports database to csv file in lib/ferry_to_csv_[your db environment]
+  ferry to_new_db_type [your db environment] [desired adapter]   Switches specified database env to a new adapter
+  ferry [--help, -H, '']                                         Displays this menu!
+  "
+end
+
 exporter = Ferry::Exporter.new
 exporter.to_csv if ARGV[0] == 'to_csv'
 exporter.to_yaml if ARGV[0] == 'to_yaml'
