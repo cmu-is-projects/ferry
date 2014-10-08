@@ -15,6 +15,10 @@ module Ferry
       ARGV[2]
     end
 
+
+    #  test to_csv
+    #  chekc that all files exist, first and last records match
+
     def to_csv
       info = YAML::load(IO.read("config/database.yml"))
       db_type = info[which_db_env]["adapter"]
@@ -53,8 +57,7 @@ module Ferry
           full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
           if full_table.num_tuples > 0
             CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
-              size = full_table[0].length / 2
-              keys = full_table[0].keys.first(size)
+              keys = full_table[0].keys
               csv << keys
               full_table.each do |row|
                 csv << row.values_at(*keys)
@@ -117,22 +120,22 @@ module Ferry
 
     end
 
-# ---
-# tournaments:
-#   columns:
-#   - id
-#   - name
-#   - date
-#   - min_rank
-#   - max_rank
-#   - active
-#   records: 
-#   - - 1
-#     - 15th Annual A&M Karate Tournament
-#     - '2014-02-20'
-#     - 1
-#     - 14
-#     - true
+    def test
+      homedir = "lib"
+      db_output = {}
+      db_object = {}
+      arr = []
+      row = {"id" => 1, "test" => 2, "moon" => 3}
+      keys = ["id", "test", "moon"]
+      db_object["columns"] = keys
+      arr << row.values_at(*keys)
+      db_object["records"] = arr
+      db_output["test"] = db_object
+
+      File.open("#{homedir}/test.yml",'w') do |file|
+        YAML::dump(db_output, file)
+      end
+    end
 
 
     def to_yaml
@@ -150,29 +153,33 @@ module Ferry
         i = 0
         ActiveRecord::Base.connection.tables.each do |model|
           db_object = {}
+          db_output = {}
           full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
           if !full_table[0].nil?
             size = full_table[0].length / 2
             keys = full_table[0].keys.first(size)
+            db_object["columns"] = keys
             model_arr=[]
             full_table.each do |row|
-              row.keep_if{|k, v| keys.include?(k)}
-              model_arr << row
+              model_arr << row.values_at(*keys)
             end
-            db_object[model] = model_arr
+            db_object["records"] = model_arr
+            db_output[model] = db_object
             if i==0
               File.open("#{homedir}/#{which_db_env}_data.yml",'w') do |file|
-                YAML::dump(db_object, file)
+                YAML::dump(db_output, file)
               end
             else
               File.open("#{homedir}/#{which_db_env}_data.yml",'a') do |file|
-                YAML::dump(db_object, file)
+                YAML::dump(db_output, file)
               end
             end
             i+=1
           end
         end
         sqlite_pbar.inc
+        sqlite_pbar.finish
+
       when "postgresql"
         puts "operating with postgres"
         homedir = "lib/ferry_to_yaml_#{which_db_env}"
@@ -185,28 +192,31 @@ module Ferry
         i = 0
         ActiveRecord::Base.connection.tables.each do |model|
           db_object = {}
+          db_output = {}
           full_table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
-          if full_table.num_tuples > 0
-            size = full_table[0].length / 2
-            keys = full_table[0].keys.first(size)
-            model_arr = []
+          if !full_table[0].nil?
+            keys = full_table[0].keys
+            db_object["columns"] = keys
+            model_arr=[]
             full_table.each do |row|
-              row.keep_if{|k, v| keys.include?(k)}
-              model_arr << row
+              model_arr << row.values_at(*keys)
             end
-            db_object[model] = model_arr
+            db_object["records"] = model_arr
+            db_output[model] = db_object
             if i==0
               File.open("#{homedir}/#{which_db_env}_data.yml",'w') do |file|
-                YAML::dump(db_object, file)
+                YAML::dump(db_output, file)
               end
             else
               File.open("#{homedir}/#{which_db_env}_data.yml",'a') do |file|
-                YAML::dump(db_object, file)
+                YAML::dump(db_output, file)
               end
             end
-            i+=1   
+            i+=1
           end
         end
+        psql_pbar.inc
+        psql_pbar.finish
 
       when "mysql2"
         puts "operating with mysql2"
@@ -252,6 +262,7 @@ module Ferry
         end
 
         mysql_bar.inc
+        mysql_bar.finish
 
       when "mongo"
         puts "mongo is currently not supported"

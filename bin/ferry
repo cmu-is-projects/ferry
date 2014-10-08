@@ -4,3 +4,4 @@ exporter = Ferry::Exporter.new
 exporter.to_csv if ARGV[0] == 'to_csv'
 exporter.to_yaml if ARGV[0] == 'to_yaml'
 exporter.to_new_db_type if ARGV[0] == 'to_new_db_type'
+exporter.test if ARGV[0] == 'test'
