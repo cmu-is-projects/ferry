@@ -25,7 +25,7 @@ module Ferry
       case db_type
       when "sqlite3"
         puts "operating with sqlite3"
-        homedir = "lib/ferry_to_csv_#{which_db_env}"
+        homedir = "db/ferry_to_csv_#{which_db_env}"
         ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: info[which_db_env]['database'])
         puts "connected to #{which_db_env} env db"
         FileUtils.mkdir homedir unless Dir[homedir].present?
@@ -47,7 +47,7 @@ module Ferry
         end
       when "postgresql"
         puts "operating with postgres"
-        homedir = "lib/ferry_to_csv_#{which_db_env}"
+        homedir = "db/ferry_to_csv_#{which_db_env}"
         ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
         puts "connected to #{which_db_env} env db"
         FileUtils.mkdir homedir unless Dir[homedir].present?
@@ -68,7 +68,7 @@ module Ferry
         end
       when "mysql2"
         puts "operating with mysql2"
-        homedir = "lib/ferry_to_csv_#{which_db_env}"
+        homedir = "db/ferry_to_csv_#{which_db_env}"
         puts "connected to #{which_db_env} env db"
         ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
         puts "connected to #{which_db_env} env db"
@@ -128,7 +128,7 @@ module Ferry
       case db_type
       when "sqlite3"
         puts "operating with sqlite3"
-        homedir = "lib/ferry_to_yaml_#{which_db_env}"
+        homedir = "db/ferry_to_yaml_#{which_db_env}"
         ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: info[which_db_env]['database'])
         puts "connected to #{which_db_env} env db"
         FileUtils.mkdir homedir unless Dir[homedir].present?
@@ -166,7 +166,7 @@ module Ferry
 
       when "postgresql"
         puts "operating with postgres"
-        homedir = "lib/ferry_to_yaml_#{which_db_env}"
+        homedir = "db/ferry_to_yaml_#{which_db_env}"
         ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
         puts "connected to #{which_db_env} env db"
         FileUtils.mkdir homedir unless Dir[homedir].present?
@@ -204,7 +204,7 @@ module Ferry
 
       when "mysql2"
         puts "operating with mysql2"
-        homedir = "lib/ferry_to_yaml_#{which_db_env}"
+        homedir = "db/ferry_to_yaml_#{which_db_env}"
         puts "connected to #{which_db_env} env db"
         ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
         puts "connected to #{which_db_env} env db"
@@ -241,7 +241,7 @@ module Ferry
                 YAML::dump(db_export, file)
               end
             end
-            i+=1   
+            i+=1
 
         end
 
@@ -255,20 +255,9 @@ module Ferry
       end
     end
 
-
-
-
-
-
-
-
-
-
-
     def export_to_service(*args)
       # exporting to services like AWS
     end
 
-    
   end
 end
