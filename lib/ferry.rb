@@ -2,6 +2,7 @@ require 'active_record'
 require 'csv'
 require 'ferry/version'
 require 'progressbar'
+require 'optparse'
 require 'yaml'
 
 module Ferry
@@ -14,7 +15,6 @@ module Ferry
     def switch_to_db_type
       ARGV[2]
     end
-
 
     #  test to_csv
     #  chekc that all files exist, first and last records match
@@ -106,6 +106,7 @@ module Ferry
       puts "current_db_type: #{current_db_type}"
       puts "to_new_db_type: #{switch_to_db_type}"
 
+      # swtich adapter
       if ['sqlite', 'postgresql', 'mysql'].include?(switch_to_db_type)
         info[which_db_env]["adapter"] = switch_to_db_type
         puts "switching #{which_db_env} env to #{switch_to_db_type} ... "
