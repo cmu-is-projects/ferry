@@ -19,11 +19,6 @@ module Ferry
         return false
       end
     end
-
-    def yaml_export(environment, db_type)
-
-    end
-
   end
 
   class Exporter < Utilities
