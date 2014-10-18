@@ -117,11 +117,6 @@ module Ferry
 
     end
 
-    def import_csv
-      # importing for different cases
-    end
-
-
     def to_yaml
       info = YAML::load(IO.read("config/database.yml"))
       db_type = info[which_db_env]["adapter"]
@@ -271,4 +266,66 @@ module Ferry
 
     
   end
+
+
+  class Importer
+
+    def which_db_env
+      ARGV[1]
+    end
+
+    def import(model, filename)
+      info = YAML::load(IO.read("config/database.yml"))
+      db_type = info[which_db_env]["adapter"]
+      # import_pbar = ProgressBar.new("import", 100)
+
+      case db_type
+      when "sqlite3"
+        ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: info[which_db_env]['database'])
+        puts "connected to #{which_db_env} env db"
+      when "postgresql"
+        ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
+        puts "connected to #{which_db_env} env db"
+      when "mysql2"
+        ActiveRecord::Base.establish_connection(adapter: db_type, database: info[which_db_env]['database'])
+        puts "connected to #{which_db_env} env db"
+      else
+        puts "Unsupported db type or no database associated with this application."
+      end
+      #now connected to activerecord
+
+      if(File.extname(filename) != ".csv")
+        puts "Import aborted -- only csv import is supported"
+        return false
+      end
+
+      lines = File.new(filename).readlines
+      if(lines.nil?)
+        puts "Import aborted -- file not found"
+        return false
+      end
+
+      header = lines.shift.strip
+      keys = header.split(',')
+
+      lines.each do |line|
+        values = line.strip.split(',')
+        attributes = Hash[keys.zip values]
+        # puts ActiveRecord::Base.connection.subclasses
+        # const = model.classify.constantize
+        # const.create(attributes)
+        Module.const_get(model).create(attributes)
+        # ActiveRecord::Base.connection.const_get(model).create(attributes)
+      end
+
+
+
+
+    end
+
+    
+  end
+
+
+
 end
