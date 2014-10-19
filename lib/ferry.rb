@@ -140,7 +140,7 @@ module Ferry
   end
 
 
-  class Importer
+  class Importer < Utilities
 
     def environment
       ARGV[1]
