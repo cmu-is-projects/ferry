@@ -2,6 +2,7 @@ require 'active_record'
 require 'csv'
 require 'ferry/version'
 require 'progressbar'
+require 'optparse'
 require 'yaml'
 
 module Ferry
@@ -25,6 +26,7 @@ module Ferry
     def environment
       ARGV[1]
     end
+
 
     def to_csv()
       db_type = db_connect(environment)
@@ -135,7 +137,6 @@ module Ferry
     def export_to_service(*args)
       # exporting to services like AWS
     end
-
     
   end
 
@@ -174,12 +175,8 @@ module Ferry
         # ActiveRecord::Base.connection.const_get(model).create(attributes)
       end
 
-
-
-
     end
 
-    
   end
 
 
