@@ -21,3 +21,6 @@ exporter = Ferry::Exporter.new
 exporter.to_csv if ARGV[0] == 'to_csv'
 exporter.to_yaml if ARGV[0] == 'to_yaml'
 exporter.to_new_db_type if ARGV[0] == 'to_new_db_type'
+
+importer = Ferry::Importer.new
+importer.import(ARGV[2], ARGV[3]) if ARGV[0] == 'import'
