@@ -4,6 +4,7 @@ require 'ferry/version'
 require 'progressbar'
 require 'optparse'
 require 'yaml'
+require 'enumerator'
 
 module Ferry
   class Utilities
@@ -158,7 +159,29 @@ module Ferry
       ARGV[1]
     end
 
-    def import(model, filename)
+    def row_sql_format(hash, columns)
+      values = hash.values_at(*columns)
+      values.map! do |value|
+        value = ActiveRecord::Base::sanitize(value)
+      end
+      "(#{values.join(",")})"
+    end
+
+    def insert_sql(model, columns, values)
+      num_inserts = values.length
+      col_names_sql = "(#{columns.join(",")})"
+      model_sql = model.downcase #do we need to check if it exists?
+      sql_insert_beg = "INSERT INTO #{model_sql} #{col_names_sql} VALUES "
+
+      values.each_slice(1000) do |records|
+        sql_statement = sql_insert_beg + records.join(",") + ";"
+        #insert the sql here
+        # puts sql_statement
+        ActiveRecord::Base.connection.execute(sql_statement)
+      end
+    end
+
+    def import(environment, model, filename)
       db_connect(environment)
       #now connected to activerecord
 
@@ -167,24 +190,31 @@ module Ferry
         return false
       end
 
-      lines = File.new(filename).readlines
+      lines = CSV.read(filename)
       if(lines.nil?)
         puts "Import aborted -- file not found"
         return false
       end
 
-      header = lines.shift.strip
-      keys = header.split(',')
+      pbar = ProgressBar.new("import", lines.length-1)
 
+      col_names = lines.shift #removes the header array from lines
+
+      records = []
       lines.each do |line|
-        values = line.strip.split(',')
-        attributes = Hash[keys.zip values]
-        # puts ActiveRecord::Base.connection.subclasses
-        # const = model.classify.constantize
-        # const.create(attributes)
-        Module.const_get(model).create(attributes)
-        # ActiveRecord::Base.connection.const_get(model).create(attributes)
+        record = Hash[col_names.zip line]
+        records << record
       end
+
+      values = []
+      records.map do |record|
+        values << row_sql_format(record, col_names)
+        pbar.inc
+      end
+
+      insert_sql(model, col_names, values)
+      puts ""
+      puts "csv imported to #{model} table"
 
     end
 
