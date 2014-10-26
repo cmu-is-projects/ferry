@@ -173,12 +173,12 @@ module Ferry
       model_sql = model.downcase #do we need to check if it exists?
       sql_insert_beg = "INSERT INTO #{model_sql} #{col_names_sql} VALUES "
 
-      values.each_slice(1000) do |records|
-        sql_statement = sql_insert_beg + records.join(",") + ";"
-        #insert the sql here
-        # puts sql_statement
-        ActiveRecord::Base.connection.execute(sql_statement)
-      end
+      ActiveRecord::Base.connection.begin_db_transaction  #to ensure that if the insert is done in batches, only carries out if none error
+        values.each_slice(1000) do |records|
+          sql_statement = sql_insert_beg + records.join(",") + ";"
+          ActiveRecord::Base.connection.execute(sql_statement)  #inserts to db
+        end
+      ActiveRecord::Base.connection.commit_db_transaction
     end
 
     def import(environment, model, filename)
