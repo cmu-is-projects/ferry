@@ -34,9 +34,13 @@ module Ferry
       homedir = "db/csv/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
 
+      num_tables = ActiveRecord::Base.connection.tables.length
+      pbar = ProgressBar.new("to_csv", num_tables)
+
       ActiveRecord::Base.connection.tables.each do |model|
         table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
         #check for empty tables?
+
 
         CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
           case db_type
@@ -68,7 +72,9 @@ module Ferry
               return false
           end #case
         end #CSV
+        pbar.inc(1)
       end #model
+      puts ""
       puts "exported to db/csv/#{environment}"
     end
 
@@ -77,6 +83,9 @@ module Ferry
       FileUtils.mkdir "db/yaml" unless Dir["db/yaml"].present?
       homedir = "db/yaml/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
+
+      num_tables = ActiveRecord::Base.connection.tables.length
+      pbar = ProgressBar.new("to_csv", num_tables)
 
       ActiveRecord::Base.connection.tables.each do |model|
         table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
@@ -130,7 +139,9 @@ module Ferry
               puts "error in db type"
               return false
           end #case
+          pbar.inc(1)
       end #models
+      puts ""
       puts "exported to db/yaml/#{environment}"
     end
 
