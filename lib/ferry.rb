@@ -28,7 +28,7 @@ module Ferry
     end
 
 
-    def to_csv()
+    def to_csv(environment)
       db_type = db_connect(environment)
       FileUtils.mkdir "db/csv" unless Dir["db/csv"].present?
       homedir = "db/csv/#{environment}"
