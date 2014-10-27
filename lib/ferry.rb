@@ -9,7 +9,6 @@ require 'optparse'
 require 'pp'
 require 'yaml'
 require 'enumerator'
-require 'pp'
 
 module Ferry
   class Utilities
