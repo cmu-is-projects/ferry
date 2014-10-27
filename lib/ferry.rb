@@ -6,7 +6,6 @@ require 'ferry/utilities'
 require 'ferry/version'
 require 'progressbar'
 require 'optparse'
-require 'pp'
 require 'yaml'
 require 'enumerator'
 
