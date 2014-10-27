@@ -8,7 +8,7 @@ require 'enumerator'
 
 module Ferry
   class Utilities
-      def db_connect(environment)
+    def db_connect(environment)
       db_config = YAML::load(IO.read("config/database.yml"))
       db_type = db_config[environment]["adapter"]
 
@@ -168,7 +168,6 @@ module Ferry
     end
 
     def insert_sql(model, columns, values)
-      num_inserts = values.length
       col_names_sql = "(#{columns.join(",")})"
       model_sql = model.downcase #do we need to check if it exists?
       sql_insert_beg = "INSERT INTO #{model_sql} #{col_names_sql} VALUES "
