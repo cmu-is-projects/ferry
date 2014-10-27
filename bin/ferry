@@ -13,7 +13,7 @@ require 'ferry'
 
 OptionParser.new do |opts|
   opts.on('-h', '--help', nil) {
-    puts "selfservice"
+    # call for help
   }
 end.parse!
 
