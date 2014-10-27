@@ -1,3 +1,5 @@
+require_relative 'utilities'
+
 module Ferry
   class Exporter < Utilities
     def environment

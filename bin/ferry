@@ -1,22 +1,23 @@
 #!/usr/bin/env ruby
 require 'ferry'
 
-# --help
-# if ['--help', '-H', nil].include?(ARGV[0])
-#   puts"
-#   Choose one of the following commands ...
-#   ferry to_csv [your db environment]                             Exports database to csv file in db/ferry_to_csv_[your db environment]
-#   ferry to_new_db_type [your db environment] [desired adapter]   Switches specified database env to a new adapter
-#   ferry [--help, -H, '']                                         Displays this menu!
-#   "
-# end
-
 OptionParser.new do |opts|
-  opts.on('-h', '--help', nil) {
-    # call for help
-  }
-end.parse!
+  options = {}
+  opts.banner = "See full documentation at http://cmu-is-projects.github.io/ferry"
 
+  opts.on("--to_csv <env,table>", 'Exports table to csv file in db/ferry_to_csv_[your db environment]') do |opt|
+    list = opt.split(",")
+    raise "please enter a field for environment and table" unless list.length == 2
+    options[:input] = list
+  end
+
+  opts.on("--to_yaml <env,table>", 'Exports table to yaml file in db/ferry_to_csv_[your db environment]') do |opt|
+    list = opt.split(",")
+    raise "please enter a field for environment and table" unless list.length == 2
+    options[:input] = list
+  end
+
+<<<<<<< HEAD
 exporter = Ferry::Exporter.new
 exporter.to_csv(ARGV[1]) if ARGV[0] == 'to_csv'
 exporter.to_yaml if ARGV[0] == 'to_yaml'
@@ -24,3 +25,25 @@ exporter.to_new_db_type if ARGV[0] == 'to_new_db_type'
 
 importer = Ferry::Importer.new
 importer.import(ARGV[1], ARGV[2], ARGV[3]) if ARGV[0] == 'import'
+=======
+  opts.on('--import <env,tablename,file>', 'Imports data from specified file into table and environment of your specification') do |env, tablename, file|
+    list = opt.split(",")
+    raise "please enter a field for environment and table" unless list.length == 3
+    options[:input] = list
+  end
+
+  opts.on('--db_switch <env,adapter>', 'Switches specified database env to a new adapter') do
+    list = opt.split(",")
+    raise "please enter a field for environment and table" unless list.length == 2
+    options[:input] = list
+  end
+
+  opts.on_tail('-h', '--help', 'Shows this message') do
+    puts opts
+    exit
+  end
+
+  puts opts if ARGV[0] == nil
+
+end.parse!
+>>>>>>> some refactor and option parsing work
