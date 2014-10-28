@@ -1,6 +1,6 @@
 module Ferry
   class Utilities
-      def db_connect(environment)
+    def db_connect(environment)
       db_config = YAML::load(IO.read("config/database.yml"))
       db_type = db_config[environment]["adapter"]
 

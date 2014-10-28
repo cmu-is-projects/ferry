@@ -1,20 +1,15 @@
 require_relative 'utilities'
 
-class Exporter < Utilities
-  def to_csv(environment)
-    db_type = db_connect(environment)
-    FileUtils.mkdir "db/csv" unless Dir["db/csv"].present?
-    homedir = "db/csv/#{environment}"
-    FileUtils.mkdir homedir unless Dir[homedir].present?
-
-    num_tables = ActiveRecord::Base.connection.tables.length
-    pbar = ProgressBar.new("to_csv", num_tables)
-
-    ActiveRecord::Base.connection.tables.each do |model|
+module Ferry
+  class Exporter < Utilities
+    def to_csv(environment, model)
+      db_type = db_connect(environment)
+      FileUtils.mkdir "db/csv" unless Dir["db/csv"].present?
+      homedir = "db/csv/#{environment}"
+      FileUtils.mkdir homedir unless Dir[homedir].present?
       table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
-      #check for empty tables?
-
-
+      table_size = table.length
+      csv_bar = ProgressBar.new("to_csv", table_size)
       CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
         case db_type
           when 'sqlite3'
@@ -43,29 +38,23 @@ class Exporter < Utilities
           else
             puts "error in db type"
             return false
-        end #case
-      end #CSV
-      pbar.inc(1)
-    end #model
-    puts ""
-    puts "exported to db/csv/#{environment}"
-  end
+          end
+        end
+      csv_bar.inc(1)
+      puts ""
+      puts "exported to db/csv/#{environment}"
+    end
 
-  def to_yaml()
-    db_type = db_connect(environment)
-    FileUtils.mkdir "db/yaml" unless Dir["db/yaml"].present?
-    homedir = "db/yaml/#{environment}"
-    FileUtils.mkdir homedir unless Dir[homedir].present?
-
-    num_tables = ActiveRecord::Base.connection.tables.length
-    pbar = ProgressBar.new("to_csv", num_tables)
-
-    ActiveRecord::Base.connection.tables.each do |model|
+    def to_yaml(environment, model)
+      db_type = db_connect(environment)
+      FileUtils.mkdir "db/yaml" unless Dir["db/yaml"].present?
+      homedir = "db/yaml/#{environment}"
+      FileUtils.mkdir homedir unless Dir[homedir].present?
       table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
-      db_object = {}
-      db_output = {}
-      #check for empty tables?
-
+      table_size = table.length
+      yaml_bar = ProgressBar.new("to_yaml", table_size)
+        db_object = {}
+        db_output = {}
         case db_type
           when 'sqlite3'
             keys = table[0].keys.first(table[0].length / 2)
@@ -111,15 +100,15 @@ class Exporter < Utilities
           else
             puts "error in db type"
             return false
-        end #case
-        pbar.inc(1)
-    end #models
-    puts ""
-    puts "exported to db/yaml/#{environment}"
-  end
+        end
+      yaml_bar.inc(1)
+      puts ""
+      puts "exported to db/yaml/#{environment}"
+    end
 
-  def export_to_service(*args)
-    # exporting to services like AWS
-  end
+    def export_to_service(*args)
+      # exporting to services like AWS
+    end
 
+  end
 end
