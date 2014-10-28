@@ -13,10 +13,9 @@ ActiveRecord::Base.logger.level = Logger::DEBUG
 
 # ActiveRecord::Base.establish_connection "test"
 
-require "factory_girl"
+# require "factory_girl"
 # Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each{ |file| require file }
-require "factories.rb"
-# require "schema.rb"
+# require "factories.rb"
 
 # adapter_schema = test_dir.join("schema/#{adapter}_schema.rb")
 # require adapter_schema if File.exists?(adapter_schema)
