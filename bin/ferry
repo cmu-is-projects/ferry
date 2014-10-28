@@ -29,12 +29,15 @@ OptionParser.new do |opts|
     importer.import(options[:input][0], options[:input][1], options[:input][2])
   end
 
-  opts.on('--db_switch <env,adapter>', 'Switches specified database env to a new adapter') do
+  opts.on('--db_switch <env,adapter>', 'Switches specified database env to a new adapter') do |opt|
     list = opt.split(",")
     raise "please enter a field for environment and table" unless list.length == 2
     options[:input] = list
-    continue("Are you sure you want to switch to a #{options[:input][1]} database in your #{options[:input][0]}} env? It could result in installing software that impacts your project.")
-    puts "fukshitup"
+    questionmaster = Ferry::Utilities.new
+    if questionmaster.continue?("Are you sure you want to switch to a #{options[:input][1]} database in your #{options[:input][0]} env? It could result in installing software that impacts your project.")
+      switcher = Ferry::Switcher.new
+      switcher.to_new_db_type(options[:input][0], options[:input][1])
+    end
   end
 
   opts.on_tail('-h', '--help', 'Shows this message') do

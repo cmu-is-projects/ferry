@@ -14,7 +14,7 @@ module Ferry
       end
     end
 
-    def continue?(prompt = "Are you sure?", default = false)
+    def continue?(prompt = "Are you sure", default = false)
       a = ''
       s = default ? '[Y/n]' : '[y/N]'
       d = default ? 'y' : 'n'

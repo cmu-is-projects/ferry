@@ -2,7 +2,7 @@ require_relative 'utilities'
 
 module Ferry
   class Switcher < Utilities
-    def to_new_db_type
+    def to_new_db_type(which_db_env, switch_to_db_type)
       info = YAML::load(IO.read("config/database.yml"))
       current_db_type = info[which_db_env]["adapter"]
       puts "switching the #{which_db_env} database's adapter"
