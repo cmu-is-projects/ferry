@@ -21,7 +21,7 @@ OptionParser.new do |opts|
     exporter.to_yaml(options[:input][0], options[:input][1])
   end
 
-  opts.on('--import <env,tablename,file>', 'Imports data from specified file into table and environment of your specification') do |env, tablename, file|
+  opts.on('--import <env,tablename,file>', 'Imports data from specified file into table and environment of your specification') do |opt|
     list = opt.split(",")
     raise "please enter a field for environment and table" unless list.length == 3
     options[:input] = list
