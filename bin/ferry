@@ -41,7 +41,6 @@ OptionParser.new do |opts|
   end
 
   opts.on('--init', 'Initializes ferry.rb file in config directory') do |opt|
-    list = opt.split(",")
     filemaker = Ferry::Utilities.new
     filemaker.init
   end

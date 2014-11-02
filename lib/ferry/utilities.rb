@@ -1,4 +1,4 @@
-require 'doc/ferry_init_file.txt'
+require 'doc/ferry_init_file'
 
 module Ferry
   class Utilities
@@ -28,10 +28,9 @@ module Ferry
     end
 
     def init
-      File.open("config/ferry.rb", 'w')
-      doc_file = File.open("doc/ferry_init_file.txt", "rb")
-      contents = file.read
-      File.write("config/ferry.rb", 'w') {|f| f.write(contents)}
+      src = File.open("doc/ferry_init_file.rb")
+      dest = File.open("config/ferry.rb", 'w')
+      IO.copy_stream(src, dest)
     end
   end
 end
