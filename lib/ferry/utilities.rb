@@ -1,3 +1,5 @@
+require 'doc/ferry_init_file.txt'
+
 module Ferry
   class Utilities
     def db_connect(environment)
@@ -23,6 +25,13 @@ module Ferry
         a = d if a.length == 0
       end
       a == 'y'
+    end
+
+    def init
+      File.open("config/ferry.rb", 'w')
+      doc_file = File.open("doc/ferry_init_file.txt", "rb")
+      contents = file.read
+      File.write("config/ferry.rb", 'w') {|f| f.write(contents)}
     end
   end
 end
