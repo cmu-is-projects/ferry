@@ -1,4 +1,4 @@
-require 'doc/ferry_init_file'
+# require 'doc/ferry_init_file'
 
 module Ferry
   class Utilities
@@ -28,9 +28,15 @@ module Ferry
     end
 
     def init
-      src = File.open("doc/ferry_init_file.rb")
-      dest = File.open("config/ferry.rb", 'w')
-      IO.copy_stream(src, dest)
+      File.open("config/ferry.rb", 'w') {|f| f.write("
+        # this is your ferry init file
+        # in here you can write rake tasks
+        # and other more personalized code for dealing with data migrations and manipulations
+
+        # for example ...
+
+        # examples here"
+      )}
     end
   end
 end
