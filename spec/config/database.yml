@@ -1,0 +1,20 @@
+default: &default
+  username: root
+  password:
+  encoding: utf8
+  host:     localhost
+  database: ferry_test
+
+mysql2: &mysql2
+  <<: *default
+  adapter: mysql2
+
+postgresql: &postgresql
+  <<: *default
+  username: postgres
+  adapter: postgresql
+  min_messages: warning
+
+sqlite3: &sqlite3
+  adapter: sqlite3
+  database: test.db

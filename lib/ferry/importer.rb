@@ -11,7 +11,6 @@ module Ferry
     end
 
     def insert_sql(model, columns, values)
-      num_inserts = values.length
       col_names_sql = "(#{columns.join(",")})"
       model_sql = model.downcase
       sql_insert_beg = "INSERT INTO #{model_sql} #{col_names_sql} VALUES "
