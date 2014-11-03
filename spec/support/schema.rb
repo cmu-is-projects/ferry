@@ -1,17 +1,39 @@
 ActiveRecord::Schema.define do
-  self.verbose = false
-  create_table :designs do |t|
-    t.integer :design_id
-    t.integer :product_id
-    t.integer :account_id
-    t.string :account_file
-    t.string :save_method
-    t.integer :total_units
-    t.boolean :has_upload
-    t.date :created_at
-    t.date :updated_at
-    t.integer :postal_code
 
-    t.timestamps
+  # create_table :schema_info, :force=>true do |t|
+  #   t.column :version, :integer, :unique=>true
+  # end
+  # SchemaInfo.create :version=>SchemaInfo::VERSION
+
+  create_table :products, :force=>true do |t|
+    t.column :name, :string, :null => false
+    t.column :price, :decimal
+    t.column :category_id, :integer
+    t.column :sales_start_date, :datetime
+    t.column :sales_end_date, :datetime
+    t.column :flash_sale_time, :time
+    t.column :on_sale, :boolean, :default=>false, :null => false
+    t.column :stock, :integer
   end
+
+  create_table :categories, :force=>true do |t|
+    t.column :name, :string, :null => false
+    t.column :description, :text
+    t.column :float_score, :float
+    t.column :active, :boolean
+  end
+
+  create_table :carts, :force=>true do |t|
+    t.column :email, :string
+  end
+
+  create_table :orders, :force=>true do |t|
+    t.column :product_id, :integer
+    t.column :cart_id, :integer
+    t.column :quantity, :integer
+    t.column :date, :date
+  end
+  add_index :orders, [:cart_id, :product_id], :unique => true, :name => 'cart_product'
+
+
 end
