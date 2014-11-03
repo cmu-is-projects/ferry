@@ -5,9 +5,17 @@ require 'sets/cart_context'
 require 'sets/order_context'
 
 module Contexts
-  # explicitly include all sets of contexts used for testing 
-  include Contexts::CategoryContext
-  include Contexts::ProductContext
-  include Contexts::CartContext
-  include Contexts::OrderContext
+	def self.setup
+	    create_categories
+		create_products
+		create_carts
+		create_orders
+	end
+
+	def self.teardown
+		delete_orders
+		delete_carts
+		delete_products
+	    delete_categories
+	end 
 end

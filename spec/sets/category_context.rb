@@ -1,11 +1,11 @@
-module Contexts
-  module CategoryContext
+# module Contexts
+
     def create_categories
       # assumes create_curriculums prior
       @food = FactoryGirl.create(:category)
       @cleaning = FactoryGirl.create(:category, name: "Cleaning Supplies", description: "Household cleaning products.")
       @antiques = FactoryGirl.create(:category, name: "Antiques", active: false, description:"No longer carried.")
-      @toilet = FactoryGirl.create(:category, name: "Toiletries", bin_field: 0b1110_0000_0000_0000, description: "Things for the bathroom.")
+      @toilet = FactoryGirl.create(:category, name: "Toiletries", description: "Things for the bathroom.")
       @toys = FactoryGirl.create(:category, name: "Toys", description: "Anything that is meant to be played with.")
       @furniture = FactoryGirl.create(:category, name: "Furniture", float_score: 42.12097593749, description: "Furniture.")
     end
@@ -18,6 +18,5 @@ module Contexts
       @toys.delete
       @furniture.delete
     end
-    
-  end
-end
+
+# end

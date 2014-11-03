@@ -1,5 +1,4 @@
-module Contexts
-  module CartContext
+# module Contexts
     def create_carts
       @cart1 = FactoryGirl.create(:cart, email: "abby@example.com")
       @cart2 = FactoryGirl.create(:cart, email: "bob@example.com")
@@ -57,6 +56,4 @@ module Contexts
       @cart25.delete
       @cart26.delete
     end
-    
-  end
-end
+# end

@@ -1,110 +1,132 @@
 
-class ExporterTests < ActiveSupport::TestCase
-require 'ferry'
 exporter = Ferry::Exporter.new
 
 Dir.chdir("spec")
 
 describe("export functionality") do
-before(:all) do
-	puts "hi"
-    create_categories
-    create_products
-    create_carts
-    create_orders
-end
 
-after(:all) do
-	delete_orders
-	delete_carts
-	delete_products
-    delete_categories
-    puts "bye"
-end
+	describe "#export" do
 
-#exporter.to_csv('sqlite3', 'products')
-describe "#export" do
-  it "should return the number of inserts performed" do
-#     # see ActiveRecord::ConnectionAdapters::AbstractAdapter test for more specifics
-#     assert_difference "Topic.count", +10 do
-#       result = Topic.import Build(3, :topics)
-#       assert result.num_inserts > 0
-		puts ActiveRecord::Base.connection.execute('SELECT * FROM products;')
-#       result = Topic.import Build(7, :topics)
-#       assert result.num_inserts > 0
-    end
-  end
+		describe "sqlite3 db" do
+			before(:all) do
+				connect("sqlite3")
+				Contexts.setup
+			end
 
-#   it "should not produce an error when importing empty arrays" do
-#     assert_nothing_raised do
-#       Topic.import []
-#       Topic.import %w(title author_name), []
-#     end
-#   end
+			after(:all) do
+				Contexts.teardown
+				FileUtils.rm_rf('db')
+			end
 
-#   describe "with non-default ActiveRecord models" do  
-#     context "that have a non-standard primary key (that is no sequence)" do
-#       it "should import models successfully" do
-#         assert_difference "Widget.count", +3 do
-#           Widget.import Build(3, :widgets)
-#         end
-#       end
-#     end
-#   end
+	  		it "to_csv should create a populated csv file" do
+	  			exporter.to_csv('sqlite3', 'carts')
+	  			file_path = File.expand_path("..",Dir.pwd) + "/spec/db/csv/sqlite3/carts.csv"
+	  			expect(File).to exist(file_path)
 
-#   context "with :validation option" do
-#     let(:columns) { %w(title author_name) }
-#     let(:valid_values) { [[ "LDAP", "Jerry Carter"], ["Rails Recipes", "Chad Fowler"]] }
-#     let(:invalid_values) { [[ "The RSpec Book", ""], ["Agile+UX", ""]] }
+	  			lines = CSV.read(file_path)
+	  			expect(lines.length).to eql(27)
+	  			expect(lines[0]).to eql(["id", "email"])
+	  			expect(lines[1]).to eql(["1", "abby@example.com"])
+	  			expect(lines[26]).to eql(["26", "zach@example.com"])
+	    	end
 
-#     context "with validation checks turned off" do
-#       it "should import valid data" do
-#         assert_difference "Topic.count", +2 do
-#           result = Topic.import columns, valid_values, :validate => false
-#         end
-#       end
+	    	it "to_yaml should create a populated yaml file" do
+	  			exporter.to_yaml('sqlite3', 'carts')
+	  			file_path = File.expand_path("..",Dir.pwd) + "/spec/db/yaml/sqlite3/carts.yml"
+	  			expect(File).to exist(file_path)
 
-#       it "should import invalid data" do
-#         assert_difference "Topic.count", +2 do
-#           result = Topic.import columns, invalid_values, :validate => false
-#         end
-#       end
+	  			output = YAML.load_file(file_path)
+	  			expect(output["carts"].length).to eql(2)
+	  			expect(output["carts"].keys).to eql(["columns","records"])
 
-#       it 'should raise a specific error if a column does not exist' do
-#         assert_raises ActiveRecord::Import::MissingColumnError do
-#           Topic.import ['foo'], [['bar']], :validate => false
-#         end
-#       end
-#     end
+	  			expect(output["carts"]["columns"]).to eql(["id","email"])
+	  			expect(output["carts"]["records"][0]).to eql([1,"abby@example.com"])
+	  			expect(output["carts"]["records"][25]).to eql([26,"zach@example.com"])
+	    	end
 
-#     context "with validation checks turned on" do
-#       it "should import valid data" do
-#         assert_difference "Topic.count", +2 do
-#           result = Topic.import columns, valid_values, :validate => true
-#         end
-#       end
+	  	end
 
-#       it "should not import invalid data" do
-#         assert_no_difference "Topic.count" do
-#           result = Topic.import columns, invalid_values, :validate => true
-#         end
-#       end
+	  	describe "postgresql db" do
+			before(:all) do
+				connect("postgresql")
+				# requires you to have a ferry_test db in pg
+				Contexts.setup
+			end
 
-#       it "should report the failed instances" do
-#         results = Topic.import columns, invalid_values, :validate => true
-#         assert_equal invalid_values.size, results.failed_instances.size
-#         results.failed_instances.each{ |e| assert_kind_of Topic, e }
-#       end
+			after(:all) do
+				Contexts.teardown
+				FileUtils.rm_rf('db')
+			end
 
-#       it "should import valid data when mixed with invalid data" do
-#         assert_difference "Topic.count", +2 do
-#           result = Topic.import columns, valid_values + invalid_values, :validate => true
-#         end
-#         assert_equal 0, Topic.where(title: invalid_values.map(&:first)).count
-#       end
-#     end
-#   end
+	  		it "to_csv should create a populated csv file" do
+	  			exporter.to_csv('postgresql', 'carts')
+	  			file_path = File.expand_path("..",Dir.pwd) + "/spec/db/csv/postgresql/carts.csv"
+	  			expect(File).to exist(file_path)
 
-# end
-end
+	  			lines = CSV.read(file_path)
+	  			expect(lines.length).to eql(27)
+	  			expect(lines[0]).to eql(["id", "email"])
+	  			expect(lines[1]).to eql(["1", "abby@example.com"])
+	  			expect(lines[26]).to eql(["26", "zach@example.com"])
+	    	end
+
+	    	it "to_yaml should create a populated yaml file" do
+	  			exporter.to_yaml('postgresql', 'carts')
+	  			file_path = File.expand_path("..",Dir.pwd) + "/spec/db/yaml/postgresql/carts.yml"
+	  			expect(File).to exist(file_path)
+
+	  			output = YAML.load_file(file_path)
+	  			expect(output["carts"].length).to eql(2)
+	  			expect(output["carts"].keys).to eql(["columns","records"])
+
+	  			expect(output["carts"]["columns"]).to eql(["id","email"])
+	  			expect(output["carts"]["records"][0]).to eql(["1","abby@example.com"])
+	  			expect(output["carts"]["records"][25]).to eql(["26","zach@example.com"])
+	    	end
+
+	  	end
+
+	  	describe "mysql2 db" do
+			before(:all) do
+				connect("mysql2")
+				# requires you to have a ferry_test db in mysql
+				Contexts.setup
+			end
+
+			after(:all) do
+				Contexts.teardown
+				FileUtils.rm_rf('db')
+			end
+
+	  		it "to_csv should create a populated csv file" do
+	  			exporter.to_csv('mysql2', 'carts')
+	  			file_path = File.expand_path("..",Dir.pwd) + "/spec/db/csv/mysql2/carts.csv"
+	  			expect(File).to exist(file_path)
+
+	  			lines = CSV.read(file_path)
+	  			expect(lines.length).to eql(27)
+	  			expect(lines[0]).to eql(["id", "email"])
+	  			expect(lines[1]).to eql(["1", "abby@example.com"])
+	  			expect(lines[26]).to eql(["26", "zach@example.com"])
+	    	end
+
+	    	it "to_yaml should create a populated yaml file" do
+	  			exporter.to_yaml('mysql2', 'carts')
+	  			file_path = File.expand_path("..",Dir.pwd) + "/spec/db/yaml/mysql2/carts.yml"
+	  			expect(File).to exist(file_path)
+
+	  			output = YAML.load_file(file_path)
+	  			expect(output["carts"].length).to eql(2)
+	  			expect(output["carts"].keys).to eql(["columns","records"])
+
+	  			expect(output["carts"]["columns"]).to eql(["id","email"])
+	  			expect(output["carts"]["records"][0]).to eql([1,"abby@example.com"])
+	  			expect(output["carts"]["records"][25]).to eql([26,"zach@example.com"])
+	    	end
+
+	  	end
+
+
+
+	end
 end

@@ -2,9 +2,12 @@ require_relative 'utilities'
 
 module Ferry
   class Importer < Utilities
-    def row_sql_format(hash, columns)
+    def row_sql_format(hash, columns, adapter)
       values = hash.values_at(*columns)
       values.map! do |value|
+        if(adapter=="mysql2" && (value=='t' || value =='f'))
+          value=='t' ? value=1 : value=0  #attempt to convert 't' and 'f' to int in mysql
+        end
         value = ActiveRecord::Base::sanitize(value)
       end
       "(#{values.join(",")})"
@@ -24,11 +27,12 @@ module Ferry
 
     def import(environment, model, filename)
       db_connect(environment)
+      adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
       if(File.extname(filename) != ".csv")
         puts "Import aborted -- only csv import is supported"
         return false
       end
-      lines = CSV.read(filename)
+      lines = CSV.read(filename)#encoding option here? might break given db's limits
       if(lines.nil?)
         puts "Import aborted -- file not found"
         return false
@@ -42,7 +46,7 @@ module Ferry
       end
       values = []
       records.map do |record|
-        values << row_sql_format(record, col_names)
+        values << row_sql_format(record, col_names, adapter)
         import_bar.inc
       end
       insert_sql(model, col_names, values)

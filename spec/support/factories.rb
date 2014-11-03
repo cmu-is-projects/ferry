@@ -14,8 +14,6 @@ FactoryGirl.define do
     description  "Any item that can be consumed. Can't be included in both \"Food\" and \"Decorations\" categories."
     float_score  3.14159236579
     active  true
-    bin_field  0b100
-
   end
 
   factory :cart do

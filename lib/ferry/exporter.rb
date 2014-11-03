@@ -56,12 +56,11 @@ module Ferry
       homedir = "db/yaml/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
       table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
-      table_size = ActiveRecord::Base.connection.execute("SELECT count(*) FROM #{model};")
-      yaml_bar = ProgressBar.new("to_yaml", table_size)
         db_object = {}
         db_output = {}
         case db_type
           when 'sqlite3'
+            yaml_bar = ProgressBar.new("to_csv", table.length)
             keys = table[0].keys.first(table[0].length / 2)
             db_object["columns"] = keys
             model_arr=[]
@@ -71,10 +70,11 @@ module Ferry
             end
             db_object["records"] = model_arr
             db_output[model] = db_object
-            File.open("#{homedir}/#{environment}_data.yml",'a') do |file|
+            File.open("#{homedir}/#{model}.yml",'a') do |file|
               YAML::dump(db_output, file)
             end
           when 'postgresql'
+            yaml_bar = ProgressBar.new("to_csv", table.num_tuples)
             keys = table[0].keys
             db_object["columns"] = keys
             model_arr=[]
@@ -84,10 +84,11 @@ module Ferry
             end
             db_object["records"] = model_arr
             db_output[model] = db_object
-            File.open("#{homedir}/#{environment}_data.yml",'a') do |file|
+            File.open("#{homedir}/#{model}.yml",'a') do |file|
               YAML::dump(db_output, file)
             end
           when 'mysql2'
+            yaml_bar = ProgressBar.new("to_csv", table.count)
             db_config = YAML::load(IO.read("config/database.yml"))
             columns = ActiveRecord::Base.connection.execute("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`= '#{db_config[environment]['database']}' AND `TABLE_NAME`='#{model}';")
             col_names=[]
@@ -102,7 +103,7 @@ module Ferry
             end
             db_object["records"] = model_arr
             db_output[model] = db_object
-            File.open("#{homedir}/#{environment}_data.yml",'a') do |file|
+            File.open("#{homedir}/#{model}.yml",'a') do |file|
               YAML::dump(db_output, file)
             end
           else

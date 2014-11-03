@@ -1,5 +1,4 @@
-module Contexts
-  module OrderContext
+# module Contexts
     def create_orders
       # assumes create_products and create_carts prior
       @order1 = FactoryGirl.create(:order, product: @toy1, cart: @cart1, quantity: 1, date: Date.new(2014, 1, 23))
@@ -10,7 +9,7 @@ module Contexts
       @order6 = FactoryGirl.create(:order, product: @food3, cart: @cart6, quantity: 41, date: Date.new(2014, 12, 13))
       @order7 = FactoryGirl.create(:order, product: @food4, cart: @cart8, quantity: 1, date: Date.new(2014, 1, 4))
       @order8 = FactoryGirl.create(:order, product: @antique1, cart: @cart1, quantity: 501, date: Date.new(2015, 1, 6))
-      @order9 = FactoryGirl.create(:order, product: @antique2, cart: @cart9, quantity: 1, date: Date.new(2014, 7, 89))
+      @order9 = FactoryGirl.create(:order, product: @antique2, cart: @cart9, quantity: 1, date: Date.new(2014, 7, 8))
       @order10 = FactoryGirl.create(:order, product: @furniture1, cart: @cart3, quantity: 100, date: Date.new(2014, 10, 1))
       @order11 = FactoryGirl.create(:order, product: @furniture2, cart: @cart11, quantity: 1, date: Date.new(2002, 3, 2))
       @order12 = FactoryGirl.create(:order, product: @furniture3, cart: @cart12, quantity: 10, date: Date.new(2012, 1, 4))
@@ -56,6 +55,4 @@ module Contexts
       @order24.delete
       @order25.delete
     end
-    
-  end
-end
+# end

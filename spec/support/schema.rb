@@ -12,7 +12,7 @@ ActiveRecord::Schema.define do
     t.column :sales_start_date, :datetime
     t.column :sales_end_date, :datetime
     t.column :flash_sale_time, :time
-    t.column :on_sale, :boolean, :default=>false
+    t.column :on_sale, :boolean, :default=>false, :null => false
     t.column :stock, :integer
   end
 
@@ -21,10 +21,9 @@ ActiveRecord::Schema.define do
     t.column :description, :text
     t.column :float_score, :float
     t.column :active, :boolean
-    t.column :bin_field, :binary
   end
 
-  create_table :cart, :force=>true do |t|
+  create_table :carts, :force=>true do |t|
     t.column :email, :string
   end
 

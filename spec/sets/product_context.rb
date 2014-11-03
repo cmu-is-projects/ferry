@@ -1,11 +1,10 @@
-module Contexts
-  module ProductContext
+# module Contexts
     def create_products
       # assumes create_categories prior
       @food1 = FactoryGirl.create(:product, category: @food)
       @food2 = FactoryGirl.create(:product, category: @food, name: "potato", price: 0.69, sales_start_date: nil, sales_end_date: nil, flash_sale_time: nil, on_sale: false, stock: 50)
-      @food3 = FactoryGirl.create(:product, category: @food, name: "rice", price: 2.35, sales_start_date:  Date.new(2014,7,14), sales_end_date:  Date.new(2014,8,14), flash_sale_time: nil, on_sale: nil, stock: 45)
-      @food4 = FactoryGirl.create(:product, category: @food, name: "chicken", price: 7.60, sales_start_date:  Date.new(2012,1,14), sales_end_date:  Date.new(2012,2,14), flash_sale_time: Time.new(2014, 11, 23, 16, 20, 0), on_sale: true, stock: 35)
+      @food3 = FactoryGirl.create(:product, category: @food, name: "rice", price: 2.35, sales_start_date: Date.new(2014,7,14), sales_end_date:  Date.new(2014,8,14), flash_sale_time: nil, on_sale: false, stock: 45)
+      @food4 = FactoryGirl.create(:product, category: @food, name: "chicken", price: 7.60, sales_start_date: Date.new(2012,1,14), sales_end_date:  Date.new(2012,2,14), flash_sale_time: Time.new(2014, 11, 23, 16, 20, 0), on_sale: true, stock: 35)
       @cleaning1 = FactoryGirl.create(:product, category: @cleaning, name: "soap", price: 1.29, sales_start_date: Date.new(2014,4,20), sales_end_date: Date.new(2014,7,14), flash_sale_time: nil , on_sale: false, stock: 100)
       @cleaning2 = FactoryGirl.create(:product, category: @cleaning, name: "detergent", price: 3.00, sales_start_date: Date.new(2014,10,26), sales_end_date: Date.new(2014,7,14), flash_sale_time: nil, on_sale: false, stock: 120)
       @cleaning3 = FactoryGirl.create(:product, category: @cleaning, name: "bleach", price: 6.00, sales_start_date: Date.new(2013,12,25), sales_end_date: Date.new(2014,1,7), flash_sale_time: Time.new(2014, 12, 23, 0, 0, 0), on_sale: true, stock: 121)
@@ -17,7 +16,7 @@ module Contexts
       @furniture1 = FactoryGirl.create(:product, category: @furniture, name: "chair", price: 75.00, sales_start_date: nil, sales_end_date: nil, flash_sale_time: nil, on_sale: false, stock: 222)
       @furniture2 = FactoryGirl.create(:product, category: @furniture, name: "table", price: 1200.99, sales_start_date: nil, sales_end_date: nil, flash_sale_time: nil, on_sale: false, stock: 12)
       @furniture3 = FactoryGirl.create(:product, category: @furniture, name: "sofa", price: 1423.80, sales_start_date: nil, sales_end_date: nil, flash_sale_time: nil, on_sale: false, stock: 279)
-      @furniture4 = FactoryGirl.create(:product, category: @furniture, name: "desk", price: 600.00, sales_start_date: nil, sales_end_date: nil, flash_sale_time: nil, on_sale: nil, stock: 300)
+      @furniture4 = FactoryGirl.create(:product, category: @furniture, name: "desk", price: 600.00, sales_start_date: nil, sales_end_date: nil, flash_sale_time: nil, on_sale: false, stock: 300)
     end
 
     def delete_products
@@ -38,6 +37,4 @@ module Contexts
       @furniture3.delete
       @furniture4.delete
     end
-    
-  end
-end
+# end
