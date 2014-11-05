@@ -18,16 +18,18 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "activerecord"
+  spec.add_development_dependency "activerecord", "~> 4.1.7"
   spec.add_development_dependency "bundler", "~> 1.6"
-  spec.add_development_dependency "progressbar"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "minitest"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "pg"
-  spec.add_development_dependency "sqlite3"
-  spec.add_development_dependency "mysql2"
-  spec.add_development_dependency "factory_girl"
-  # need to look over installation problems with mysql :(
-  # spec.add_development_dependency "mysql"
+  spec.add_development_dependency "rake", "~> 10.3.2"
+  spec.add_development_dependency "minitest", "~> 5.4.1"
+  spec.add_development_dependency "rspec", "~> 3.1.0"
+  spec.add_development_dependency "pg", "~> 0.17.1"
+  spec.add_development_dependency "sqlite3", "~> 1.3.10"
+  spec.add_development_dependency "mysql2", "~> 0.3.16"
+  spec.add_development_dependency "factory_girl", "~> 4.5.0"
+  # spec.add_development_dependency "progressbar", "~> 0.21.0"
+  # spec.add_development_dependency "highline", "~> 1.6.21"
+
+  spec.add_runtime_dependency "progressbar", "~> 0.21.0"
+  spec.add_runtime_dependency "highline", "~> 1.6.21"
 end
