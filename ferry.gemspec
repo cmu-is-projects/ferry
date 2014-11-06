@@ -12,7 +12,6 @@ Gem::Specification.new do |spec|
   spec.description   = "Ferry is a data migration and data manipulation tool that seeks to simplify the increasingly prevalent big data problems for developers"
   spec.homepage      = "https://cmu-is-projects.github.io/ferry"
   spec.license       = "MIT"
-
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})

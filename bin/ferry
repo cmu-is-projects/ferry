@@ -51,5 +51,4 @@ OptionParser.new do |opts|
   end
 
   puts opts if ARGV[0] == nil
-
 end.parse!

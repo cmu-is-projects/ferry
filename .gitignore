@@ -19,3 +19,4 @@ tmp
 *.o
 *.a
 mkmf.log
+log
