@@ -14,27 +14,13 @@ Migration and Manipulation use cases
   - Migrating data to third party hosts (Amazon S3, Oracle)
   - Migrating data to a different database
 
-## TO-DOs
-- [ ] Refactoring before public release October 17th!!!
-- [ ] TEST!!! EVERYTHING!!!
-  - [ ] Provide working example(s) of using ferry (see [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) app)
-- [x] ferry --help
-- [ ] CLI tool dev
-  - [ ] USING OPTION PARSER
-- [x] Simple CSV/YAML export & import
-  - [x] using sqlite3
-  - [x] using psql
-  - [x] using MySQL
-  - [ ] using other dbs ...
-- [ ] Forking processes to make them faster!
-- [ ] RESTful column interaction
-- [ ] db switcher
-  - [ ] handling dependency installation (db or gem dependencies)
-- [ ] 3rd party connections (importing and exporting data to S3 or related services)
-  - [ ] Understanding relationships between generating migrations and migration files in place
-- [ ] Rolling back on errors / mishaps during migrations and manipulations
-  - [ ] error catching and give proper clues to fix errors
-- [ ] Host documentation site via GitHub pages
+## Some current development items
+#### Please feel free to open an issue or pull request with your suggestions
+- Database-switcher guide tool
+- 3rd party connections
+- Allowing user to write own rake tasks (e.g. importing and exporting data to S3 or related services)
+- Rolling back on errors or mishaps during migrations and manipulations
+- Host API and docs via GitHub pages
 
 ## Installation
 Add this line to your application's Gemfile:
