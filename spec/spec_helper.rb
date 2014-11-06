@@ -1,10 +1,10 @@
 require 'ferry'
 require 'fileutils'
 require 'factory_girl'
+
 Dir[File.dirname(__FILE__) + "/models/*.rb"].each{ |file| require file }
 load File.dirname(__FILE__) + "/support/factories.rb"
 
-require "fileutils"
 require "logger"
 require "contexts.rb"
 
@@ -18,12 +18,9 @@ RSpec.configure do |config|
 end
 
 def connect(adapter)
-	test_dir = Pathname.new File.dirname(__FILE__)
-	ENV["RAILS_ENV"] = adapter || "test"
-
-	db = YAML.load_file(test_dir.join("config/database.yml"))[adapter]
-	ActiveRecord::Base.establish_connection(:adapter => adapter, :database => db["database"])
-
-	load File.dirname(__FILE__) + '/support/schema.rb'
-
+  test_dir = Pathname.new File.dirname(__FILE__)
+  ENV["RAILS_ENV"] = adapter || "test"
+  db = YAML.load_file(test_dir.join("config/database.yml"))[adapter]
+  ActiveRecord::Base.establish_connection(:adapter => adapter, :database => db["database"])
+  load File.dirname(__FILE__) + '/support/schema.rb'
 end

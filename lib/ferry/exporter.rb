@@ -113,10 +113,5 @@ module Ferry
       puts ""
       puts "exported to db/yaml/#{environment}"
     end
-
-    def export_to_service(*args)
-      # exporting to services like AWS
-    end
-
   end
 end
