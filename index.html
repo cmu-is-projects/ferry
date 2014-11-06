@@ -26,7 +26,7 @@
     </div>
     <div class="eight columns">
       <h3>About ferry</h3>
-      <p>ferry is a command-line tool rubygem for data migrations and manipulations, maintained as an open-source project by the students of <a href="http://www.cmu.edu/information-systems/">Carnegie Mellon's Information Systems department</a> (currently <a href="http://github.com/anthcor">Anthony Corletti</a> and <a href="http://github.com/loganwatanabe">Logan Watanabe</a>). The inspiration for ferry was kindled from collective internship experiences and from the growing prevalence of big data migration and manipulation challenges that companies, corporations, universities, and organizations face in today's information age.</p>
+      <p>Ferry is a command-line tool rubygem designed for data migrations and manipulation, maintained as an open-source project by the students of <a href="http://www.cmu.edu/information-systems/">Carnegie Mellon's Information Systems department</a> (currently: <a href="http://github.com/anthcor">Anthony Corletti</a> and <a href="http://github.com/loganwatanabe">Logan Watanabe</a>). The inspiration for ferry was kindled from collective internship experiences and from the growing prevalence of big data migration and manipulation challenges that companies, corporations, universities, and organizations face in today's information age.</p>
       <p>It's important to note that not only are technology companies facing these big data issues, but that with the rise of the information age, more and more data is circulated around us, bringing these challenges to organizations that do not employ their own technical staff to manage these problems. <strong>The objective of ferry is to streamline the process of dealing with these big data problems, by making your data work for you, by entering a simple command from your terminal.</strong></p>
     </div>
     <div class="eight columns">
@@ -39,12 +39,7 @@
             <li>Database switcher: Being able to quickly switch from one database type to another.</li>
           </ul>
         </li>
-        <li><strong>RESTful Database Command Line Tool</strong></li>
-          <ul class="circle">
-            <li>Alternative to Rails's <a href="https://github.com/rails/rails/tree/master/activerecord/lib/active_record">ActiveRecord::Migration</a> functionality</li>
-          </ul>
       </ul>
-      <p style="font-size: 10px"><em>Please note that most of these features are still undergoing heavy development.</em></p>
     </div>
     <div class="sixteen columns">
       <h3>Community Interaction &amp; Engagement</h3>
@@ -59,9 +54,28 @@
     </div>
     <div class="sixteen columns">
       <h3>Documentation &amp; Support</h3>
-      <p>The easiest way to get started with ferry is to check out the full documentation at <a href="http://github.com/cmu-is-projects/ferry">our GitHub repo</a> once open-sourced. A more comprehensive document API will be posted on this site once the gem has been polished enough to be open-sourced. If you have any questions, thoughts, concerns or feedback, please don't hesitate to email us from here; <a href="mailto:anthcor@gmail.com">Anthony Corletti</a>, <a href="mailto:lwatanab@andrew.cmu.edu">Logan Watanabe</a>, or our project advisor <a href="mailto:profh@cmu.edu">Professor Larry Heimann</a>.</p>
+      <p>The easiest way to get started with ferry is to fork the code at <a href="http://github.com/cmu-is-projects/ferry">our GitHub repo</a> and start hacking.</p>
+      <strong>Examples</strong><hr />
+      <a href="https://github.com/cmu-is-projects/ferry/blob/master/lib/ferry/exporter.rb">Exporting</a>
+      <ul>
+        <li>$ ferry --to_csv environment_name,table_name</li>
+        <li>$ ferry --to_yaml environment_name,table_name</li>
+      </ul>
+      <a href="https://github.com/cmu-is-projects/ferry/blob/master/lib/ferry/importer.rb">Importing</a>
+      <ul>
+        <li>$ ferry --import environment_name,table_name,file_name_to_be_imported</li>
+      </ul>
+      <a href="https://github.com/cmu-is-projects/ferry/blob/master/lib/ferry/switcher.rb">Database Switching</a>
+      <ul>
+        <li>$ ferry --db_switch environment_name,desired_adapter</li>
+      </ul>
+      <a href="https://github.com/cmu-is-projects/ferry/blob/master/lib/ferry/utilities.rb#L28">Personalized Migrations</a>
+      <ul>
+        <li>$ ferry --init</li>
+      </ul>
     </div>
     <hr />
+    <div class="sixteen columns">If you have any questions, thoughts, concerns or feedback, please don't hesitate to email us from here; <a href="mailto:anthcor@gmail.com">Anthony Corletti</a>, <a href="mailto:lwatanab@andrew.cmu.edu">Logan Watanabe</a>, or our project advisor <a href="mailto:profh@cmu.edu">Professor Larry Heimann</a>.</div>
     <footer class="sixteen columns">© cmu-is-projects 2014</footer>
   </div>
 </body>
