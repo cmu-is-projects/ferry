@@ -5,7 +5,7 @@
 ## What is Ferry?
 Ferry is a command-line tool rubygem designed for for data migrations and manipulation, maintained as an open-source project by the students of [Carnegie Mellon's Information Systems department](http://www.cmu.edu/information-systems/) currently [Anthony Corletti](http://github.com/anthcor) and [Logan Watanabe](http://github.com/loganwatanabe). The inspiration for ferry was brought from collective internship experiences and from the growing prevalence of big data migration and manipulation challenges that companies, corporations, universities, and organizations face in today's information age.
 
-## What can I use Ferry for? (Use Cases)
+## What can I use Ferry for?
 See the [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) app or our [GitHub pages site](http://cmu-is-projects.github.com/ferry) for guidance on using Ferry!
 
 Migration and Manipulation use cases
@@ -30,17 +30,17 @@ gem 'ferry'
 
 And then execute:
 ``` sh
-bundle
+$ bundle
 ```
 
 Or install it yourself as:
 ``` sh
-gem install ferry
+$ gem install ferry
 ```
 
 To view what Ferry can do for you just run:
 ``` sh
-ferry --help
+$ ferry --help
 ```
 
 ## Contributing
