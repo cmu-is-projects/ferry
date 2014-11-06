@@ -3,23 +3,16 @@
 <!-- ![Build Status](https://travis-ci.org/cmu-is-projects/ferry.png)(https://travis-ci.org/cmu-is-projects/ferry) -->
 
 ## What is Ferry?
-Ferry is a data migration and data manipulation tool that seeks to quickly and easily reduce overhead when dealing with big data problems.
+Ferry is a command-line tool rubygem designed for for data migrations and manipulation, maintained as an open-source project by the students of [Carnegie Mellon's Information Systems department](http://www.cmu.edu/information-systems/) currently [Anthony Corletti](http://github.com/anthcor) and [Logan Watanabe](http://github.com/loganwatanabe). The inspiration for ferry was brought from collective internship experiences and from the growing prevalence of big data migration and manipulation challenges that companies, corporations, universities, and organizations face in today's information age.
 
 ## What can I use Ferry for? (Use Cases)
-See the [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) ROR/Sqlite app for guidance on using Ferry!
+See the [ferry_demo](http://github.com/cmu-is-projects/ferry_demo.com) app or our [GitHub pages site](http://cmu-is-projects.github.com/ferry) for guidance on using Ferry!
 
-Migration
-  - Exporting data to various file formats (.csv, .sql, .yml)
+Migration and Manipulation use cases
+  - Exporting data to various file formats (.csv, .yml, .sql)
   - Importing data from various file formats
   - Migrating data to third party hosts (Amazon S3, Oracle)
   - Migrating data to a different database
-
-Manipulation Use Cases
-  - RESTful column/ row interaction
-
-### Datebase to CSV
-Currently, Ferry supports SQLite, PosgreSQL, and MySQL database connections  ...
-Making a simple call like ```ferry to_csv yourdbenvironment``` in any Rails app and Ferry will place a folder in your lib directory with a folder titled ferry_to_csv_yourdbenvironment.
 
 ## TO-DOs
 - [ ] Refactoring before public release October 17th!!!
