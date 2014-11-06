@@ -1,6 +1,6 @@
 ![ferry](doc/ferry_readme_icon_2.png)
 
-![Build Status](https://travis-ci.org/cmu-is-projects/ferry.svg?branch=master)](https://travis-ci.org/cmu-is-projects/ferry)
+![Build Status](https://travis-ci.org/cmu-is-projects/ferry.svg?branch=master)(https://travis-ci.org/cmu-is-projects/ferry)
 
 ## What is Ferry?
 Ferry is a data migration and data manipulation tool that seeks to quickly and easily reduce overhead when dealing with big data problems.
