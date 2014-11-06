@@ -1,5 +1,3 @@
-# require 'doc/ferry_init_file'
-
 module Ferry
   class Utilities
     def db_connect(environment)
@@ -28,15 +26,8 @@ module Ferry
     end
 
     def init
-      File.open("config/ferry.rb", 'w') {|f| f.write("
-        # this is your ferry init file
-        # in here you can write rake tasks
-        # and other more personalized code for dealing with data migrations and manipulations
-
-        # for example ...
-
-        # examples here"
-      )}
+      contents = File.cat("doc/ferry_init_file_content.rb", "w")
+      File.open("./lib/tasks/ferry.rake", 'w') {|f| f.write(contents)}
     end
   end
 end

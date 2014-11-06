@@ -1,4 +1,4 @@
-![ferry](doc/ferry_readme_icon.png)
+![ferry](doc/ferry_readme_icon_2.png)
 
 ## What is Ferry?
 Ferry is a data migration and data manipulation tool that seeks to quickly and easily reduce overhead when dealing with big data problems.
