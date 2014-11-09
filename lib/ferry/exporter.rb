@@ -8,7 +8,7 @@ module Ferry
       FileUtils.mkdir "db/csv" unless Dir["db/csv"].present?
       homedir = "db/csv/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
-      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
+      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};") #error raised here if no table
       CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
         case db_type
         when 'sqlite3'
@@ -41,7 +41,7 @@ module Ferry
             csv_bar.inc
           end
         else
-          puts "error in db type"
+          raise "#{db_type} is not supported by ferry at this time"
           return false
         end
       end
@@ -55,7 +55,7 @@ module Ferry
       FileUtils.mkdir "db/yaml" unless Dir["db/yaml"].present?
       homedir = "db/yaml/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
-      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
+      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};") #error raised here is no table
         db_object = {}
         db_output = {}
         case db_type

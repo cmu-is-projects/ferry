@@ -21,6 +21,7 @@ describe("import functionality") do
   			expect(Category.find_by(id: 42).description).to eql("Pellentesque magna odio, blandit in nisi fringilla, commodo.")
   			expect(Category.find_by(id: 42).float_score).to eql(42.42)
   			expect(Category.find_by(id: 42).active).to eql(true)
+        expect(Category.find_by(id: 9).name).to eql("boys' clothing")
     	end
   	end
 
@@ -42,6 +43,7 @@ describe("import functionality") do
   			expect(Category.find_by(id: 42).description).to eql("Pellentesque magna odio, blandit in nisi fringilla, commodo.")
   			expect(Category.find_by(id: 42).float_score).to eql(42.42)
   			expect(Category.find_by(id: 42).active).to eql(true)
+        expect(Category.find_by(id: 9).name).to eql("boys' clothing")
     	end
   	end
 
@@ -63,6 +65,7 @@ describe("import functionality") do
   			expect(Category.find_by(id: 42).description).to eql("Pellentesque magna odio, blandit in nisi fringilla, commodo.")
   			expect(Category.find_by(id: 42).float_score).to eql(42.42)
   			expect(Category.find_by(id: 42).active).to eql(true)
+        expect(Category.find_by(id: 9).name).to eql("boys' clothing")
     	end
   	end
 	end
