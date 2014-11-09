@@ -18,7 +18,7 @@ ActiveRecord::Schema.define do
   end
 
   create_table :carts, :force=>true do |t|
-    t.column :email, :string
+    t.column :email, :string, :null => false
   end
 
   create_table :orders, :force=>true do |t|

@@ -17,24 +17,24 @@ module Ferry
       col_names_sql = "(#{columns.join(",")})"
       model_sql = model.downcase
       sql_insert_beg = "INSERT INTO #{model_sql} #{col_names_sql} VALUES " 
-      ActiveRecord::Base.connection.begin_db_transaction
-        values.each_slice(1000) do |records|
+      ActiveRecord::Base.transaction do
+        values.each_slice(500) do |records|
           sql_statement = sql_insert_beg + records.join(",") + ";"
-          ActiveRecord::Base.connection.execute(sql_statement)###################################################
+          ActiveRecord::Base.connection.execute(sql_statement)
         end
-      ActiveRecord::Base.connection.commit_db_transaction
+      end
     end
 
     def import(environment, model, filename)
       db_connect(environment)
       adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
-      if(File.extname(filename) != ".csv") ###################################################
-        puts "Import aborted -- only csv import is supported"
+      if(File.extname(filename) != ".csv")
+        raise "Only csv file types are supported"
         return false
       end
-      lines = CSV.read(filename)#encoding option here? might break given db's limits
-      if(lines.nil?) ###################################################
-        puts "Import aborted -- file not found"
+      lines = CSV.read(filename)#encoding option here? certain characters might break db
+      if(lines.nil?)
+        raise "#{filename} file not found"
         return false
       end
       import_bar = ProgressBar.new("import", lines.length-1)
