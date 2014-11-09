@@ -21,3 +21,4 @@ tmp
 mkmf.log
 log
 spec/test.db
+.DS_Store

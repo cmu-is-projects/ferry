@@ -5,7 +5,7 @@ OptionParser.new do |opts|
   options = {}
   opts.banner = "See full documentation at http://cmu-is-projects.github.io/ferry"
 
-  opts.on("--to_csv <env,table>", 'Exports table to csv file in db/ferry_to_csv_[your db environment]') do |opt|
+  opts.on("--to_csv <env,table>", 'Exports table to csv file in db/csv/[your db environment]/[your table]') do |opt|
     list = opt.split(",")
     raise "please enter a field for environment and table" unless list.length == 2
     options[:input] = list
@@ -13,7 +13,7 @@ OptionParser.new do |opts|
     exporter.to_csv(options[:input][0], options[:input][1])
   end
 
-  opts.on("--to_yaml <env,table>", 'Exports table to yaml file in db/ferry_to_csv_[your db environment]') do |opt|
+  opts.on("--to_yaml <env,table>", 'Emports table to yaml file in db/yaml/[your db environment]/[your table]') do |opt|
     list = opt.split(",")
     raise "please enter a field for environment and table" unless list.length == 2
     options[:input] = list
