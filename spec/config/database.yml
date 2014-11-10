@@ -18,3 +18,9 @@ postgresql: &postgresql
 sqlite3: &sqlite3
   adapter: sqlite3
   database: test.db
+
+oracle: &oracle
+  adapter: oracle
+  database: ferry_test
+  user: root
+  password: 

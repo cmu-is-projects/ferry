@@ -2,6 +2,11 @@ module Ferry
   class Utilities
     def db_connect(environment)
       db_config = YAML::load(IO.read("config/database.yml"))
+      
+      if db_config[environment].nil?
+        raise "No database associated with #{environment} environment"
+      end
+
       db_type = db_config[environment]["adapter"]
 
       if ['sqlite3', 'postgresql', 'mysql2'].include?(db_type)
@@ -9,8 +14,7 @@ module Ferry
         puts "operating with "+db_type
         return db_type
       else
-        puts "Unsupported db type or no database associated with this application."
-        return false
+        raise "#{db_type} is not supported by ferry at this time"
       end
     end
 
