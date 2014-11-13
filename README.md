@@ -3,12 +3,12 @@
 <!-- ![Build Status](https://travis-ci.org/cmu-is-projects/ferry.png)(https://travis-ci.org/cmu-is-projects/ferry) -->
 
 ## What is Ferry?
-Ferry is a command-line tool rubygem designed for for data migrations and manipulation, maintained as an open-source project by the students of [Carnegie Mellon's Information Systems department](http://www.cmu.edu/information-systems/) currently [Anthony Corletti](http://github.com/anthcor) and [Logan Watanabe](http://github.com/loganwatanabe). The inspiration for ferry was brought from collective internship experiences and from the growing prevalence of big data migration and manipulation challenges that companies, corporations, universities, and organizations face in today's information age.
+Ferry is a command-line tool rubygem designed for Rails data migrations and manipulation, maintained as an open-source project by the students of [Carnegie Mellon's Information Systems department](http://www.cmu.edu/information-systems/) currently [Anthony Corletti](http://github.com/anthcor) and [Logan Watanabe](http://github.com/loganwatanabe). The inspiration for ferry was brought from collective internship experiences and from the growing prevalence of big data migration and manipulation challenges that companies, corporations, universities, and organizations face in today's information age.
 
 ## What can I use Ferry for?
 See the [ferry_demo](http://github.com/cmu-is-projects/ferry_demo) app or our [GitHub pages site](http://cmu-is-projects.github.com/ferry) for guidance on using Ferry!
 
-Migration and Manipulation use cases
+Rails Migration and Manipulation use cases
   - Exporting data to various file formats (.csv, .yml, .sql)
   - Importing data from various file formats
   - Migrating data to third party hosts (Amazon S3, Oracle)
@@ -23,7 +23,7 @@ Migration and Manipulation use cases
 - Host API and docs via GitHub pages
 
 ## Installation
-Add this line to your application's Gemfile:
+Add this line to your Rails application's Gemfile:
 ``` ruby
 gem 'ferry'
 ```
@@ -42,6 +42,36 @@ To view what Ferry can do for you just run:
 ``` sh
 $ ferry --help
 ```
+
+## Exporting
+Ferry can export data from a database connected to a Rails app into a CSV or YAML file.
+We currently only support exporting of SQLite3, MySQL2, and PostgreSQL databases.
+
+Run `ferry --to_csv [environment] [table]` in your Rails directory to export to csv:
+```sh
+$ ferry --to_csv test users
+```
+Running the above command will export the "users" table from the database connected to the "test" environment.
+A csv file populated with the "users" table data will be created at /db/csv/test/users.csv in the Rails directory.
+
+Run `ferry --to_yaml [environment] [table]` in your Rails directory to export to yaml:
+```sh
+$ ferry --to_yaml test users
+```
+Similarly, running the above command in the Rails directory will export the "users" table from the database connected to the "test" environment.
+A yaml file populated with the "users" table data will be created at /db/yaml/test/users.csv in the Rails directory.
+
+## Importing
+Ferry can import a csv file of validated records into a table of a Rails-connected database.
+The csv file must: 
+  - Have headers that match field names of the table
+  - Have values that meet the table's constraints (i.e. required fields, correct data types, unique PKs, etc.)
+
+Run `ferry --import [environment] [table] [file path]` in your Rails directory to import a csv to a database table:
+```sh
+$ ferry --import development users db/csv/import_data.csv
+```
+Running the above command will import the import_data.csv to the "users" table in the "development" environment.
 
 ## Contributing
 
