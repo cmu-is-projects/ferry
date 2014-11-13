@@ -14,14 +14,6 @@ Rails Migration and Manipulation use cases
   - Migrating data to third party hosts (Amazon S3, Oracle)
   - Migrating data to a different database
 
-## Some current development items
-#### Please feel free to open an issue or pull request with your suggestions
-- Database-switcher guide tool
-- 3rd party connections
-- Allowing user to write own rake tasks (e.g. importing and exporting data to S3 or related services)
-- Rolling back on errors or mishaps during migrations and manipulations
-- Host API and docs via GitHub pages
-
 ## Installation
 Add this line to your Rails application's Gemfile:
 ``` ruby
@@ -72,6 +64,14 @@ Run `ferry --import [environment] [table] [file path]` in your Rails directory t
 $ ferry --import development users db/csv/import_data.csv
 ```
 Running the above command will import the import_data.csv to the "users" table in the "development" environment.
+
+## Some current development items
+#### Please feel free to open an issue or pull request with your suggestions
+- Database-switcher guide tool
+- 3rd party connections
+- Allowing user to write own rake tasks (e.g. importing and exporting data to S3 or related services)
+- Rolling back on errors or mishaps during migrations and manipulations
+- Host API and docs via GitHub pages
 
 ## Contributing
 
