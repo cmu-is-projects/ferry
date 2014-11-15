@@ -5,38 +5,30 @@ OptionParser.new do |opts|
   options = {}
   opts.banner = "See full documentation at http://cmu-is-projects.github.io/ferry"
 
-  opts.on("--to_csv <env,table>", 'Exports table to csv file in db/csv/[your db environment]/[your table]') do |opt|
-    list = opt.split(",")
-    raise "please enter a field for environment and table" unless list.length == 2
-    options[:input] = list
+  opts.on("--to_csv ENVIRONMENT TABLE", 'Exports table to csv file in db/csv/[your db environment]/[your table]') do |opt|
+    raise "please enter a field for environment and table" unless ARGV.length == 1
     exporter = Ferry::Exporter.new
-    exporter.to_csv(options[:input][0], options[:input][1])
+    exporter.to_csv(opt, ARGV[0])
   end
 
-  opts.on("--to_yaml <env,table>", 'Emports table to yaml file in db/yaml/[your db environment]/[your table]') do |opt|
-    list = opt.split(",")
-    raise "please enter a field for environment and table" unless list.length == 2
-    options[:input] = list
+  opts.on("--to_yaml ENVIRONMENT TABLE", 'Emports table to yaml file in db/yaml/[your db environment]/[your table]') do |opt|
+    raise "please enter a field for environment and table" unless ARGV.length == 1
     exporter = Ferry::Exporter.new
-    exporter.to_yaml(options[:input][0], options[:input][1])
+    exporter.to_yaml(opt, ARGV[0])
   end
 
-  opts.on('--import <env,tablename,file>', 'Imports data from specified file into table and environment of your specification') do |opt|
-    list = opt.split(",")
-    raise "please enter a field for environment and table and filename" unless list.length == 3
-    options[:input] = list
+  opts.on('--import ENVIRONMENT TABLE FILEPATH', 'Imports data from specified file into table and environment of your specification') do |opt|
+    raise "please enter a field for environment and table and filename" unless ARGV.length == 2
     importer = Ferry::Importer.new
-    importer.import(options[:input][0], options[:input][1], options[:input][2])
+    importer.import(opt, ARGV[0], ARGV[1])
   end
 
-  opts.on('--db_switch <env,adapter>', 'Switches specified database env to a new adapter') do |opt|
-    list = opt.split(",")
-    raise "please enter a field for environment and table" unless list.length == 2
-    options[:input] = list
+  opts.on('--db_switch ENVIRONMENT ADAPTER', 'Switches specified database env to a new adapter') do |opt|
+    raise "please enter a field for environment and table" unless ARGV.length == 1
     questionmaster = Ferry::Utilities.new
-    if questionmaster.continue?("Are you sure you want to switch to a #{options[:input][1]} database in your #{options[:input][0]} env? It could result in installing software that impacts your project.")
+    if questionmaster.continue?("Are you sure you want to switch to a #{ARGV[0]} database in your #{opt} env? It could result in installing software that impacts your project.")
       switcher = Ferry::Switcher.new
-      switcher.to_new_db_type(options[:input][0], options[:input][1])
+      switcher.to_new_db_type(opt, ARGV[0])
     end
   end
 
