@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/ruby
 require 'ferry'
 
 OptionParser.new do |opts|
@@ -34,7 +34,7 @@ OptionParser.new do |opts|
 
   opts.on('--init', 'Initializes ferry.rb file in config directory') do |opt|
     filemaker = Ferry::Utilities.new
-    filemaker.init
+    filemaker.make_starter_file
   end
 
   opts.on_tail('-h', '--help', 'Shows this message') do
