@@ -2,7 +2,7 @@ module Ferry
   class Utilities
     def db_connect(environment)
       db_config = YAML::load(IO.read("config/database.yml"))
-      
+
       if db_config[environment].nil?
         raise "No database associated with #{environment} environment"
       end

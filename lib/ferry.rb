@@ -10,6 +10,7 @@ require 'highline/import'
 require 'progressbar'
 require 'optparse'
 require 'pp'
+require 'script'
 require 'yaml'
 
 module Ferry
