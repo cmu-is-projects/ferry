@@ -10,7 +10,7 @@ require 'highline/import'
 require 'progressbar'
 require 'optparse'
 require 'pp'
-require 'script'
+Dir["../../script/.rb"].each {|file| require file }
 require 'yaml'
 
 module Ferry

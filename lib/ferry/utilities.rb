@@ -29,10 +29,11 @@ module Ferry
       a == 'y'
     end
 
-    def init
+    def make_starter_file
       if !File.exist?("lib/tasks/ferry.rake")
-        init_file = File.open("%x(which ferry)/doc/ferry_rake_contents.rb", "rb")
-        contents = init_file.read
+        install_dir = `bundle show ferry`.chomp
+        starter_file_contents = File.open("#{install_dir}/doc/ferry_rake_contents.rb", "rb")
+        contents = starter_file_contents.read
         File.open("lib/tasks/ferry.rake", 'w') {|f| f.write(contents)}
         puts "/lib/tasks/ferry.rake created!"
       else
