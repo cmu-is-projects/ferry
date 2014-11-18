@@ -31,12 +31,9 @@ module Ferry
 
     def init
       if !File.exist?("lib/tasks/ferry.rake")
-        File.open("lib/tasks/ferry.rake", 'w') {|f| f.write("# this is your ferry init file
-# in this file you can write rake tasks that are easily tailored to more case-by-case user implementations
-
-namespace :ferry do
-  # your code here!
-end")}
+        init_file = File.open("%x(which ferry)/doc/ferry_rake_contents.rb", "rb")
+        contents = init_file.read
+        File.open("lib/tasks/ferry.rake", 'w') {|f| f.write(contents)}
         puts "/lib/tasks/ferry.rake created!"
       else
         puts "/lib/tasks/ferry.rake already exists - but you knew that already ... didn't you?"
