@@ -15,6 +15,8 @@ if [[ ! $postgres ]]; then
   mv ~/Downloads/Postgres.app /Applications
   echo '##### Starting Postgres'
   open Postgres.app
+else
+  echo 'nothing to install'
 fi
 
 # install postgres gem
@@ -23,4 +25,6 @@ if [[ ! $pg_gem ]]; then
   echo ''
   echo '##### Installing PG Gem ...'
   gem install pg
+else
+  echo 'nothing to install'
 fi
