@@ -18,7 +18,7 @@ module Ferry
           %x(chmod 4755 #{call}/script/#{switch_to_db_type}_install.sh)
           %x(#{call}/script/#{switch_to_db_type}_install.sh)
           puts "installed necessary dependencies for #{which_db_env} env to #{switch_to_db_type}"
-        else if switch_to_db_type == 'sqlite'
+        elsif switch_to_db_type == 'sqlite'
           puts "#{switch_to_db_type} already installed on mac!"
         else
           puts "#{switch_to_db_type} is currently unsupported"
