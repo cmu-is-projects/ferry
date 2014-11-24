@@ -23,6 +23,8 @@ module Ferry
         else
           puts "#{switch_to_db_type} is currently unsupported"
         end
+      else
+        puts "#{switch_to_db_type} is currently unsupported or db type does not exist"
       end
     end
   end
