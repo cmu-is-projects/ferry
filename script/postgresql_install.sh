@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # install postgres
-postgres=`brew list | grep postgres`
+postgres=`brew list | grep postgres | bundle list pg`
 if [[ ! $postgres ]]; then
   echo ''
   echo '##### Installing Postgres via Postgres.app ...'
@@ -12,7 +12,7 @@ if [[ ! $postgres ]]; then
   echo '##### Open that zip'
   open Postgres-9.3.5.2.zip
   echo '##### Moving to Applications dir'
-  mv ~/Downloads/Postgres.app /Applications/Postgres.app
+  mv ~/Downloads/Postgres.app /Applications
   echo '##### Starting Postgres'
   open Postgres.app
 fi

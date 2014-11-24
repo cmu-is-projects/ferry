@@ -15,7 +15,7 @@ module Ferry
           File.open("config/database.yml", "w") {|f| f.write info.to_yaml}
           puts "switched #{which_db_env} env to #{switch_to_db_type} in database.yml"
           call = %x(bundle show ferry).chomp
-          %x(chmod 4755 #{call}/script/#{switch_to_db_type}_install.sh && chown root #{call}/script/#{switch_to_db_type}_install.sh)
+          %x(chmod 4755 #{call}/script/#{switch_to_db_type}_install.sh)
           %x(#{call}/script/#{switch_to_db_type}_install.sh)
           puts "installed necessary dependencies for #{which_db_env} env to #{switch_to_db_type}"
         else
