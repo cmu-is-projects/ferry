@@ -39,16 +39,16 @@ $ ferry --help
 Ferry can export data from a database connected to a Rails app into a CSV or YAML file.
 We currently only support exporting of SQLite3, MySQL2, and PostgreSQL databases.
 
-Run `ferry --to_csv [environment] [table]` in your Rails directory to export to csv:
+Run `ferry --to_csv [environment],[table]` in your Rails directory to export to csv:
 ```sh
-$ ferry --to_csv production users
+$ ferry --to_csv production,users
 ```
 Running the above command will export the "users" table from the database connected to the "production" environment.
 A csv file populated with the "users" table data will be created at /db/csv/test/users.csv (the path will be created and if there is a users.csv it will be overwritten).
 
-Run `ferry --to_yaml [environment] [table]` in your Rails directory to export to yaml:
+Run `ferry --to_yaml [environment],[table]` in your Rails directory to export to yaml:
 ```sh
-$ ferry --to_yaml development users
+$ ferry --to_yaml development,users
 ```
 Similarly, running the above command in the Rails directory will export the "users" table from the database connected to the "development" environment.
 A yaml file populated with the "users" table data will be created at /db/yaml/test/users.csv (the path will be created and if there is a users.csv it will be overwritten).
