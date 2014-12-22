@@ -9,7 +9,6 @@ before_install:
 script:
   - mysql -e 'create database ferry_test;'
   - psql -c 'create database ferry_test;' -U postgres
-  - psql -U postgres -c "create extension postgis"
   - bundle exec rspec
 branches:
   only:
