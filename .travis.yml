@@ -7,6 +7,8 @@ rvm:
 before_install:
   - gem update bundler
 script:
+  - mysql -e 'create database ferry_test;'
+  - psql -c 'create database ferry_test;'
   - bundle exec rspec
 branches:
   only:
