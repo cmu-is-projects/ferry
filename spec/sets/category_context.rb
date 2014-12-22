@@ -1,5 +1,4 @@
 def create_categories
-  # assumes create_curriculums prior
   @food = FactoryGirl.create(:category)
   @cleaning = FactoryGirl.create(:category, name: "Cleaning Supplies", description: "Household cleaning products.")
   @antiques = FactoryGirl.create(:category, name: "Antiques", active: false, description:"No longer carried.")
