@@ -61,7 +61,7 @@ describe "#import" do
       Cart.delete_all
     end
 
-    it "should be able to import >500 records" do
+    it "should be able to import > 500 records" do
       import_path = File.expand_path("..",Dir.pwd) + "/spec/support/emails_import.csv" #2100 records
       importer.import("sqlite3", "carts", import_path)
       expect(Cart.find_by(id: 42).email).to eql("Albert@example.com")
