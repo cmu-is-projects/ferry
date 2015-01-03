@@ -4,11 +4,8 @@ rvm:
   - 2.0.0
   - 2.1.0
   - 2.1.2
-env:
-  - DB=sqlite
-  - DB=mysql
-  - DB=postgresql
 before_install:
+  - sudo apt-get -y purge sqlite3 sqlite3-dev
   - gem update bundler
 script:
   - mysql -e 'create database ferry_test;'
