@@ -21,6 +21,10 @@ def connect(adapter)
   test_dir = Pathname.new File.dirname(__FILE__)
   ENV["RAILS_ENV"] = adapter || "test"
   db = YAML.load_file(test_dir.join("config/database.yml"))[adapter]
-  ActiveRecord::Base.establish_connection(:adapter => adapter, :database => db["database"])
+  ActiveRecord::Base.establish_connection(adapter: adapter, 
+                                          database: db['database'], 
+                                          username: db['username'], 
+                                          password: db['password'],
+                                          host: db['host'])
   load File.dirname(__FILE__) + '/support/schema.rb'
 end
