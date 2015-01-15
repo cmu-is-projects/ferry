@@ -5,10 +5,13 @@ rvm:
   - 2.1.0
   - 2.1.2
 before_install:
-  - sudo apt-get install sqlite3-dev libsqlite3-dev
-  - sudo apt-get -y purge sqlite3 sqlite3-dev
+  # - sudo apt-get install sqlite3-dev libsqlite3-dev
+  # - sudo apt-get -y purge sqlite3 sqlite3-dev
   - gem update bundler
-script: ./script/travis_build.sh
+script:
+  - mysql -e 'create database ferry_test;'
+  - psql -c 'create database ferry_test;' -U postgres
+  - bundle exec rspec
 branches:
   only:
     - master
