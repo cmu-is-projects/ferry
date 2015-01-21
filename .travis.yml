@@ -5,7 +5,7 @@ rvm:
   - 2.1.0
   - 2.1.2
 before_install:
-  - sudo apt-get update sqlite3
+  - sudo apt-get install sqlite3=3.8.5
   - gem update bundler
   - sqlite3 -version
 script:
