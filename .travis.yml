@@ -9,6 +9,7 @@ before_install:
   - sudo apt-add-repository -y ppa:travis-ci/sqlite3
   - sudo apt-get -y update
   - sudo apt-cache show sqlite3
+  - sudo sqlite3 -version
   - gem update bundler
 script:
   - mysql -e 'create database ferry_test;'
