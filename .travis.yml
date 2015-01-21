@@ -5,6 +5,10 @@ rvm:
   - 2.1.0
   - 2.1.2
 before_install:
+  - sudo apt-get install python-software-properties
+  - sudo apt-add-repository -y ppa:travis-ci/sqlite3
+  - sudo apt-get -y update
+  - sudo apt-cache show sqlite3
   - gem update bundler
 script:
   - mysql -e 'create database ferry_test;'
