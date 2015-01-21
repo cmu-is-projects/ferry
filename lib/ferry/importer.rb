@@ -16,10 +16,10 @@ module Ferry
     def insert_sql(model, columns, values)
       col_names_sql = "(#{columns.join(",")})"
       model_sql = model.downcase
-      sql_insert_beg = "INSERT INTO #{model_sql} #{col_names_sql} VALUES ("
+      sql_insert_beg = "INSERT INTO #{model_sql} #{col_names_sql} VALUES "
       ActiveRecord::Base.transaction do
         values.each_slice(500) do |records|
-          sql_statement = sql_insert_beg + records.join(",") + ");"
+          sql_statement = sql_insert_beg + records.join(",") + ";"
           ActiveRecord::Base.connection.execute(sql_statement)
         end
       end
