@@ -1,6 +1,6 @@
 ![ferry](doc/ferry_readme_icon_2.png)
 
-![Build Status](https://travis-ci.org/cmu-is-projects/ferry.png)
+[![Build Status](https://travis-ci.org/cmu-is-projects/ferry.svg?branch=master)](https://travis-ci.org/cmu-is-projects/ferry)
 
 ## What is Ferry?
 Ferry is a command-line tool rubygem designed for Rails data migrations and manipulation, maintained as an open-source project by the students of [Carnegie Mellon's Information Systems department](http://www.cmu.edu/information-systems/) currently [Anthony Corletti](http://github.com/anthcor) and [Logan Watanabe](http://github.com/loganwatanabe). The inspiration for ferry was brought from collective internship experiences and from the growing prevalence of big data migration and manipulation challenges that companies, corporations, universities, and organizations face in today's information age.
