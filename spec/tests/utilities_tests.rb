@@ -15,11 +15,6 @@ describe("utility functions") do
         expect(ActiveRecord::Base.connection.adapter_name).to eql('PostgreSQL')
       end
 
-      it "#postgresql fails if system user name is not role in PostgreSQL" do
-        expect{utils.db_connect("postgresql_system_user_name")}.not_to raise_error
-        expect{ActiveRecord::Base.connection.adapter_name}.to raise_error
-      end
-
       it "#mysql2" do
         expect{utils.db_connect("mysql2")}.not_to raise_error
         expect(ActiveRecord::Base.connection.adapter_name).to eql('Mysql2')
