@@ -15,13 +15,6 @@ postgresql: &postgresql
   adapter: postgresql
   min_messages: warning
 
-postgresql_system_user_name: &postgresql_system_user_name
-  <<: *default
-  username: 
-  password: ' '
-  adapter: postgresql
-  min_messages: warning
-
 sqlite3: &sqlite3
   adapter: sqlite3
   database: test.db
