@@ -10,7 +10,11 @@ module Ferry
       db_type = db_config[environment]["adapter"]
 
       if ['sqlite3', 'postgresql', 'mysql2'].include?(db_type)
-        ActiveRecord::Base.establish_connection(adapter: db_type, database: db_config[environment]['database'])
+        ActiveRecord::Base.establish_connection(adapter: db_type, 
+                                                database: db_config[environment]['database'], 
+                                                username: db_config[environment]['username'], 
+                                                password: db_config[environment]['password'],
+                                                host: db_config[environment]['host'])
         puts "operating with "+db_type
         return db_type
       else
