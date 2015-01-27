@@ -17,7 +17,7 @@ postgresql: &postgresql
 
 postgresql_system_user_name: &postgresql_system_user_name
   <<: *default
-  username: 
+  username: postgres
   password: ' '
   adapter: postgresql
   min_messages: warning
@@ -30,4 +30,4 @@ oracle: &oracle
   adapter: oracle
   database: ferry_test
   user: root
-  password: 
+  password:
