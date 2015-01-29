@@ -18,7 +18,7 @@ Rails Migration and Manipulation use cases
 Coming soon ...
   - Configurable Migration Scripting
     - The idea behind this feature is for developers to provide options for arguments in an executable script that contains the configuration and necessary tasks/ actions for the operations of whatever data migration or manipulation they are seeking to carry out.
-    - Similar to how [capistrano's](https://github.com/capistrano/capistrano) configures deploy.rb.
+    - Similar to how [capistrano](https://github.com/capistrano/capistrano) configures deploy.rb.
   - Data Visualization
     - With inspiration from [d3](http://d3js.org), we are hoping to create functionality that allows developers to deploy informative and visually appealing graphs and documents that can be shared over an internal network to be broadcasted to servers for display either on internal office displays or to URL's ... all from executing a simple command-line statement.
     - We will be making use of [d3](http://d3js.org) for visualizations and are looking for current solutions to this business need and if there are any successful or not-so-successful solutions out there to compete with.
