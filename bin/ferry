@@ -3,28 +3,7 @@ require 'ferry'
 
 OptionParser.new do |opts|
   options = {}
-  opts.banner = "See full documentation at http://cmu-is-projects.github.io/ferry"
-
-  opts.on("--to_csv ENVIRONMENT TABLE", 'Exports table to csv file in db/csv/[your db environment]/[your table]') do |opt|
-    raise "too many arguments for input" unless ARGV.length <= 1
-    raise "please enter a field for environment and table" unless ARGV.length == 1
-    exporter = Ferry::Exporter.new
-    exporter.to_csv(opt, ARGV[0])
-  end
-
-  opts.on("--to_yaml ENVIRONMENT TABLE", 'Exports table to yaml file in db/yaml/[your db environment]/[your table]') do |opt|
-    raise "too many arguments for input" unless ARGV.length <= 1
-    raise "please enter a field for environment and table" unless ARGV.length == 1
-    exporter = Ferry::Exporter.new
-    exporter.to_yaml(opt, ARGV[0])
-  end
-
-  opts.on('--import ENVIRONMENT TABLE FILEPATH', 'Imports data from specified file into table and environment of your specification') do |opt|
-    raise "too many arguments for input" unless ARGV.length <= 2
-    raise "please enter a field for environment and table and filename" unless ARGV.length == 2
-    importer = Ferry::Importer.new
-    importer.import(opt, ARGV[0], ARGV[1])
-  end
+  opts.banner = "See more documentation at http://cmu-is-projects.github.io/ferry"
 
   opts.on('--db_switch ENVIRONMENT ADAPTER', 'Switches specified database env to a new adapter') do |opt|
     raise "too many arguments for input" unless ARGV.length <= 1
@@ -36,9 +15,35 @@ OptionParser.new do |opts|
     end
   end
 
+  opts.on("--to_csv ENVIRONMENT TABLE", 'Exports table to csv file in db/csv/[your db environment]/[your table]') do |opt|
+    raise "too many arguments for input" unless ARGV.length <= 1
+    raise "please enter a field for environment and table" unless ARGV.length == 1
+    exporter = Ferry::Exporter.new
+    exporter.to_csv(opt, ARGV[0])
+  end
+
+  opts.on('--import ENVIRONMENT TABLE FILEPATH', 'Imports data from specified file into table and environment of your specification') do |opt|
+    raise "too many arguments for input" unless ARGV.length <= 2
+    raise "please enter a field for environment and table and filename" unless ARGV.length == 2
+    importer = Ferry::Importer.new
+    importer.import(opt, ARGV[0], ARGV[1])
+  end
+
   opts.on('-i', '--init', 'Initializes ferry.rb file in config directory') do |opt|
     filemaker = Ferry::Utilities.new
     filemaker.make_starter_file
+  end
+
+  opts.on("--to_yaml ENVIRONMENT TABLE", 'Exports table to yaml file in db/yaml/[your db environment]/[your table]') do |opt|
+    raise "too many arguments for input" unless ARGV.length <= 1
+    raise "please enter a field for environment and table" unless ARGV.length == 1
+    exporter = Ferry::Exporter.new
+    exporter.to_yaml(opt, ARGV[0])
+  end
+
+  opts.on( "-v", "--version", String, "Prints version of Ferry." ) do |opt|
+    ferry_utils = Ferry::Utilities.new
+    ferry_utils.ferry_version
   end
 
   opts.on_tail('-h', '--help', 'Shows this message') do
