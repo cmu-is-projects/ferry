@@ -12,8 +12,7 @@ See the [ferry_demo](http://github.com/cmu-is-projects/ferry_demo) app or our [G
 Rails Migration and Manipulation use cases
   - Exporting data to various file formats (.csv, .yml, .sql)
   - Importing data from various file formats
-  - Migrating data to third party hosts (Amazon S3, Oracle)
-  - Migrating data to a different database
+  - Migrating data to third party services (Amazon S3, Oracle) and different databases
 
 Coming soon ...
   - Configurable Migration Scripting
@@ -25,7 +24,6 @@ Coming soon ...
 
 ## Some current development items
 #### Please feel free to open an issue or pull request with your suggestions
-- Database-switcher guide tool
 - 3rd party connections
 - Configurability
   - Allowing user to write own rake tasks (e.g. importing and exporting data to S3 or related services)
