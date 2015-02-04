@@ -31,7 +31,7 @@ module Ferry
     end
 
     def print_version
-      Ferry::VERSION
+      puts "Ferry #{Ferry::VERSION}"
     end
   end
 end
