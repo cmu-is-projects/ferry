@@ -29,5 +29,9 @@ module Ferry
         puts "/lib/tasks/ferry.rake already exists - but you knew that already ... didn't you?"
       end
     end
+
+    def print_version
+      puts "Ferry #{Ferry::VERSION}"
+    end
   end
 end
