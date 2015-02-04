@@ -43,7 +43,7 @@ OptionParser.new do |opts|
 
   opts.on( "-v", "--version", String, "Prints version of Ferry." ) do |opt|
     ferry_utils = Ferry::Utilities.new
-    ferry_utils.ferry_version
+    ferry_utils.print_version
   end
 
   opts.on_tail('-h', '--help', 'Shows this message') do
