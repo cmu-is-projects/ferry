@@ -22,7 +22,7 @@ OptionParser.new do |opts|
     exporter.to_csv(opt, ARGV[0])
   end
 
-  opts.on("--import ENVIRONMENT TABLE#{\n} FILEPATH", 'Imports data from specified file into table and environment of your specification') do |opt|
+  opts.on("--import ENVIRONMENT TABLE\n FILEPATH", 'Imports data from specified file into table and environment of your specification') do |opt|
     raise "too many arguments for input" unless ARGV.length <= 2
     raise "please enter a field for environment and table and filename" unless ARGV.length == 2
     importer = Ferry::Importer.new
