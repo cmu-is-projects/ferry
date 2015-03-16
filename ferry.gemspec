@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Ferry::VERSION
   spec.authors       = ["Anthony Corletti", "Logan Watanabe", "Larry Heimann"]
   spec.email         = ["anthcor@gmail.com", "loganwatanabe@gmail.com", "profh@cmu.edu"]
-  spec.summary       = "Ferry is a data migration and data manipulation tool"
-  spec.description   = "Ferry is a data migration and data manipulation tool that seeks to simplify the increasingly prevalent big data problems for developers"
+  spec.summary       = "Ferry is a data migration and visualization command line tool rubygem"
+  spec.description   = "Ferry is a data migration and visualization command line tool rubygem that seeks to simplify the increasingly prevalent big data problems for developers"
   spec.homepage      = "https://cmu-is-projects.github.io/ferry"
   spec.license       = "MIT"
   spec.files         = `git ls-files -z`.split("\x0")
