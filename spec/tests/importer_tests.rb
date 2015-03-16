@@ -2,13 +2,15 @@ importer = Ferry::Importer.new
 
 Dir.chdir("spec") unless Dir.pwd.split('/').last == "spec"
 
-
 describe "#import" do
+
 	describe "sqlite3 db" do
+
 		before(:all) do
 			connect("sqlite3")
 			Contexts.setup
 		end
+
 		after(:all) do
 			Contexts.teardown
 			Category.delete_all
@@ -26,7 +28,6 @@ describe "#import" do
   	end
 
     #SQL INSERT tests
-
     it "should error if given a non-csv file" do
       expect{importer.import("sqlite3", "categories", File.expand_path("..",Dir.pwd) + "/spec/support/categories_import.xml")}.to raise_error
     end
@@ -52,10 +53,12 @@ describe "#import" do
 	end
 
   describe "mass insert tests (sqlite)" do
+
     before(:each) do
       connect("sqlite3")
       Contexts.setup
     end
+
     after(:each) do
       Contexts.teardown
       Cart.delete_all
@@ -81,19 +84,21 @@ describe "#import" do
       expect(Cart.find_by(id: 2042)).to eql(nil)
     end
 
-
   end
 
 	describe "postgresql db" do
+
 		before(:all) do
 			connect("postgresql")
 			# requires you to have a ferry_test db in pg
 			Contexts.setup
 		end
+
 		after(:all) do
 			Contexts.teardown
 			Category.delete_all
 		end
+
 		it "should import a valid csv into ActiveRecord" do
 			import_path = File.expand_path("..",Dir.pwd) + "/spec/support/categories_import.csv"
 			importer.import("postgresql", "categories", import_path)
@@ -104,13 +109,16 @@ describe "#import" do
 			expect(Category.find_by(id: 42).active).to eql(true)
       expect(Category.find_by(id: 9).name).to eql("boys' clothing")
   	end
+
 	end
 
   describe "mass insert tests (postgresql)" do
+
     before(:each) do
       connect("postgresql")
       Contexts.setup
     end
+
     after(:each) do
       Contexts.teardown
       Cart.delete_all
@@ -136,19 +144,21 @@ describe "#import" do
       expect(Cart.find_by(id: 2042)).to eql(nil)
     end
 
-
   end
 
 	describe "mysql2 db" do
+
 		before(:all) do
 			connect("mysql2")
 			# requires you to have a ferry_test db in pg
 			Contexts.setup
 		end
+
 		after(:all) do
 			Contexts.teardown
 			Category.delete_all
 		end
+
 		it "should import a valid csv values into ActiveRecord" do
 			import_path = File.expand_path("..",Dir.pwd) + "/spec/support/categories_import.csv"
 			importer.import("mysql2", "categories", import_path)
@@ -159,13 +169,16 @@ describe "#import" do
 			expect(Category.find_by(id: 42).active).to eql(true)
       expect(Category.find_by(id: 9).name).to eql("boys' clothing")
   	end
+
 	end
 
   describe "mass insert tests (mysql2)" do
+
     before(:each) do
       connect("mysql2")
       Contexts.setup
     end
+
     after(:each) do
       Contexts.teardown
       Cart.delete_all
@@ -191,6 +204,6 @@ describe "#import" do
       expect(Cart.find_by(id: 2042)).to eql(nil)
     end
 
-
   end
+
 end

@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "sqlite3", "~> 1.3.10"
   spec.add_development_dependency "mysql2", "~> 0.3.16"
   spec.add_development_dependency "factory_girl", "~> 4.5.0"
+  spec.add_development_dependency "json"
   spec.add_runtime_dependency "progressbar", "~> 0.21.0"
   spec.add_runtime_dependency "highline", "~> 1.6.21"
 end

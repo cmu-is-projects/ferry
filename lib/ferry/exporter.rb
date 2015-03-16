@@ -113,5 +113,19 @@ module Ferry
       puts ""
       puts "exported to db/yaml/#{environment}"
     end
+
+    # TODO: export to .to_json
+    def to_json(environment, model)
+      db_type = db_connect(environment)
+      FileUtils.mkdir "db" unless Dir["db"].present? #to help with tests
+      FileUtils.mkdir "db/json" unless Dir["db/json"].present?
+      homedir = "db/json/#{environment}"
+      FileUtils.mkdir homedir unless Dir[homedir].present?
+      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};") #error raised here if no table
+      print table.class
+    end
+
+    # TODO: export db functions, indexes, views, triggers, transactions, constraints, schemas, tests
+    # TODO: test!
   end
 end

@@ -25,6 +25,7 @@ module Ferry
       end
     end
 
+    # TODO: Add importing .json
     def import(environment, model, filename)
       db_connect(environment)
       adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
@@ -53,5 +54,8 @@ module Ferry
       puts ""
       puts "csv imported to #{model} table"
     end
+
+    # TODO: export db functions, indexes, views, triggers, transactions, constraints, schemas, tests
+    # TODO: test!
   end
 end
