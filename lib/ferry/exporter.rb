@@ -4,11 +4,11 @@ module Ferry
   class Exporter < Utilities
     def to_csv(environment, model)
       db_type = db_connect(environment)
-      FileUtils.mkdir "db" unless Dir["db"].present? #to help with tests
+      FileUtils.mkdir "db" unless Dir["db"].present?
       FileUtils.mkdir "db/csv" unless Dir["db/csv"].present?
       homedir = "db/csv/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
-      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};") #error raised here if no table
+      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
       CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
         case db_type
         when 'sqlite3'
@@ -51,11 +51,11 @@ module Ferry
 
     def to_yaml(environment, model)
       db_type = db_connect(environment)
-      FileUtils.mkdir "db" unless Dir["db"].present? #to help with tests
+      FileUtils.mkdir "db" unless Dir["db"].present?
       FileUtils.mkdir "db/yaml" unless Dir["db/yaml"].present?
       homedir = "db/yaml/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
-      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};") #error raised here is no table
+      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
         db_object = {}
         db_output = {}
         case db_type
@@ -117,11 +117,11 @@ module Ferry
     # to_json does not implement ProgressBar
     def to_json(environment, model)
       db_type = db_connect(environment)
-      FileUtils.mkdir "db" unless Dir["db"].present? #to help with tests
+      FileUtils.mkdir "db" unless Dir["db"].present?
       FileUtils.mkdir "db/json" unless Dir["db/json"].present?
       homedir = "db/json/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
-      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};") #error raised here if no table
+      table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
       begin
         File.open("#{homedir}/#{model}.json",'a') do |file|
           file.write(table.to_json)
