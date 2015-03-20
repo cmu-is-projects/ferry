@@ -122,11 +122,28 @@ module Ferry
       homedir = "db/json/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
       table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
-      begin
+      db_config = YAML::load(IO.read("config/database.yml"))
+      if db_type == "mysql2"
+        keys = []
+        columns = ActiveRecord::Base.connection.execute("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`= '#{db_config[environment]['database']}' AND `TABLE_NAME`='#{model}';")
+        columns.each do |col|
+          keys.append(col[0])
+        end
+        table_in_json = []
+        table.each do |record|
+          record_json = {}
+          keys.each do |key|
+            record_json[key] = record[keys.index(key)]
+          end
+          table_in_json << record_json
+        end
+        File.open("#{homedir}/#{model}.json",'a') do |file|
+          file.write(table_in_json.to_json)
+        end
+      else
         File.open("#{homedir}/#{model}.json",'a') do |file|
           file.write(table.to_json)
         end
-      rescue Exception => e
       end
     end
 
