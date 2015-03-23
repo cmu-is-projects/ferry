@@ -58,9 +58,10 @@ describe "exporting" do
       end
     end
 
-    describe "exporting db non-datas" do
+    describe "export db dumps" do
       it "should be able to export a full sql dump to a file" do
-        false
+        pending("waiting to be written")
+        raise "so were failing for now"
       end
     end
   end
@@ -118,6 +119,13 @@ describe "exporting" do
         expect(output[25]["email"]).to eql("zach@example.com")
       end
     end
+
+    describe "export db dumps" do
+      it "should be able to export a full sql dump to a file" do
+        pending("waiting to be written")
+        raise "so were failing for now"
+      end
+    end
   end
 
   describe "mysql2 db" do
@@ -171,6 +179,13 @@ describe "exporting" do
         expect(output.length).to eql(26)
         expect(output[0]["email"]).to eql("abby@example.com")
         expect(output[25]["email"]).to eql("zach@example.com")
+      end
+    end
+
+    describe "export db dumps" do
+      it "should be able to export a full sql dump to a file" do
+        pending("waiting to be written")
+        raise "so were failing for now"
       end
     end
   end

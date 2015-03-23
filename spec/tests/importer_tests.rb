@@ -48,6 +48,16 @@ describe "import" do
       expect{importer.import_csv("sqlite3", "categories", File.expand_path("..",Dir.pwd) + "/spec/support/categories_null_name.csv")}.to raise_error
       expect{importer.import_csv("sqlite3", "categories", File.expand_path("..",Dir.pwd) + "/spec/support/categories_repeat_id.csv")}.to raise_error
     end
+
+    it "should be able to import a json file correctly" do
+      pending("waiting to be written")
+      raise "so were failing for now"
+    end
+
+    it "should be able to import a full sql dump" do
+      pending("waiting to be written")
+      raise "so were failing for now"
+    end
 	end
 
   describe "mass insert tests (sqlite)" do
@@ -105,6 +115,16 @@ describe "import" do
 			expect(Category.find_by(id: 42).active).to eql(true)
       expect(Category.find_by(id: 9).name).to eql("boys' clothing")
   	end
+
+    it "should be able to import a json file correctly" do
+      pending("waiting to be written")
+      raise "so were failing for now"
+    end
+
+    it "should be able to import a full sql dump" do
+      pending("waiting to be written")
+      raise "so were failing for now"
+    end
 	end
 
   describe "mass insert tests (postgresql)" do
@@ -160,6 +180,16 @@ describe "import" do
 			expect(Category.find_by(id: 42).active).to eql(true)
       expect(Category.find_by(id: 9).name).to eql("boys' clothing")
   	end
+
+    it "should be able to import a json file correctly" do
+      pending("waiting to be written")
+      raise "so were failing for now"
+    end
+
+    it "should be able to import a full sql dump" do
+      pending("waiting to be written")
+      raise "so were failing for now"
+    end
 	end
 
   describe "mass insert tests (mysql2)" do

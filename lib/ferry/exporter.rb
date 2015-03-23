@@ -9,10 +9,10 @@ module Ferry
       homedir = "db/csv/#{environment}"
       FileUtils.mkdir homedir unless Dir[homedir].present?
       table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
-      csv_bar = ProgressBar.new("to_csv", table.length)
       CSV.open("#{homedir}/#{model}.csv", "w") do |csv|
         case db_type
         when 'sqlite3'
+          csv_bar = ProgressBar.new("to_csv", table.length)
           keys = table[0].keys.first(table[0].length / 2)
           csv << keys
           table.each do |row|
@@ -20,6 +20,7 @@ module Ferry
             csv_bar.inc
           end
         when 'postgresql'
+          csv_bar = ProgressBar.new("to_csv", table.num_tuples)
           keys = table[0].keys
           csv << keys
           table.each do |row|
@@ -27,6 +28,7 @@ module Ferry
             csv_bar.inc
           end
         when 'mysql2'
+          csv_bar = ProgressBar.new("to_csv", table.count)
           db_config = YAML::load(IO.read("config/database.yml"))
           columns = ActiveRecord::Base.connection.execute("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`= '#{db_config[environment]['database']}' AND `TABLE_NAME`='#{model}';")
           col_names=[]
@@ -56,9 +58,9 @@ module Ferry
       table = ActiveRecord::Base.connection.execute("SELECT * FROM #{model};")
         db_object = {}
         db_output = {}
-        yaml_bar = ProgressBar.new("to_yaml", table.length)
         case db_type
         when 'sqlite3'
+          yaml_bar = ProgressBar.new("to_yaml", table.length)
           keys = table[0].keys.first(table[0].length / 2)
           db_object["columns"] = keys
           model_arr=[]
@@ -72,6 +74,7 @@ module Ferry
             YAML::dump(db_output, file)
           end
         when 'postgresql'
+          yaml_bar = ProgressBar.new("to_yaml", table.num_tuples)
           keys = table[0].keys
           db_object["columns"] = keys
           model_arr=[]
@@ -85,6 +88,7 @@ module Ferry
             YAML::dump(db_output, file)
           end
         when 'mysql2'
+          yaml_bar = ProgressBar.new("to_yaml", table.count)
           db_config = YAML::load(IO.read("config/database.yml"))
           columns = ActiveRecord::Base.connection.execute("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`= '#{db_config[environment]['database']}' AND `TABLE_NAME`='#{model}';")
           col_names=[]
@@ -143,8 +147,5 @@ module Ferry
     end
 
     # TODO: export db functions, indexes, views, triggers, transactions, constraints, schemas, tests
-    def db_exporter(request)
-      # the user provides the request
-    end
   end
 end
