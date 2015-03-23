@@ -2,6 +2,7 @@ exporter = Ferry::Exporter.new
 
 Dir.chdir("spec") unless Dir.pwd.split('/').last == "spec"
 
+# TODO: test db func expo
 describe "exporting" do
   describe "sqlite3 db" do
     before(:all) do
@@ -54,6 +55,12 @@ describe "exporting" do
         expect(output.length).to eql(26)
         expect(output[0]["email"]).to eql("abby@example.com")
         expect(output[25]["email"]).to eql("zach@example.com")
+      end
+    end
+
+    describe "exporting db non-datas" do
+      it "should be able to export a full sql dump to a file" do
+        false
       end
     end
   end

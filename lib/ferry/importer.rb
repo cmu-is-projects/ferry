@@ -6,7 +6,7 @@ module Ferry
       values = hash.values_at(*columns)
       values.map! do |value|
         if(adapter=="mysql2" && (value=='t' || value =='f'))
-          value=='t' ? value=1 : value=0  #attempt to convert 't' and 'f' to int in mysql
+          value=='t' ? value=1 : value=0
         end
         value = ActiveRecord::Base::sanitize(value)
       end
@@ -25,15 +25,14 @@ module Ferry
       end
     end
 
-    # TODO: Add importing .json
-    def import(environment, model, filename)
+    def import_csv(environment, model, filename)
       db_connect(environment)
       adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
       if(File.extname(filename) != ".csv")
         raise "Only csv file types are supported"
         return false
       end
-      lines = CSV.read(filename)#encoding option here? certain characters might break db
+      lines = CSV.read(filename)
       if(lines.nil?)
         raise "#{filename} file not found"
         return false
@@ -55,7 +54,27 @@ module Ferry
       puts "csv imported to #{model} table"
     end
 
-    # TODO: export db functions, indexes, views, triggers, transactions, constraints, schemas, tests
-    # TODO: test!
+    # TODO: json import
+    def import_json(environment, model, filename)
+      db_connect(environment)
+      file = File.read(filename)
+      column_titles = JSON.parse(file).keys
+      import_bar = ProgressBar.new("import", lines.length-1)
+      records = []
+      column_titles.each do |line|
+        record = Hash[col_titles.zip line]
+        records << record
+      end
+      values = []
+      records.map do |record|
+        values << row_sql_format(record, col_names, adapter)
+        import_bar.inc
+      end
+      insert_sql(model, col_names, values)
+      puts ""
+      puts "csv imported to #{model} table"
+    end
+
+    # TODO: import db functions, indexes, views, triggers, transactions, constraints, schemas, tests, dump, etc
   end
 end

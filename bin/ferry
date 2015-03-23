@@ -5,11 +5,22 @@ OptionParser.new do |opts|
   options = {}
   opts.banner = "See more documentation at http://cmu-is-projects.github.io/ferry"
 
-  opts.on("--import ENVIRONMENT TABLE FILEPATH", 'Imports data from specified file into table and environment of your specification') do |opt|
+  # TODO: db exporter argument
+    # no arg - full db dump
+    # w/ arg - dump of requested arg
+
+  opts.on('--import_csv ENVIRONMENT TABLE FILEPATH', 'Imports data from specified file into table and environment of your specification') do |opt|
     raise "too many arguments for input" unless ARGV.length <= 2
     raise "please enter a field for environment and table and filename" unless ARGV.length == 2
     importer = Ferry::Importer.new
-    importer.import(opt, ARGV[0], ARGV[1])
+    importer.import_csv(opt, ARGV[0], ARGV[1])
+  end
+
+  opts.on('--import_json ENVIRONMENT TABLE FILEPATH', 'Imports data from specified file into table and environment of your specification') do |opt|
+    raise "too many arguments for input" unless ARGV.length <= 2
+    raise "please enter a field for environment and table and filename" unless ARGV.length == 2
+    importer = Ferry::Importer.new
+    importer.import_json(opt, ARGV[0], ARGV[1])
   end
 
   opts.on('-i', '--init', 'Initializes ferry.rb file in config directory') do |opt|
