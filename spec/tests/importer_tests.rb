@@ -101,14 +101,15 @@ describe "import" do
 
 	describe "postgresql db" do
 
-		before(:all) do
+		before(:each) do
 			connect("postgresql")
 			Contexts.setup
 		end
 
-		after(:all) do
+		after(:each) do
 			Contexts.teardown
-			Category.delete_all
+      Category.delete_all
+      Cart.delete_all
 		end
 
 		it "should import a valid csv into ActiveRecord" do
@@ -123,8 +124,13 @@ describe "import" do
   	end
 
     it "should be able to import a json file correctly" do
-      pending("waiting to be written")
-      raise "so were failing for now"
+      import_path = File.expand_path("..",Dir.pwd) + "/spec/support/emails_import.json"
+      importer.import_json("sqlite3", "carts", import_path)
+      expect(Cart.find_by(id: 42).email).to eql("Albert@example.com")
+      expect(Cart.find_by(id: 542).email).to eql("Agustu@example.com")
+      expect(Cart.find_by(id: 1042).email).to eql("Smith@example.com")
+      expect(Cart.find_by(id: 1542).email).to eql("Kare@example.com")
+      expect(Cart.find_by(id: 2042).email).to eql("Yolanda@example.com")
     end
 
     # it "should be able to import a full sql dump" do
@@ -142,16 +148,6 @@ describe "import" do
     after(:each) do
       Contexts.teardown
       Cart.delete_all
-    end
-
-    it "should be able to import >500 records" do
-      import_path = File.expand_path("..",Dir.pwd) + "/spec/support/emails_import.csv"
-      importer.import_csv("sqlite3", "carts", import_path)
-      expect(Cart.find_by(id: 42).email).to eql("Albert@example.com")
-      expect(Cart.find_by(id: 542).email).to eql("Agustu@example.com")
-      expect(Cart.find_by(id: 1042).email).to eql("Smith@example.com")
-      expect(Cart.find_by(id: 1542).email).to eql("Kare@example.com")
-      expect(Cart.find_by(id: 2042).email).to eql("Yolanda@example.com")
     end
 
     it "should not commit import if any record errors" do
