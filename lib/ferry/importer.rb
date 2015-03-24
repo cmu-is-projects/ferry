@@ -6,7 +6,7 @@ module Ferry
       values = hash.values_at(*columns)
       values.map! do |value|
         if(adapter=="mysql2" && (value=='t' || value =='f'))
-          value=='t' ? value=1 : value=0  #attempt to convert 't' and 'f' to int in mysql
+          value=='t' ? value=1 : value=0
         end
         value = ActiveRecord::Base::sanitize(value)
       end
@@ -25,15 +25,14 @@ module Ferry
       end
     end
 
-    # TODO: Add importing .json
-    def import(environment, model, filename)
-      db_connect(environment)
-      adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
+    def import_csv(environment, model, filename)
       if(File.extname(filename) != ".csv")
-        raise "Only csv file types are supported"
+        raise "Please choose a csv file"
         return false
       end
-      lines = CSV.read(filename)#encoding option here? certain characters might break db
+      db_connect(environment)
+      adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
+      lines = CSV.read(filename)
       if(lines.nil?)
         raise "#{filename} file not found"
         return false
@@ -55,7 +54,35 @@ module Ferry
       puts "csv imported to #{model} table"
     end
 
-    # TODO: export db functions, indexes, views, triggers, transactions, constraints, schemas, tests
-    # TODO: test!
+    # TODO: json import
+    # things to consider - columns not matching
+    def import_json(environment, model, filename)
+      if(File.extname(filename) != ".json")
+        raise "Please choose a json file"
+        return false
+      end
+      db_connect(environment)
+      adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
+      file = File.read(filename)
+      column_titles = JSON.parse(file).first.keys
+      data = JSON.parse(file)
+      import_bar = ProgressBar.new("import", data.length-1)
+      records = []
+      data.each do |record|
+        record = Hash[record]
+        records << record
+      end
+      values = []
+      records.map do |record|
+        values << row_sql_format(record, column_titles, adapter)
+        import_bar.inc
+      end
+      # pp values
+      insert_sql(model, column_titles, values)
+      puts ""
+      puts "json imported to #{model} table"
+    end
+
+    # TODO: import db functions, indexes, views, triggers, transactions, constraints, schemas, tests, dump, etc
   end
 end

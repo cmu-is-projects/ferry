@@ -60,7 +60,7 @@ module Ferry
         db_output = {}
         case db_type
         when 'sqlite3'
-          yaml_bar = ProgressBar.new("to_csv", table.length)
+          yaml_bar = ProgressBar.new("to_yaml", table.length)
           keys = table[0].keys.first(table[0].length / 2)
           db_object["columns"] = keys
           model_arr=[]
@@ -74,7 +74,7 @@ module Ferry
             YAML::dump(db_output, file)
           end
         when 'postgresql'
-          yaml_bar = ProgressBar.new("to_csv", table.num_tuples)
+          yaml_bar = ProgressBar.new("to_yaml", table.num_tuples)
           keys = table[0].keys
           db_object["columns"] = keys
           model_arr=[]
@@ -88,7 +88,7 @@ module Ferry
             YAML::dump(db_output, file)
           end
         when 'mysql2'
-          yaml_bar = ProgressBar.new("to_csv", table.count)
+          yaml_bar = ProgressBar.new("to_yaml", table.count)
           db_config = YAML::load(IO.read("config/database.yml"))
           columns = ActiveRecord::Base.connection.execute("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`= '#{db_config[environment]['database']}' AND `TABLE_NAME`='#{model}';")
           col_names=[]
@@ -114,7 +114,6 @@ module Ferry
       puts "exported to db/yaml/#{environment}"
     end
 
-    # to_json does not implement ProgressBar
     def to_json(environment, model)
       db_type = db_connect(environment)
       FileUtils.mkdir "db" unless Dir["db"].present?
@@ -148,6 +147,5 @@ module Ferry
     end
 
     # TODO: export db functions, indexes, views, triggers, transactions, constraints, schemas, tests
-    # TODO: test!
   end
 end
