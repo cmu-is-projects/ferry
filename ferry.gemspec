@@ -19,15 +19,16 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 1.9.3'
 
   spec.add_development_dependency "activerecord", "~> 4.1.7"
+  spec.add_development_dependency "arel"
   spec.add_development_dependency "bundler", "~> 1.6"
-  spec.add_development_dependency "rake", "~> 10.3.2"
-  spec.add_development_dependency "minitest", "~> 5.4.1"
-  spec.add_development_dependency "rspec", "~> 3.1.0"
-  spec.add_development_dependency "pg", "~> 0.17.1"
-  spec.add_development_dependency "sqlite3", "~> 1.3.10"
-  spec.add_development_dependency "mysql2", "~> 0.3.16"
   spec.add_development_dependency "factory_girl", "~> 4.5.0"
   spec.add_development_dependency "json"
+  spec.add_development_dependency "minitest", "~> 5.4.1"
+  spec.add_development_dependency "mysql2", "~> 0.3.16"
+  spec.add_development_dependency "pg", "~> 0.17.1"
+  spec.add_development_dependency "rake", "~> 10.3.2"
+  spec.add_development_dependency "rspec", "~> 3.1.0"
+  spec.add_development_dependency "sqlite3", "~> 1.3.10"
   spec.add_runtime_dependency "progressbar", "~> 0.21.0"
   spec.add_runtime_dependency "highline", "~> 1.6.21"
 end

@@ -49,15 +49,20 @@ describe "import" do
       expect{importer.import_csv("sqlite3", "categories", File.expand_path("..",Dir.pwd) + "/spec/support/categories_repeat_id.csv")}.to raise_error
     end
 
-    it "should be able to import a json file correctly" do
-      pending("waiting to be written")
-      raise "so were failing for now"
+    it "should be able to import a json file into ActiveRecord" do
+      import_path = File.expand_path("..",Dir.pwd) + "/spec/support/emails_import.json"
+      importer.import_json("sqlite3", "carts", import_path)
+      expect(Cart.find_by(id: 42).email).to eql("Albert@example.com")
+      expect(Cart.find_by(id: 542).email).to eql("Agustu@example.com")
+      expect(Cart.find_by(id: 1042).email).to eql("Smith@example.com")
+      expect(Cart.find_by(id: 1542).email).to eql("Kare@example.com")
+      expect(Cart.find_by(id: 2042).email).to eql("Yolanda@example.com")
     end
 
-    it "should be able to import a full sql dump" do
-      pending("waiting to be written")
-      raise "so were failing for now"
-    end
+    # it "should be able to import a full sql dump" do
+    #   pending("waiting to be written")
+    #   raise "so were failing for now"
+    # end
 	end
 
   describe "mass insert tests (sqlite)" do
@@ -75,6 +80,7 @@ describe "import" do
     it "should be able to import > 500 records" do
       import_path = File.expand_path("..",Dir.pwd) + "/spec/support/emails_import.csv"
       importer.import_csv("sqlite3", "carts", import_path)
+      expect(Cart.all.length).to eql(2126)
       expect(Cart.find_by(id: 42).email).to eql("Albert@example.com")
       expect(Cart.find_by(id: 542).email).to eql("Agustu@example.com")
       expect(Cart.find_by(id: 1042).email).to eql("Smith@example.com")
@@ -121,10 +127,10 @@ describe "import" do
       raise "so were failing for now"
     end
 
-    it "should be able to import a full sql dump" do
-      pending("waiting to be written")
-      raise "so were failing for now"
-    end
+    # it "should be able to import a full sql dump" do
+    #   pending("waiting to be written")
+    #   raise "so were failing for now"
+    # end
 	end
 
   describe "mass insert tests (postgresql)" do
@@ -186,10 +192,10 @@ describe "import" do
       raise "so were failing for now"
     end
 
-    it "should be able to import a full sql dump" do
-      pending("waiting to be written")
-      raise "so were failing for now"
-    end
+    # it "should be able to import a full sql dump" do
+    #   pending("waiting to be written")
+    #   raise "so were failing for now"
+    # end
 	end
 
   describe "mass insert tests (mysql2)" do

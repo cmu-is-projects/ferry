@@ -58,12 +58,12 @@ describe "exporting" do
       end
     end
 
-    describe "export db dumps" do
-      it "should be able to export a full sql dump to a file" do
-        pending("waiting to be written")
-        raise "so were failing for now"
-      end
-    end
+    # describe "export db dumps" do
+    #   it "should be able to export a full sql dump to a file" do
+    #     pending("waiting to be written")
+    #     raise "so were failing for now"
+    #   end
+    # end
   end
 
   describe "postgresql db" do
@@ -120,12 +120,12 @@ describe "exporting" do
       end
     end
 
-    describe "export db dumps" do
-      it "should be able to export a full sql dump to a file" do
-        pending("waiting to be written")
-        raise "so were failing for now"
-      end
-    end
+    # describe "export db dumps" do
+    #   it "should be able to export a full sql dump to a file" do
+    #     pending("waiting to be written")
+    #     raise "so were failing for now"
+    #   end
+    # end
   end
 
   describe "mysql2 db" do
@@ -182,11 +182,11 @@ describe "exporting" do
       end
     end
 
-    describe "export db dumps" do
-      it "should be able to export a full sql dump to a file" do
-        pending("waiting to be written")
-        raise "so were failing for now"
-      end
-    end
+    # describe "export db dumps" do
+    #   it "should be able to export a full sql dump to a file" do
+    #     pending("waiting to be written")
+    #     raise "so were failing for now"
+    #   end
+    # end
   end
 end

@@ -26,12 +26,12 @@ module Ferry
     end
 
     def import_csv(environment, model, filename)
-      db_connect(environment)
-      adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
       if(File.extname(filename) != ".csv")
-        raise "Only csv file types are supported"
+        raise "Please choose a csv file"
         return false
       end
+      db_connect(environment)
+      adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
       lines = CSV.read(filename)
       if(lines.nil?)
         raise "#{filename} file not found"
@@ -55,24 +55,32 @@ module Ferry
     end
 
     # TODO: json import
+    # things to consider - columns not matching
     def import_json(environment, model, filename)
+      if(File.extname(filename) != ".json")
+        raise "Please choose a json file"
+        return false
+      end
       db_connect(environment)
+      adapter = YAML::load(IO.read("config/database.yml"))[environment]["adapter"]
       file = File.read(filename)
-      column_titles = JSON.parse(file).keys
-      import_bar = ProgressBar.new("import", lines.length-1)
+      column_titles = JSON.parse(file).first.keys
+      data = JSON.parse(file)
+      import_bar = ProgressBar.new("import", data.length-1)
       records = []
-      column_titles.each do |line|
-        record = Hash[col_titles.zip line]
+      data.each do |record|
+        record = Hash[record]
         records << record
       end
       values = []
       records.map do |record|
-        values << row_sql_format(record, col_names, adapter)
+        values << row_sql_format(record, column_titles, adapter)
         import_bar.inc
       end
-      insert_sql(model, col_names, values)
+      # pp values
+      insert_sql(model, column_titles, values)
       puts ""
-      puts "csv imported to #{model} table"
+      puts "json imported to #{model} table"
     end
 
     # TODO: import db functions, indexes, views, triggers, transactions, constraints, schemas, tests, dump, etc
