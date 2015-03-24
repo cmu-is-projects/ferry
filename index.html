@@ -35,15 +35,15 @@
       <ul class="square">
         <li><strong>Data Migration &amp; Manipulation</strong>
           <ul class="circle">
-            <li>Exporting data to and from various file formats <em>(.csv, .yml, .sql, etc.)</em></li>
-            <li>Migrating data to and from various 3rd party storage services <em>(Amazon S3, Google Cloud Storage, Rackspace, MS Azure, etc.) and other databases.</em></li>
-            <li>Importing data to and from various file formats <em>(.csv, .yml, .sql, etc.)</em></li>
+            <li>Exporting data to and from various file formats <em>(.csv, .yml, .json, .sql etc.)</em></li>
+            <li>Migrating data to and from various 3rd party storage services <em>(Amazon S3, Google Cloud Storage, Rackspace, MS Azure, etc.) and other databases via customizeable scripts using a custom built DSL.</em></li>
+            <li>Importing data to and from various file formats <em>(.csv, .yml, .json, .sql etc.)</em></li>
           </ul>
         </li>
         <li><strong>COMING SOON ...</strong>
           <ul class="circle">
-            <li><strong>Configurable Migration Scripting</strong>; The idea behind this feature is for developers to provide options for arguments in an executable script that contains the configuration and necessary tasks/ actions for the operations of whatever data migration or manipulation they are seeking to carry out. Similar to how <a href="https://github.com/capistrano/capistrano">capistrano</a> configures their deploy.rb.</li>
-            <li><strong>Data Visualization</strong>; With inspiration from <a href="d3js.org">d3</a>, we are hoping to create functionality that allows developers to deploy informative and visually appealing graphs and documents that can be shared over an internal network to be broadcasted to servers for display either on internal office displays or to URL's ... all from executing a simple command-line statement. We will be making use of <a href="d3js.org">d3</a> for visualizations and are looking for current solutions to this business need and if there are any successful or not-so-successful solutions out there to compete with.</li>
+            <li><strong>Configurable Migration Scripting</strong>; The idea behind this feature is for developers to provide options for arguments in an executable script that contains the configuration and necessary tasks/ actions for the operations of whatever data migration or manipulation they are seeking to carry out. Similar to how <a href="https://github.com/capistrano/capistrano">capistrano</a> configures their deploy.rb. In order to do this we are investigating and building a custom DSL for Ferry that will allow developers to write simple yet robust code in order to accomplish complex migration and manipulation strategies in just an afternoon of development.</li>
+            <li><strong>Data Visualization</strong>; With inspiration from <a href="d3js.org">d3</a>, we are hoping to create functionality that allows developers to deploy informative and visually appealing graphs and documents that can be shared over an internal network to be broadcasted to servers for display either on internal office displays or to URL's ... all from executing a simple command-line statement. We will be making use of <a href="d3js.org">d3</a> for visualizations and are looking for current solutions to this business need and if there are any successful or not-so-successful solutions out there to compete with. We are still considering the possibilities of either integrating this into the DSL or creating a completely separate gem that handles data processing and visualization all on its own.</li>
           </ul>
         </li>
       </ul>
@@ -60,18 +60,20 @@
     </div>
     <div class="sixteen columns">
       <h3>Documentation &amp; Support</h3>
-      <p>The easiest way to get started with ferry is to fork the code at <a href="http://github.com/cmu-is-projects/ferry">our GitHub repo</a> and start hacking.</p>
+      <p>The easiest way to contribute to Ferry is to fork the code at <a href="http://github.com/cmu-is-projects/ferry">our GitHub repo</a> and start hacking along with us. Feel free to post issues and PR's as frequently as you like.</p>
       <strong>Examples</strong><hr />
       <a href="https://github.com/cmu-is-projects/ferry/blob/master/lib/ferry/exporter.rb">Exporting</a>
       <ul>
         <li>$ ferry --to_csv environment_name,table_name</li>
         <li>$ ferry --to_yaml environment_name,table_name</li>
+        <li>$ ferry --to_json environment_name,table_name</li>
       </ul>
       <a href="https://github.com/cmu-is-projects/ferry/blob/master/lib/ferry/importer.rb">Importing</a>
       <ul>
-        <li>$ ferry --import environment_name,table_name,file_name_to_be_imported</li>
+        <li>$ ferry --import_csv environment_name,table_name,file_name_to_be_imported</li>
+        <li>$ ferry --import_json environment_name,table_name,file_name_to_be_imported</li>
       </ul>
-      <a href="https://github.com/cmu-is-projects/ferry/blob/master/lib/ferry/utilities.rb#L28">Personalized Migrations</a>
+      <a href="https://github.com/cmu-is-projects/ferry/blob/master/lib/ferry/utilities.rb#L28">Personalized Migrations using Ferry's custom DSL (build in progress)</a>
       <ul>
         <li>$ ferry --init</li>
       </ul>
