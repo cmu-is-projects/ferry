@@ -10,24 +10,18 @@ Ferry is a command-line tool rubygem designed for Rails data migrations and mani
 See the [ferry_demo](http://github.com/cmu-is-projects/ferry_demo) app or our [GitHub pages site](http://cmu-is-projects.github.com/ferry) for further documentation on using Ferry!
 
 Rails Migration and Manipulation use cases
-  - Exporting data to various file formats (.csv, .yml, .sql)
-  - Importing data from various file formats
-  - Migrating data to third party services (Amazon S3, Oracle) and different databases
+  - Exporting and Importing data to various file formats (.csv, .yml, .json, .sql)
+  - Migrating data to third party services (Amazon S3, Oracle) and different databases and manipulating data via a Custom Built DSL (see coming soon)
 
 Coming soon ...
   - Configurable Migration Scripting
     - The idea behind this feature is for developers to provide options for arguments in an executable script that contains the configuration and necessary tasks/ actions for the operations of whatever data migration or manipulation they are seeking to carry out.
     - Similar to how [capistrano](https://github.com/capistrano/capistrano) configures deploy.rb.
+    - To do this we will be investigating custom DSL's and building our own in order to provide a quick and easy solution that will allow developers to carry out complex migration and manipulation strategies in just an afternoon!
   - Data Visualization
     - With inspiration from [d3](http://d3js.org), we are hoping to create functionality that allows developers to deploy informative and visually appealing graphs and documents that can be shared over an internal network to be broadcasted to servers for display either on internal office displays or to URL's ... all from executing a simple command-line statement.
     - We will be making use of [d3](http://d3js.org) for visualizations and are looking for current solutions to this business need and if there are any successful or not-so-successful solutions out there to compete with.
-
-## Some current development items
-#### Please feel free to open an issue or pull request with your suggestions
-- 3rd party connections
-- Configurability
-  - Allowing user to write own rake tasks (e.g. importing and exporting data to S3 or related services)
-- Rolling back on errors or mishaps during migrations and manipulations
+    - After some consideration, this will either be built into our DSL or pulled out into a separate gem that does data proessing and visualization all on its own.
 
 ## Installation
 Add this line to your Rails application's Gemfile:
@@ -66,19 +60,26 @@ Run `ferry --to_yaml [environment] [table]` in your Rails directory to export to
 $ ferry --to_yaml development users
 ```
 Similarly, running the above command in the Rails directory will export the "users" table from the database connected to the "development" environment.
-A yaml file populated with the "users" table data will be created at /db/yaml/test/users.csv (the path will be created and if there is a users.csv it will be overwritten).
+A yaml file populated with the "users" table data will be created at /db/yaml/test/users.yaml (the path will be created and if there is a users.yaml it will be overwritten).
+
+Run `ferry --to_json [environment] [table]` in your Rails directory to export to json:
+```sh
+$ ferry --to_json development users
+```
+Similarly, running the above command in the Rails directory will export the "users" table from the database connected to the "development" environment.
+A json file populated with the "users" table data will be created at /db/yaml/test/users.json (the path will be created and if there is a users.json it will be overwritten).
 
 ## Importing
-Ferry can import a csv file of validated records into a table of a Rails-connected database.
-The csv file must:
-  - Have headers that match field names of the table
+Ferry can import a csv or json file of validated records into a table of a Rails-connected database.
+The csv and json files must:
+  - Have headers (or keys) that match field names of the table
   - Have values that meet the table's constraints (i.e. required fields, correct data types, unique PKs, etc.)
 
-Run `ferry --import [environment] [table] [file path]` in your Rails directory to import a csv to a database table:
+Run `ferry --import_csv [environment] [table] [file path]` in your Rails directory to import a csv to a database table:
 ```sh
-$ ferry --import development users db/csv/import_data.csv
+$ ferry --import_csv development users db/csv/import_data.csv
 ```
-Running the above command will import the import_data.csv to the "users" table in the "development" environment.
+Running the above command will import the import_data.csv to the "users" table in the "development" environment, and the same goes for `ferry --import_json`
 
 
 ## Contributing
