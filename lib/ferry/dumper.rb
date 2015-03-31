@@ -3,15 +3,14 @@ require_relative 'utilities'
 module Ferry
   class Dumper < Utilities
 
-    @dbenv = db_connect(environment)
-    @dbname = YAML::load(IO.read("config/database.yml"))[@dbenv]["database"]
-    @outfile = "#{@dbenv}_outfile"
-    @commands = { "sqlite3" => "sqlite3 .dump > #{@outfile}",
-                  "postgresql" => "pg_dump #{@dbname} > #{@outfile}",
-                  "mysql2" => "mysqldump #{@dbname} > #{@outfile}"
-                }
-
     def dump(environment)
+      @dbenv = environment
+      @dbname = YAML::load(IO.read("config/database.yml"))[@dbenv]["database"]
+      @outfile = "#{@dbenv}_outfile"
+      @commands = { "sqlite3" => "sqlite3 .dump > #{@outfile}",
+                    "postgresql" => "pg_dump #{@dbname} > #{@outfile}",
+                    "mysql2" => "mysqldump #{@dbname} > #{@outfile}"
+                  }
       if check_db_valid(@dbenv)
         create_dirs
         execute
@@ -33,7 +32,10 @@ module Ferry
     end
 
     def execute
+      # option 1
       %x(#{@commands[@dbenv]})
+      # option 2
+      # system("#{@commands[@dbenv]}")
     end
 
   end
