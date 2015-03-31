@@ -2,6 +2,7 @@ require_relative 'utilities'
 
 module Ferry
   class Exporter < Utilities
+
     def to_csv(environment, model)
       db_type = db_connect(environment)
       FileUtils.mkdir "db" unless Dir["db"].present?
@@ -146,6 +147,5 @@ module Ferry
       end
     end
 
-    # TODO: export db functions, indexes, views, triggers, transactions, constraints, schemas, tests
   end
 end

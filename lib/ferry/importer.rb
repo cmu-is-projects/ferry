@@ -1,7 +1,11 @@
 require_relative 'utilities'
 
 module Ferry
+  # TODO
+  # things to consider for importer
+  # - columns not matching and handling those errors
   class Importer < Utilities
+
     def row_sql_format(hash, columns, adapter)
       values = hash.values_at(*columns)
       values.map! do |value|
@@ -54,8 +58,6 @@ module Ferry
       puts "csv imported to #{model} table"
     end
 
-    # TODO: json import
-    # things to consider - columns not matching
     def import_json(environment, model, filename)
       if(File.extname(filename) != ".json")
         raise "Please choose a json file"
@@ -77,12 +79,10 @@ module Ferry
         values << row_sql_format(record, column_titles, adapter)
         import_bar.inc
       end
-      # pp values
       insert_sql(model, column_titles, values)
       puts ""
       puts "json imported to #{model} table"
     end
 
-    # TODO: import db functions, indexes, views, triggers, transactions, constraints, schemas, tests, dump, etc
   end
 end

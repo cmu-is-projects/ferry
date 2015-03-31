@@ -2,37 +2,39 @@ require_relative 'utilities'
 
 module Ferry
   class Dumper < Utilities
-    possible_content = %w[dump functions triggers views indexes constraints schemas]
-    def dump(content)
-      if check_if_valid_request(content)
-        case db_connect(environment)
-        when 'sqlite3'
-          get_content_from_sqlite(content)
-        when 'postgresql'
-          get_content_from_postgresql(content)
-        when 'mysql2'
-          get_content_from_mysql(content)
-        else
-          raise "#{db_type} is not supported by ferry at this time"
-          return false
-        end
+
+    @dbenv = db_connect(environment)
+    @dbname = YAML::load(IO.read("config/database.yml"))[@dbenv]["database"]
+    @outfile = "#{@dbenv}_outfile"
+    @commands = { "sqlite3" => "sqlite3 .dump > #{@outfile}",
+                  "postgresql" => "pg_dump #{@dbname} > #{@outfile}",
+                  "mysql2" => "mysqldump #{@dbname} > #{@outfile}"
+                }
+
+    def dump(environment)
+      if check_db_valid(@dbenv)
+        create_dirs
+        execute
       else
-        raise "Incorrect content specified to dump from database"
+        raise "#{@dbenv} is not supported by ferry at this time"
+        return false
       end
     end
 
-    def check_if_valid_request(content)
-      possible_content.include(content) ? true : false
+    def create_dirs
+      FileUtils.mkdir "db" unless Dir["db"].present?
+      FileUtils.mkdir "db/sql_dumps" unless Dir["db/sql_dumps"].present?
+      @homedir = "db/sql_dumps/#{@dbenv}"
+      FileUtils.mkdir @homedir unless Dir[@homedir].present?
     end
 
-    def get_sqlite(content)
-
+    def check_if_valid_request(db)
+      %w[sqlite3 postgresql mysql2].include(db) ? true : false
     end
 
-    def get_postgresql(content)
+    def execute
+      %x(#{@commands[@dbenv]})
     end
 
-    def get_mysql(content)
-    end
   end
 end

@@ -1,14 +1,12 @@
 module Ferry
   class Utilities
+
     def db_connect(environment)
       db_config = YAML::load(IO.read("config/database.yml"))
-
       if db_config[environment].nil?
         raise "No database associated with #{environment} environment"
       end
-
       db_type = db_config[environment]["adapter"]
-
       if ['sqlite3', 'postgresql', 'mysql2'].include?(db_type)
         ActiveRecord::Base.establish_connection(adapter: db_type, database: db_config[environment]['database'])
         puts "operating with "+db_type
@@ -33,5 +31,6 @@ module Ferry
     def print_version
       puts "Ferry #{Ferry::VERSION}"
     end
+
   end
 end

@@ -1,24 +1,30 @@
 #!/usr/bin/ruby
 require 'ferry'
 
+class OptionParser
+  def check_appro_args(number_of_args)
+    raise "too many arguments for input" unless ARGV.length <= number_of_args
+    raise "please enter a field for environment and table and filename" unless ARGV.length == number_of_args
+  end
+end
+
 OptionParser.new do |opts|
   options = {}
   opts.banner = "See more documentation at http://cmu-is-projects.github.io/ferry"
 
-  # TODO: db exporter argument
-    # no arg - full db dump
-    # w/ arg - dump of requested arg
+  opts.on( "--fulldump ENVIRONMENT", "Dumps database from specified env to sql file." ) do |opt|
+    dumper = Ferry::Dumper.new
+    dumper.dump(opt, ARGV[0])
+  end
 
   opts.on('--import_csv ENVIRONMENT TABLE FILEPATH', 'Imports data from specified file into table and environment of your specification') do |opt|
-    raise "too many arguments for input" unless ARGV.length <= 2
-    raise "please enter a field for environment and table and filename" unless ARGV.length == 2
+    check_appro_args(2)
     importer = Ferry::Importer.new
     importer.import_csv(opt, ARGV[0], ARGV[1])
   end
 
   opts.on('--import_json ENVIRONMENT TABLE FILEPATH', 'Imports data from specified file into table and environment of your specification') do |opt|
-    raise "too many arguments for input" unless ARGV.length <= 2
-    raise "please enter a field for environment and table and filename" unless ARGV.length == 2
+    check_appro_args(2)
     importer = Ferry::Importer.new
     importer.import_json(opt, ARGV[0], ARGV[1])
   end
@@ -29,22 +35,19 @@ OptionParser.new do |opts|
   end
 
   opts.on("--to_csv ENVIRONMENT TABLE", 'Exports table to csv file in db/csv/[your db environment]/[your table]') do |opt|
-    raise "too many arguments for input" unless ARGV.length <= 1
-    raise "please enter a field for environment and table" unless ARGV.length == 1
+    check_appro_args(1)
     exporter = Ferry::Exporter.new
     exporter.to_csv(opt, ARGV[0])
   end
 
   opts.on("--to_json ENVIRONMENT TABLE", 'Exports table to json file in db/json/[your db environment]/[your table]') do |opt|
-    raise "too many arguments for input" unless ARGV.length <= 1
-    raise "please enter a field for environment and table" unless ARGV.length == 1
+    check_appro_args(1)
     exporter = Ferry::Exporter.new
     exporter.to_json(opt, ARGV[0])
   end
 
   opts.on("--to_yaml ENVIRONMENT TABLE", 'Exports table to yaml file in db/yaml/[your db environment]/[your table]') do |opt|
-    raise "too many arguments for input" unless ARGV.length <= 1
-    raise "please enter a field for environment and table" unless ARGV.length == 1
+    check_appro_args(1)
     exporter = Ferry::Exporter.new
     exporter.to_yaml(opt, ARGV[0])
   end
