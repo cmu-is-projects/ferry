@@ -19,11 +19,11 @@ OptionParser.new do |opts|
   end
 
   # TODO
-  # opts.on( "--filler ENVIRONMENT FILEPATH", "Overwrites database from specified file to the db in the specified env." ) do |opt|
-  #   check_appro_args(2)
-  #   dumper = Ferry::Filler.new
-  #   dumper.dump(opt, ARGV[0], ARGV[1])
-  # end
+  opts.on( "--filler ENVIRONMENT FILEPATH", "Overwrites database from specified file to the db in the specified env." ) do |opt|
+    check_appro_args(2)
+    dumper = Ferry::Filler.new
+    dumper.dump(opt, ARGV[0], ARGV[1])
+  end
 
   opts.on('--import_csv ENVIRONMENT TABLE FILEPATH', 'Imports data from specified file into table and environment of your specification') do |opt|
     check_appro_args(2)
