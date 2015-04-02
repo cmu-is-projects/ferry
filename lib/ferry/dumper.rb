@@ -4,38 +4,36 @@ module Ferry
   class Dumper < Utilities
 
     def dump(environment)
+      @dbadapter = db_connect(environment)
       @dbenv = environment
       @dbname = YAML::load(IO.read("config/database.yml"))[@dbenv]["database"]
-      @outfile = "#{@dbenv}_outfile"
-      @commands = { "sqlite3" => "sqlite3 .dump > #{@outfile}",
-                    "postgresql" => "pg_dump #{@dbname} > #{@outfile}",
-                    "mysql2" => "mysqldump #{@dbname} > #{@outfile}"
+      @outfile_path = "db/sql_dumps/#{@dbname}/#{@dbadapter}/#{@dbenv}/dumpfile.sql"
+      @commands = { "sqlite3" => "sqlite3 db/#{@dbenv}.sqlite3 .dump > #{@outfile_path}",
+                    "postgresql" => "pg_dump #{@dbname} > #{@outfile_path}",
+                    "mysql2" => "mysqldump #{@dbname} > #{@outfile_path}"
                   }
-      if check_db_valid(@dbenv)
+      if check_valid_db(@dbadapter)
         create_dirs
-        execute
+        execute(@commands[@dbadapter])
+        p "Complete!"
       else
-        raise "#{@dbenv} is not supported by ferry at this time"
+        raise "Dump failed :: #{@dbadapter} is not supported by ferry at this time"
         return false
       end
     end
 
     def create_dirs
-      FileUtils.mkdir "db" unless Dir["db"].present?
-      FileUtils.mkdir "db/sql_dumps" unless Dir["db/sql_dumps"].present?
-      @homedir = "db/sql_dumps/#{@dbenv}"
-      FileUtils.mkdir @homedir unless Dir[@homedir].present?
+      homedir = "db/sql_dumps/#{@dbname}/#{@dbadapter}/#{@dbenv}"
+      FileUtils.mkpath homedir unless Dir[homedir].present?
+      FileUtils.touch(@outfile_path) unless File.exist?(@outfile_path)
     end
 
-    def check_if_valid_request(db)
-      %w[sqlite3 postgresql mysql2].include(db) ? true : false
+    def check_valid_db(db)
+      %w[sqlite3 postgresql mysql2].include?(db) ? true : false
     end
 
-    def execute
-      # option 1
-      %x(#{@commands[@dbenv]})
-      # option 2
-      # system("#{@commands[@dbenv]}")
+    def execute(command)
+      `#{command}`
     end
 
   end

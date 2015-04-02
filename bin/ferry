@@ -1,21 +1,20 @@
 #!/usr/bin/ruby
 require 'ferry'
 
-class OptionParser
-  def check_appro_args(number_of_args)
-    raise "too many arguments for input" unless ARGV.length <= number_of_args
-    raise "please enter a field for environment and table and filename" unless ARGV.length == number_of_args
-  end
-end
-
 OptionParser.new do |opts|
   options = {}
+
+  def check_appro_args(number_of_args)
+    raise "too many arguments for input" unless ARGV.length + 1 <= number_of_args
+    raise "please enter the appropriate arguments" unless ARGV.length + 1 == number_of_args
+  end
+
   opts.banner = "See more documentation at http://cmu-is-projects.github.io/ferry"
 
   opts.on( "--fulldump ENVIRONMENT", "Dumps database from specified env to sql file." ) do |opt|
     check_appro_args(1)
     dumper = Ferry::Dumper.new
-    dumper.dump(opt, ARGV[0])
+    dumper.dump(opt)
   end
 
   # TODO
