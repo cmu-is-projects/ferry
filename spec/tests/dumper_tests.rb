@@ -21,8 +21,7 @@ describe "dumper" do
     end
 
     it "should error if the specified database does not exist" do
-      pending("waiting on the world to change")
-      raise
+      expect{exporter.to_csv('sqlite3', 'thisdatabasedoesnotexist')}.to raise_error
     end
 
     it "should create a .sql file" do
@@ -47,8 +46,7 @@ describe "dumper" do
     end
 
     it "should error if the specified database does not exist" do
-      pending("waiting on the world to change")
-      raise
+      expect{exporter.to_csv('postgresql', 'thisdatabasedoesnotexist')}.to raise_error
     end
 
     it "should create a .sql file" do
