@@ -9,6 +9,7 @@ describe "exporting" do
       connect("sqlite3")
       Contexts.setup
     end
+
     after(:all) do
       Contexts.teardown
       FileUtils.rm_rf('db')
@@ -57,7 +58,6 @@ describe "exporting" do
         expect(output[25]["email"]).to eql("zach@example.com")
       end
     end
-
     # describe "export db dumps" do
     #   it "should be able to export a full sql dump to a file" do
     #     pending("waiting to be written")
@@ -71,6 +71,7 @@ describe "exporting" do
       connect("postgresql")
       Contexts.setup
     end
+
     after(:all) do
       Contexts.teardown
       FileUtils.rm_rf('db')
@@ -119,7 +120,6 @@ describe "exporting" do
         expect(output[25]["email"]).to eql("zach@example.com")
       end
     end
-
     # describe "export db dumps" do
     #   it "should be able to export a full sql dump to a file" do
     #     pending("waiting to be written")
@@ -133,6 +133,7 @@ describe "exporting" do
       connect("mysql2")
       Contexts.setup
     end
+
     after(:all) do
       Contexts.teardown
       FileUtils.rm_rf('db')
@@ -181,7 +182,6 @@ describe "exporting" do
         expect(output[25]["email"]).to eql("zach@example.com")
       end
     end
-
     # describe "export db dumps" do
     #   it "should be able to export a full sql dump to a file" do
     #     pending("waiting to be written")

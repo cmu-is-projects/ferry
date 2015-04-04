@@ -4,7 +4,6 @@ Dir.chdir("spec") unless Dir.pwd.split('/').last == "spec"
 
 describe "import" do
 	describe "sqlite3 db" do
-
 		before(:all) do
 			connect("sqlite3")
 			Contexts.setup
@@ -59,7 +58,6 @@ describe "import" do
 	end
 
   describe "mass insert tests (sqlite)" do
-
     before(:each) do
       connect("sqlite3")
       Contexts.setup
@@ -93,7 +91,6 @@ describe "import" do
   end
 
 	describe "postgresql db" do
-
 		before(:each) do
 			connect("postgresql")
 			Contexts.setup

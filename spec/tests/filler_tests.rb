@@ -1,16 +1,8 @@
-dumper = Ferry::Filler.new
+filler = Ferry::Filler.new
 
 Dir.chdir("spec") unless Dir.pwd.split('/').last == "spec"
 
 describe "filler" do
-  # TODO
-  # given some sql file
-  # make sure that we successfully load (fill) that database with the sql file's content
-  # but how to measure that it was a success or not?
-  # number of records?
-  # content?
-  # queries to see if things match
-
   describe "sqlite3" do
     before(:all) do
       connect("sqlite3")
@@ -32,6 +24,13 @@ describe "filler" do
       raise
     end
 
+    # TODO
+    # given some sql file
+    # make sure that we successfully load (fill) that database with the sql file's content
+    # but how to measure that it was a success or not?
+    # number of records?
+    # content?
+    # queries to see if things match
     it "should return the expected query results given some query" do
       pending("waiting on the world to change")
       raise
