@@ -17,7 +17,7 @@ module Ferry
         execute(@commands[@dbadapter])
         p "Complete!"
       else
-        raise "Dump failed :: #{@dbadapter} is not supported by ferry at this time"
+        raise "Dump failed: #{@dbadapter} is not supported by ferry at this time"
         return false
       end
     end
