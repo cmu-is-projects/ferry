@@ -14,10 +14,6 @@ describe "dumper" do
       FileUtils.rm_rf('db')
     end
 
-    it "should error if the specified database does not exist" do
-      expect{exporter.to_csv('sqlite3', 'thisdatabasedoesnotexist')}.to raise_error
-    end
-
     it "should create a .sql file" do
       dumper.dump('sqlite3')
       expect{Dir.glob("db/**/dumpfile.sql")}.to_not raise_error
@@ -40,10 +36,6 @@ describe "dumper" do
       FileUtils.rm_rf('db')
     end
 
-    it "should error if the specified database does not exist" do
-      expect{exporter.to_csv('postgresql', 'thisdatabasedoesnotexist')}.to raise_error
-    end
-
     it "should create a .sql file" do
       dumper.dump('postgresql')
       expect{Dir.glob("db/**/dumpfile.sql")}.to_not raise_error
@@ -64,11 +56,6 @@ describe "dumper" do
     after(:all) do
       Contexts.teardown
       FileUtils.rm_rf('db')
-    end
-
-    it "should error if the specified database does not exist" do
-      pending("waiting on the world to change")
-      raise
     end
 
     it "should create a .sql file" do
