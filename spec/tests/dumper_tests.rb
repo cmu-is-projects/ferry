@@ -20,7 +20,7 @@ describe "dumper" do
     end
 
     it "should have output the correct sql into the file" do
-      pending("how do we test this?")
+      pending("still thinking of a way to test this")
       raise
     end
   end
@@ -42,7 +42,7 @@ describe "dumper" do
     end
 
     it "should have output the correct sql into the file" do
-      pending("how do we test this?")
+      pending("still thinking of a way to test this")
       raise
     end
   end
@@ -64,7 +64,7 @@ describe "dumper" do
     end
 
     it "should have output the correct sql into the file" do
-      pending("how do we test this?")
+      pending("still thinking of a way to test this")
       raise
     end
   end

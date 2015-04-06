@@ -28,13 +28,5 @@ module Ferry
       FileUtils.touch(@outfile_path) unless File.exist?(@outfile_path)
     end
 
-    def check_valid_db(db)
-      %w[sqlite3 postgresql mysql2].include?(db) ? true : false
-    end
-
-    def execute(command)
-      `#{command}`
-    end
-
   end
 end

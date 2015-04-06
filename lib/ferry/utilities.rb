@@ -1,6 +1,14 @@
 module Ferry
   class Utilities
 
+    def check_valid_db(db)
+      %w[sqlite3 postgresql mysql2].include?(db) ? true : false
+    end
+
+    def check_valid_filetype(filepath)
+      %w[.csv .json .sql .yml].include?(filepath.extname) ? true : false
+    end
+
     def db_connect(environment)
       db_config = YAML::load(IO.read("config/database.yml"))
       if db_config[environment].nil?
@@ -14,6 +22,10 @@ module Ferry
       else
         raise "#{db_type} is not supported by ferry at this time"
       end
+    end
+
+    def execute(command)
+      `#{command}`
     end
 
     def make_starter_file
