@@ -11,14 +11,14 @@ OptionParser.new do |opts|
 
   opts.banner = "See more documentation at http://cmu-is-projects.github.io/ferry"
 
-  opts.on( "--fulldump ENVIRONMENT", "Dumps database from specified env to sql file." ) do |opt|
+  opts.on( "--dump ENVIRONMENT", "Dumps database from specified env to sql file." ) do |opt|
     check_appro_args(1)
     dumper = Ferry::Dumper.new
     dumper.dump(opt)
   end
 
   # TODO
-  opts.on( "--filler ENVIRONMENT FILEPATH", "Overwrites database from specified file to the db in the specified env." ) do |opt|
+  opts.on( "--fill ENVIRONMENT FILEPATH", "Overwrites database from specified file to the db in the specified env." ) do |opt|
     check_appro_args(2)
     dumper = Ferry::Filler.new
     dumper.dump(opt, ARGV[0], ARGV[1])
