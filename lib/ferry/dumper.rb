@@ -2,37 +2,31 @@ require_relative 'utilities'
 
 module Ferry
   class Dumper < Utilities
-    possible_content = %w[dump functions triggers views indexes constraints schemas]
-    def dump(content)
-      if check_if_valid_request(content)
-        case db_connect(environment)
-        when 'sqlite3'
-          get_content_from_sqlite(content)
-        when 'postgresql'
-          get_content_from_postgresql(content)
-        when 'mysql2'
-          get_content_from_mysql(content)
-        else
-          raise "#{db_type} is not supported by ferry at this time"
-          return false
-        end
+
+    def dump(environment)
+      @dbadapter = db_connect(environment)
+      @dbenv = environment
+      @dbname = YAML::load(IO.read("config/database.yml"))[@dbenv]["database"]
+      @outfile_path = "db/sql_dumps/#{@dbname}/#{@dbadapter}/#{@dbenv}/dumpfile.sql"
+      @commands = { "sqlite3" => "sqlite3 db/#{@dbenv}.sqlite3 .dump > #{@outfile_path}",
+                    "postgresql" => "pg_dump #{@dbname} > #{@outfile_path}",
+                    "mysql2" => "mysqldump #{@dbname} > #{@outfile_path}"
+                  }
+      if check_valid_db(@dbadapter)
+        create_dirs
+        execute(@commands[@dbadapter])
+        p "Complete!"
       else
-        raise "Incorrect content specified to dump from database"
+        raise "Dump failed: #{@dbadapter} is not supported by ferry at this time"
+        return false
       end
     end
 
-    def check_if_valid_request(content)
-      possible_content.include(content) ? true : false
+    def create_dirs
+      homedir = "db/sql_dumps/#{@dbname}/#{@dbadapter}/#{@dbenv}"
+      FileUtils.mkpath homedir unless Dir[homedir].present?
+      FileUtils.touch(@outfile_path) unless File.exist?(@outfile_path)
     end
 
-    def get_sqlite(content)
-
-    end
-
-    def get_postgresql(content)
-    end
-
-    def get_mysql(content)
-    end
   end
 end

@@ -2,11 +2,8 @@ importer = Ferry::Importer.new
 
 Dir.chdir("spec") unless Dir.pwd.split('/').last == "spec"
 
-# TODO: import json tests - will need sample json file
-# TODO: import db things - will need sample db file
 describe "import" do
 	describe "sqlite3 db" do
-
 		before(:all) do
 			connect("sqlite3")
 			Contexts.setup
@@ -58,15 +55,9 @@ describe "import" do
       expect(Cart.find_by(id: 1542).email).to eql("Kare@example.com")
       expect(Cart.find_by(id: 2042).email).to eql("Yolanda@example.com")
     end
-
-    # it "should be able to import a full sql dump" do
-    #   pending("waiting to be written")
-    #   raise "so were failing for now"
-    # end
 	end
 
   describe "mass insert tests (sqlite)" do
-
     before(:each) do
       connect("sqlite3")
       Contexts.setup
@@ -100,7 +91,6 @@ describe "import" do
   end
 
 	describe "postgresql db" do
-
 		before(:each) do
 			connect("postgresql")
 			Contexts.setup
@@ -132,11 +122,6 @@ describe "import" do
       expect(Cart.find_by(id: 1542).email).to eql("Kare@example.com")
       expect(Cart.find_by(id: 2042).email).to eql("Yolanda@example.com")
     end
-
-    # it "should be able to import a full sql dump" do
-    #   pending("waiting to be written")
-    #   raise "so were failing for now"
-    # end
 	end
 
   describe "mass insert tests (postgresql)" do
@@ -193,11 +178,6 @@ describe "import" do
       expect(Cart.find_by(id: 1542).email).to eql("Kare@example.com")
       expect(Cart.find_by(id: 2042).email).to eql("Yolanda@example.com")
     end
-
-    # it "should be able to import a full sql dump" do
-    #   pending("waiting to be written")
-    #   raise "so were failing for now"
-    # end
 	end
 
   describe "mass insert tests (mysql2)" do

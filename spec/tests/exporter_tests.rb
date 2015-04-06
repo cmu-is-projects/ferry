@@ -9,13 +9,14 @@ describe "exporting" do
       connect("sqlite3")
       Contexts.setup
     end
+
     after(:all) do
       Contexts.teardown
       FileUtils.rm_rf('db')
     end
 
     it "should error if specified table does not exist" do
-      expect{exporter.to_csv('sqlite3', 'cart')}.to raise_error
+      expect{exporter.to_csv('sqlite3', 'thistabledoesnotexist')}.to raise_error
     end
 
     describe "to_csv" do
@@ -57,7 +58,6 @@ describe "exporting" do
         expect(output[25]["email"]).to eql("zach@example.com")
       end
     end
-
     # describe "export db dumps" do
     #   it "should be able to export a full sql dump to a file" do
     #     pending("waiting to be written")
@@ -71,13 +71,14 @@ describe "exporting" do
       connect("postgresql")
       Contexts.setup
     end
+
     after(:all) do
       Contexts.teardown
       FileUtils.rm_rf('db')
     end
 
     it "should error if specified table does not exist" do
-      expect{exporter.to_csv('postgresql', 'cart')}.to raise_error
+      expect{exporter.to_csv('postgresql', 'thistabledoesnotexist')}.to raise_error
     end
 
     describe "to_csv" do
@@ -119,7 +120,6 @@ describe "exporting" do
         expect(output[25]["email"]).to eql("zach@example.com")
       end
     end
-
     # describe "export db dumps" do
     #   it "should be able to export a full sql dump to a file" do
     #     pending("waiting to be written")
@@ -133,13 +133,14 @@ describe "exporting" do
       connect("mysql2")
       Contexts.setup
     end
+
     after(:all) do
       Contexts.teardown
       FileUtils.rm_rf('db')
     end
 
     it "should error if specified table does not exist" do
-      expect{exporter.to_csv('mysql2', 'cart')}.to raise_error
+      expect{exporter.to_csv('mysql2', 'thistabledoesnotexist')}.to raise_error
     end
 
     describe "to_csv" do
@@ -181,7 +182,6 @@ describe "exporting" do
         expect(output[25]["email"]).to eql("zach@example.com")
       end
     end
-
     # describe "export db dumps" do
     #   it "should be able to export a full sql dump to a file" do
     #     pending("waiting to be written")

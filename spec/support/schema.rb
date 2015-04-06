@@ -27,6 +27,6 @@ ActiveRecord::Schema.define do
     t.column :quantity, :integer
     t.column :date, :date
   end
-  add_index :orders, [:cart_id, :product_id], :unique => true, :name => 'cart_product'
 
+  add_index :orders, [:cart_id, :product_id], :unique => true, :name => 'cart_product'
 end

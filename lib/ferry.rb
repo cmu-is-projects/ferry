@@ -2,14 +2,16 @@ require 'active_record'
 require 'csv'
 require 'enumerator'
 require 'ferry/exporter'
+require 'ferry/dumper'
+require 'ferry/filler'
 require 'ferry/importer'
 require 'ferry/utilities'
 require 'ferry/version'
 require 'highline/import'
-require 'progressbar'
 require 'optparse'
+require 'progressbar'
 require 'pp'
-Dir["../../script/.rb"].each {|file| require file }
+Dir["../../script/.sh"].each {|file| require file }
 require 'yaml'
 
 module Ferry

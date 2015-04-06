@@ -81,6 +81,14 @@ $ ferry --import_csv development users db/csv/import_data.csv
 ```
 Running the above command will import the import_data.csv to the "users" table in the "development" environment, and the same goes for `ferry --import_json`
 
+## Dumping and Filling .sql
+Ferry can either dump or fill your current database to a .sql file or with reference to a .sql file you would like to import respectively with just these simple commands.
+```sh
+$ ferry --dump [environment]
+$ ferry --fill [environment] [path/to/file.sql]
+```
+Where [environment] is just the development, production, test, etc database environment you are developing with.
+
 
 ## Contributing
 
