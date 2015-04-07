@@ -16,6 +16,8 @@ before_install:
   - sudo apt-cache show sqlite3
   - sudo apt-get install sqlite3=3.7.15.1-1~travis1
   - sudo sqlite3 -version
+  - sudo psql --version
+  - sudo mysql --version
   - gem update bundler
 script:
   - mysql -e 'create database ferry_test;'
