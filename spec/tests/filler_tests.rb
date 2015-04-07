@@ -30,14 +30,8 @@ describe "filler" do
       expect{filler.fill('thisdatabasedoesnotexist', 'support/sample_database.sql')}.to raise_error
     end
 
-    it "should correctly import the sql file" do
-      pending("still thinking of a way to test this")
-      raise
-    end
-
     it "should return the expected query results given some query" do
-      pending("still thinking of a way to test this")
-      raise
+      expect(ActiveRecord::Base.connection.execute("SELECT * FROM pokemon;").length).to eql(100)
     end
   end
 
@@ -60,14 +54,8 @@ describe "filler" do
       expect{filler.fill('thisdatabasedoesnotexist', 'support/sample_database.sql')}.to raise_error
     end
 
-    it "should correctly import the sql file" do
-      pending("still thinking of a way to test this")
-      raise
-    end
-
     it "should return the expected query results given some query" do
-      pending("still thinking of a way to test this")
-      raise
+      expect(ActiveRecord::Base.connection.execute("SELECT * FROM pokemon;").length).to eql(100)
     end
   end
 
@@ -90,14 +78,8 @@ describe "filler" do
       expect{filler.fill('thisdatabasedoesnotexist', 'support/sample_database.sql')}.to raise_error
     end
 
-    it "should correctly import the sql file" do
-      pending("still thinking of a way to test this")
-      raise
-    end
-
     it "should return the expected query results given some query" do
-      pending("still thinking of a way to test this")
-      raise
+      expect(ActiveRecord::Base.connection.execute("SELECT * FROM pokemon;").length).to eql(100)
     end
   end
 end
