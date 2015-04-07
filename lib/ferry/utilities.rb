@@ -6,7 +6,7 @@ module Ferry
     end
 
     def check_valid_filetype(filepath)
-      %w[.csv .json .sql .yml].include?(filepath.extname) ? true : false
+      %w[csv json sql yml].include?(filepath.split('.').last) ? true : false
     end
 
     def db_connect(environment)

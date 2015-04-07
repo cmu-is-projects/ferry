@@ -9,7 +9,7 @@ Dir.chdir("spec") unless Dir.pwd.split('/').last == "spec"
 # number of records?
 # content?
 # queries to see if things match
-# but when we import the data - how do we match that to the schema and application knowledge already in place
+# but when we import the data - how do we match that to the schema and application knowledge already in place?
 describe "filler" do
   describe "sqlite3" do
     before(:all) do
@@ -31,7 +31,10 @@ describe "filler" do
     end
 
     it "should return the expected query results given some query" do
-      expect(ActiveRecord::Base.connection.execute("SELECT * FROM pokemon;").length).to eql(100)
+      pending("test strategy still being devised")
+      raise
+      # filler.fill('sqlite3', 'support/sample_database.sql')
+      # expect(ActiveRecord::Base.connection.execute("SELECT * FROM players;").length).to eql(11799)
     end
   end
 
@@ -55,7 +58,10 @@ describe "filler" do
     end
 
     it "should return the expected query results given some query" do
-      expect(ActiveRecord::Base.connection.execute("SELECT * FROM pokemon;").length).to eql(100)
+      pending("test strategy still being devised")
+      raise
+      # filler.fill('postgresql', 'support/sample_database.sql')
+      # expect(ActiveRecord::Base.connection.execute("SELECT * FROM players;").length).to eql(11799)
     end
   end
 
@@ -79,7 +85,10 @@ describe "filler" do
     end
 
     it "should return the expected query results given some query" do
-      expect(ActiveRecord::Base.connection.execute("SELECT * FROM pokemon;").length).to eql(100)
+      pending("test strategy still being devised")
+      raise
+      # filler.fill('mysql2', 'support/sample_database.sql')
+      # expect(ActiveRecord::Base.connection.execute("SELECT * FROM players;").length).to eql(11799)
     end
   end
 end
