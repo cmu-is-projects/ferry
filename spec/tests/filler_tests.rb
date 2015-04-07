@@ -9,6 +9,7 @@ Dir.chdir("spec") unless Dir.pwd.split('/').last == "spec"
 # number of records?
 # content?
 # queries to see if things match
+# but when we import the data - how do we match that to the schema and application knowledge already in place
 describe "filler" do
   describe "sqlite3" do
     before(:all) do

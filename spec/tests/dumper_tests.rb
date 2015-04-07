@@ -2,6 +2,7 @@ dumper = Ferry::Dumper.new
 
 Dir.chdir("spec") unless Dir.pwd.split('/').last == "spec"
 
+# TODO :: refactor testing where you can test that the dumpfile is correct
 describe "dumper" do
   describe "sqlite3" do
     before(:all) do
@@ -20,8 +21,8 @@ describe "dumper" do
     end
 
     it "should have output the correct sql into the file" do
-      pending("still thinking of a way to test this")
-      raise
+      file_size = File.size?(Dir.glob("db/**/dumpfile.sql")[0])
+      expect(file_size).to eql(52)
     end
   end
 
@@ -42,8 +43,8 @@ describe "dumper" do
     end
 
     it "should have output the correct sql into the file" do
-      pending("still thinking of a way to test this")
-      raise
+      file_size = File.size?(Dir.glob("db/**/dumpfile.sql")[0])
+      expect(file_size).to eql(8666)
     end
   end
 
@@ -64,8 +65,8 @@ describe "dumper" do
     end
 
     it "should have output the correct sql into the file" do
-      pending("still thinking of a way to test this")
-      raise
+      file_size = File.size?(Dir.glob("db/**/dumpfile.sql")[0])
+      expect(file_size).to eql(783)
     end
   end
 end
