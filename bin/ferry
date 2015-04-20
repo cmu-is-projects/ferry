@@ -5,21 +5,22 @@ OptionParser.new do |opts|
   options = {}
 
   def check_appro_args(number_of_args)
-    raise "too many arguments for input" unless ARGV.length + 1 <= number_of_args
-    raise "please enter the appropriate arguments" unless ARGV.length + 1 == number_of_args
+    pp "#{ARGV.length} == #{number_of_args}"
+    raise "too many arguments for input" unless ARGV.length <= number_of_args
+    raise "please enter the appropriate arguments" unless ARGV.length == number_of_args
   end
 
   opts.banner = "See more documentation at http://cmu-is-projects.github.io/ferry"
 
   opts.on( "--dump ENVIRONMENT", "Dumps database from specified env to sql file." ) do |opt|
-    check_appro_args(1)
+    check_appro_args(0)
     dumper = Ferry::Dumper.new
     dumper.dump(opt)
   end
 
   # TODO
   opts.on( "--fill ENVIRONMENT FILEPATH", "Overwrites database from specified file to the db in the specified env." ) do |opt|
-    check_appro_args(2)
+    check_appro_args(1)
     dumper = Ferry::Filler.new
     dumper.dump(opt, ARGV[0], ARGV[1])
   end
