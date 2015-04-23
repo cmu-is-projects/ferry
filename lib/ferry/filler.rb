@@ -18,7 +18,6 @@ module Ferry
                   }
       if check_valid_db(@dbadapter) && check_valid_filetype(@filepath)
         execute(@commands[@dbadapter])
-        p "Complete!"
       else
         raise "Dump failed: Check to make sure #{@filepath} exists and is the proper type and that #{@dbenv} is supported in our documentation."
         return false

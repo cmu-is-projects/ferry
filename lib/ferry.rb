@@ -11,7 +11,6 @@ require 'highline/import'
 require 'optparse'
 require 'progressbar'
 require 'pp'
-Dir["../../script/.sh"].each {|file| require file }
 require 'yaml'
 
 module Ferry
