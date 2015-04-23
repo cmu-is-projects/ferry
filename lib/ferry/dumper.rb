@@ -15,7 +15,6 @@ module Ferry
       if check_valid_db(@dbadapter)
         create_dirs
         execute(@commands[@dbadapter])
-        p "Complete!"
       else
         raise "Dump failed: #{@dbadapter} is not supported by ferry at this time"
         return false
