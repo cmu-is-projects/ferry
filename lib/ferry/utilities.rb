@@ -32,7 +32,7 @@ module Ferry
       if !File.exist?("lib/tasks/ferry.rake") && !File.exist?("config/captain.rb")
         install_dir = `bundle show ferry`.chomp
         ferryfile_contents = File.open("#{install_dir}/doc/ferryfile_contents.rb", "rb")
-        captain_contents = File.open("#{install_dir}/doc/config/captain.rb", "rb")
+        captain_contents = File.open("#{install_dir}/doc/captain_contents.rb", "rb")
         File.open("Ferryfile", 'w') {|f| f.write(ferryfile_contents.read)}
         File.open("config/captain.rb", 'w') {|f| f.write(captain_contents.read)}
       else
