@@ -1,1 +1,0 @@
-load "config/captain"

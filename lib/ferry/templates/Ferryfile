@@ -2,7 +2,7 @@
 require 'ferry/setup'
 
 # Include default deployment tasks
-require 'capistrano/deploy'
+require 'ferry/deploy'
 
-# Load custom tasks from `lib/capistrano/tasks` if you have any defined
+# Load custom tasks from `lib/ferry/tasks` if you have any defined
 Dir.glob('lib/ferry/tasks/*.rake').each { |r| import r }

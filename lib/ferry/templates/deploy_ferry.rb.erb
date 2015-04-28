@@ -1,0 +1,21 @@
+# config valid only for current version of Ferry
+lock '<%= Ferry::VERSION %>'
+
+set :database, 'my_db_name'
+set :db_role, 'my_db_role'
+set :server, 'my_ip'
+set :server_role, 'my_server_role'
+
+namespace :deploy do
+
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      #   # or execute anything that we define in tasks
+      # end
+    end
+  end
+
+end
