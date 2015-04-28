@@ -1,0 +1,3 @@
+#!/usr/bin/ruby ferry
+include Ferry::DSL
+require 'ferry/install'
