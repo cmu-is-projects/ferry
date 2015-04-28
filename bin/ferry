@@ -36,9 +36,9 @@ OptionParser.new do |opts|
     importer.import_json(opt, ARGV[0], ARGV[1])
   end
 
-  opts.on('-i', '--init', 'Initializes Ferryfile and captain.rb for custom migrations and ') do |opt|
-    filemaker = Ferry::Utilities.new
-    filemaker.make_starter_files
+  opts.on('--init', 'Installs and configures ferry') do |opt|
+    # check if already installed
+    # if ! installed - install
   end
 
   opts.on("--to_csv ENVIRONMENT TABLE", 'Exports table to csv file in db/csv/[your db environment]/[your table]') do |opt|

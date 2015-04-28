@@ -1,4 +1,4 @@
-![ferry](doc/ferry_readme_icon_2.png)
+![ferry](img/ferry_readme_icon_2.png)
 
 [![Build Status](https://travis-ci.org/cmu-is-projects/ferry.svg?branch=master)](https://travis-ci.org/cmu-is-projects/ferry)
 [![Gem Version](https://badge.fury.io/rb/ferry.svg)](http://badge.fury.io/rb/ferry)
