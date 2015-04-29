@@ -3,6 +3,7 @@ require 'i18n'
 en = {
   starting: 'Starting',
   installing: 'Installing',
+  set_sail: 'Set Sail!',
   moving: 'Moving',
   completed: 'Completed'
   },

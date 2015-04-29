@@ -37,8 +37,7 @@ OptionParser.new do |opts|
   end
 
   opts.on('--init', 'Installs and configures ferry') do |opt|
-    # check if already installed
-    # if ! installed - install
+    Ferry::
   end
 
   opts.on("--to_csv ENVIRONMENT TABLE", 'Exports table to csv file in db/csv/[your db environment]/[your table]') do |opt|
