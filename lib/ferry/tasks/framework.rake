@@ -8,7 +8,7 @@ namespace :deploy do
   task :started do
   end
 
-  desc 'Revert server(s) to previous release.'
+  desc 'Revert database to previous release.'
   task :reverting do
   end
 
@@ -16,11 +16,11 @@ namespace :deploy do
   task :reverted do
   end
 
-  desc 'Finish the deployment, clean up server(s).'
+  desc 'Finish the deployment, cleaning up.'
   task :finishing do
   end
 
-  desc 'Finish the rollback, clean up server(s).'
+  desc 'Finish the rollback, clean up.'
   task :finishing_rollback do
   end
 

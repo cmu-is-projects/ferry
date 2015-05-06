@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 require 'ferry'
+# require 'all'
 
 OptionParser.new do |opts|
   options = {}
@@ -36,9 +37,9 @@ OptionParser.new do |opts|
     importer.import_json(opt, ARGV[0], ARGV[1])
   end
 
-  opts.on('--init', 'Installs and configures ferry') do |opt|
-    Ferry::
-  end
+  # opts.on('--init', 'Installs and configures ferry') do |opt|
+  #   Ferry::DSL
+  # end
 
   opts.on("--to_csv ENVIRONMENT TABLE", 'Exports table to csv file in db/csv/[your db environment]/[your table]') do |opt|
     check_appro_args(1)

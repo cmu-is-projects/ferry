@@ -8,9 +8,9 @@ task :install do
   config_dir = Pathname.new('config')
   deploy_dir = config_dir.join('deploy_ferry')
 
-  deploy_rb = File.expand_path("../../templates/deploy.rb.erb", __FILE__)
+  deploy_rb = File.expand_path("../../templates/deploy_ferry.rb.erb", __FILE__)
   stage_rb = File.expand_path("../../templates/stage.rb.erb", __FILE__)
-  capfile = File.expand_path("../../templates/Ferryfile", __FILE__)
+  ferryfile = File.expand_path("../../templates/Ferryfile", __FILE__)
 
   mkdir_p deploy_dir
 
@@ -33,7 +33,7 @@ task :install do
   if File.exists?('Ferryfile')
     warn "[skip] Ferryfile already exists"
   else
-    FileUtils.cp(capfile, 'Ferryfile')
+    FileUtils.cp(ferryfile, 'Ferryfile')
     puts I18n.t(:written_file, scope: :ferry, file: 'Ferryfile')
   end
 
