@@ -28,18 +28,6 @@ module Ferry
       `#{command}`
     end
 
-    def make_starter_file
-      if !File.exist?("lib/tasks/ferry.rake")
-        install_dir = `bundle show ferry`.chomp
-        starter_file_contents = File.open("#{install_dir}/doc/ferry_rake_contents.rb", "rb")
-        contents = starter_file_contents.read
-        File.open("lib/tasks/ferry.rake", 'w') {|f| f.write(contents)}
-        puts "/lib/tasks/ferry.rake created!"
-      else
-        puts "/lib/tasks/ferry.rake already exists - but you knew that already ... didn't you?"
-      end
-    end
-
     def print_version
       puts "Ferry #{Ferry::VERSION}"
     end
